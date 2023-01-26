@@ -23,4 +23,6 @@ class Instructors extends CI_Controller {
         $this->load->view('header');
         $this->load->view('form_add_instructor');
     }
+
+	//add comment
 }
