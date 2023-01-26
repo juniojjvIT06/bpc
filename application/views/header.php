@@ -71,7 +71,7 @@
     <aside class="main-sidebar sidebar-dark-primary">
       <!-- Brand Logo -->
       <a href=" <?php echo base_url(); ?>/index3.html" class="brand-link">
-        <center><span class="brand-text font-weight-light text-align-center">Fuel Application System</span></center>
+        <span class="brand-text font-weight-light text-align-center">Bayambang Polytechnic College</span>
       </a>
 
       <!-- Sidebar -->
