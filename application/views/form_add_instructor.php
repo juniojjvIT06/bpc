@@ -40,13 +40,12 @@
                 </div>
             </div>
         <?php endif ?>
-
+        <?= form_open_multipart("instructors/add_i") ?>
         <div class="container-fluid">
             <div class="card card-info">
                 <div class="card-header float-right">
                     <h3>
-                    Add Instructor       
-                   
+                    Add Instructor
                     <input type="submit" class="btn btn-success float-right" value="Add">   
                     </h3> 
                 </div>
@@ -54,10 +53,17 @@
                 <!-- /.card-header -->
                 <div class="card-body">
                     <h5><label>Filled-out all the fields.</label></h5>
-                    <?= form_open_multipart("machine/addmachine") ?>
+                    
                     <div class="row ">
 
                         <div class="col-md-2">
+
+                            <label for="inputName">Intructor ID:</label>
+                            <input type="text" name="instructor_id" class="form-control" value="<?php echo $this->Instructor_model->generate_instructor_id(); ?>" readonly>
+                            <label class="text-danger" style="font-size:13px;"> <?php echo form_error('instructor_id') ?></label>
+
+                        </div>
+                        <div class="col-md-1">
 
                             <label for="inputName">Salutation:</label>
                             <select name="salutation" class="form-control" required>
@@ -114,7 +120,7 @@
 
                         </div>
 
-                        <div class="col-md-2">
+                        <div class="col-md-1">
 
                             <label for="inputName">Sex:</label>
                             <select name="sex" class="form-control" required>
@@ -133,7 +139,7 @@
                         <div class="col-md-4">
 
                             <label for="inputMessage">College Assign:</label>
-                            <select name="salutation" class="form-control" required>
+                            <select name="college_assign" class="form-control" required>
                                 <option value="SOA">College of Management and Entreprenuership</option>
                             </select>
                             <label class="text-danger" style="font-size:13px;"> <?php echo form_error('department_ass') ?></label>
@@ -144,6 +150,11 @@
                             <label>Profession Number:</label>
                             <input type="text" name="professional_no" class="form-control" value="<?php echo set_value('middelanme') ?>" required>
                             <label class="text-danger" style="font-size:13px;"> <?php echo form_error('middlename') ?></label>
+                        </div>
+                        <div class="col-md-2">
+                            <label>Hired Date</label>
+                            <input type="date" name="date_hired" class="form-control" value="<?php echo set_value('date_hired') ?>" required>
+                            <label class="text-danger" style="font-size:13px;"> <?php echo form_error('date_hired') ?></label>
                         </div>
 
                         <div class="col-md-2">
@@ -166,25 +177,13 @@
                             <label class="text-danger" style="font-size:13px;"> <?php echo form_error('employment_status') ?></label>
 
                         </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for=" exampleInputFile">Image</label>
-                                <div class="input-group">
-                                    <div class="custom-file">
-                                        <input type="file" class="custom-file-input" id="exampleInputFile" name="m_img">
-                                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- <label>Upload actual image of the PAR</label>
-
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" name="m_img" value="<?php echo set_value('m_img') ?>" required>
-
-                            </div> -->
-                            <!-- <label class="text-danger" style="font-size:13px;"> <?php echo form_error('m_img') ?></label> -->
+                        <div class="col-md-2">
+                            <label>Profile Picture</label>
+                            <input type="file" class="form-control" name="pp_image" >
+                            <label class="text-danger" style="font-size:13px;"> <?php echo form_error('pp_image') ?></label>
                         </div>
                     </div>
+                    <?php form_close() ?>
                 </div>
             </div>
             <div class="card card-info">
@@ -197,7 +196,7 @@
                 <!-- /.card-header -->
                 <div class="card-body">
                     <h5><label>Check all that apply:</label></h5>
-                    <?= form_open_multipart("machine/addmachine") ?>
+                  
                     <div class="row ">
 
                        
@@ -233,14 +232,4 @@
 
 
     })
-</script>
-<script>
-    function disablePlateField() {
-        var x = document.getElementById("category").value;
-        if (x == 'Machine') {
-            document.getElementById('plate').disabled = true;
-        } else {
-            document.getElementById('plate').disabled = false;
-        }
-    }
 </script>
