@@ -1,15 +1,30 @@
-<div class="content-wrapper">
+<!-- Google Font: Source Sans Pro -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+<!-- Font Awesome -->
+<link rel="stylesheet" href="<?php echo base_url(); ?>plugins/fontawesome-free/css/all.min.css">
+<!-- SweetAlert2 -->
+<link rel="stylesheet" href="<?php echo base_url(); ?>plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+<!-- Toastr -->
+<link rel="stylesheet" href="<?php echo base_url(); ?>plugins/toastr/toastr.min.css">
+<!-- Theme style -->
+<link rel="stylesheet" href=".<?php echo base_url(); ?>dist/css/adminlte.min.css">
+<!-- DataTables -->
+<link rel="stylesheet" href="<?php echo base_url(); ?>plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+<link rel="stylesheet" href="<?php echo base_url(); ?>plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+<link rel="stylesheet" href="<?php echo base_url(); ?>plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">CAFOA Lists </h1>
+                    <h1 class="m-0">Add Specialty for this Instructor</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active"> Specialization </li>
+                        <li class="breadcrumb-item active">Instructors </li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -38,77 +53,58 @@
         </div><!-- /.container-fluid -->
     </div>
 
+    <!-- Main content -->
     <section class="content">
+        <div class="container-fluid">
 
-        <div class="card card-primary">
-            <div class="card-header">
-                <h3 class="card-title">Management of Specialization</h3>
-            </div>
-            <?= form_open('') ?>
-            <div class="card-body">
-                <div class="row">
-
-                    <div class="col-md-3 form-group">
-
-                        <label>Specializaiton ID</label>
-                        <input type="text" class="form-control" name="specialization_id" value="<?php echo set_value('specialization_id') ?>" required>
-                        <label class="text-danger" style="font-size:13px;"> <?php echo form_error('specialization_id') ?></label>
-
-                    </div>
-                    <div class="col-md-3 form-group">
-
-                        <label>Specialization Description</label>
-                        <input type="text" class="form-control" name="specialization_desc" value="<?php echo set_value('specialization_desc') ?>" required>
-                        <label class="text-danger" style="font-size:13px;"> <?php echo form_error('specialization_desc') ?></label>
-
-                    </div>
-                    <div class="col-md-3 form-group">
-
-                        <label>Specialization Acronym</label>
-                        <input type="text" class="form-control" name="specialization_desc" value="<?php echo set_value('specialization_desc') ?>" required>
-                        <label class="text-danger" style="font-size:13px;"> <?php echo form_error('specialization_desc') ?></label>
-
-                    </div>
-
-                    <div class="col-md-1 ">
-                        <p></p>
-                        <input type="submit" class="btn btn-app bg-info" value="Add">
-
-
-                    </div>
-
+            <div class="card card-secondary">
+                <div class="card-header">
+                    <h3 class="card-title">Check all that apply</h3>
                 </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <?= form_open('instructors/add_speciality/' . $this->session->userdata('selected_id')) ?>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <!-- checkbox -->
+                            <div class="form-group">
+
+                                <?php $i = 1;
+                                foreach ($subjects as $row) {  ?>
+                                    <div class="custom-control custom-checkbox">
+                                        <input class="custom-control-input" type="checkbox" id="customCheckbox<?= $i ?>" name="subjects[]" value="<?= $row->subject_code ?>">
+                                        <label for="customCheckbox<?= $i ?>" class="custom-control-label"><?= $row->subject_code ?> - <?= $row->subject_description  ?> </label>
+                                    </div>
+                                <?php $i++;
+                                } ?>
+
+                            </div>
+                            <div class="form-group">
+                                <div class="card-header float-right">
+
+                                    <input type="submit" class="btn btn-success float-right" value="Add">
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <?= form_close() ?>
+                </div>
+                <!-- /.card-body -->
             </div>
-            <?= form_close() ?>
         </div>
 
-        <div class="card-header">
-            <h3 class="card-title">List of Specializations</h3>
-        </div>
-
-
-        <!-- /.card-header -->
-        <div class="card-body">
-            <table class="table table-striped nowrap text-center" id="example1">
-                <thead>
-                    <tr>
-                        <th>No.</th>
-                        <th>Specilization ID</th>
-                        <th>Specialization Description</th>
-                        <th>Specialization Acronym</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                  
-
-                </tbody>
-            </table>
-        </div>
-        <!-- /.card-body -->
 </div>
 </section>
+</div>
+<!-- /.row -->
 
+<!-- /.col -->
+<!-- jQuery -->
+<script src="<?= base_url(); ?>plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="<?= base_url(); ?>plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- DataTables  & Plugins -->
 <script src="<?= base_url(); ?>plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="<?= base_url(); ?>plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
@@ -122,9 +118,6 @@
 <script src="<?= base_url(); ?>plugins/datatables-buttons/js/buttons.html5.min.js"></script>
 <script src="<?= base_url(); ?>plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="<?= base_url(); ?>plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
-<link rel="stylesheet" href="<?php echo base_url(); ?>plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-<link rel="stylesheet" href="<?php echo base_url(); ?>plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-<link rel="stylesheet" href="<?php echo base_url(); ?>plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 
 <!-- Page specific script -->
 
@@ -134,7 +127,7 @@
             "responsive": true,
             "lengthChange": false,
             "autoWidth": false,
-            "buttons": ["csv", "excel", "pdf", "print"]
+            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
         }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
         $('#example2').DataTable({
             "paging": true,

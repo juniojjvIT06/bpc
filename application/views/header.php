@@ -92,15 +92,27 @@
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="<?php echo base_url('users/manage'); ?>" class="nav-link ">
+                    <a href="<?php echo base_url('instructors/add'); ?>" class="nav-link ">
                       <i class="nav-icon fas fa-user-plus"></i>
-                      <p>User Role</p>
+                      <p>Instructor Management</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="<?php echo base_url('reports/system_logs'); ?>" class="nav-link ">
+                    <a href="<?php echo base_url('subjects/add'); ?>" class="nav-link ">
                       <i class="nav-icon fas fa-user-plus"></i>
-                      <p>System Trail</p>
+                      <p>Subject Management</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="<?php echo base_url('instructors/list'); ?>" class="nav-link ">
+                      <i class="nav-icon fas fa-user-plus"></i>
+                      <p>List of Instructors</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="<?php echo base_url('instructors/specialty'); ?>" class="nav-link ">
+                      <i class="nav-icon fas fa-user-plus"></i>
+                      <p>Specialty</p>
                     </a>
                   </li>
                 </ul>

@@ -15,6 +15,27 @@ class Instructor_model extends CI_Model
         return $row->tid;
     }
 
+    public function viewInstructors()
+    {
+        return $this->db->get("tbl_bpc_instructors")->result();
+    }
+
+    public function add_specialties($arr , $instructor_id)
+    {
+        foreach ($arr as $value) {
+			$data = array(
+				'subject_code' => $value,
+				'instructors_id' => $instructor_id
+			);
+			$this->db->insert('tbl_bpc_specialty', $data);
+		}
+    }
+
+    public function show_instructor_specialty(){
+        
+    }
+
+
     public function generate_instructor_id(){
 
 		$school_acr = 'BPC';
@@ -23,6 +44,8 @@ class Instructor_model extends CI_Model
 		$last_number = $this->Instructor_model->get_last_number('tbl_bpc_instructors');
         $formatted_num = sprintf("%03d", $last_number);
         if($last_number != null){
+            $last_number++;
+            $formatted_num = sprintf("%03d", $last_number);
 		$generated_id = $last_two_digits . '-' . $school_acr . '-' . $formatted_num . 'i';
         }
         else{
