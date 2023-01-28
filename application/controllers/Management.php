@@ -149,4 +149,75 @@ class Management extends CI_Controller
         }
     }
 
+    public function academic()
+    {
+        $datas['academics'] = $this->Management_model->viewAcademics();
+        $this->load->view('header');
+        $this->load->view('form_add_academic_year', $datas);
+    }
+
+    public function academic_add()
+    {
+        $this->form_validation->set_rules('academic_year', 'Academic Year', 'required|trim');
+        if ($this->form_validation->run() == FALSE) {
+            $this->session->set_flashdata('error', validation_errors());
+            redirect(base_url('management/academic'));
+        } else {
+            $arr = array(
+
+                'academic_year' => $this->input->post('academic_year'),
+
+            );
+
+            $this->session->set_flashdata('success', 'Successfully Added!');
+            $this->Management_model->addAcademic($arr);
+            redirect(base_url('management/academic'));
+        }
+    }
+
+    public function semester()
+    {
+        $datas['semesters'] = $this->Management_model->viewSemesters();
+        $datas['academics'] = $this->Management_model->viewAcademics();
+        $this->load->view('header');
+        $this->load->view('form_add_semester', $datas);
+    }
+
+    public function semester_add()
+    {
+        $this->form_validation->set_rules('semester_code', 'Semester Code', 'required|trim|is_unique[tbl_bpc_semesters.semester_code]');
+        $this->form_validation->set_rules('year_level', 'Year Level', 'required|trim');
+        $this->form_validation->set_rules('academic_year', 'Academic Year', 'required|trim');
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->session->set_flashdata('error', validation_errors());
+            redirect(base_url('management/semester'));
+        } else {
+            $arr = array(
+
+                'semester_code' => $this->input->post('semester_code'),
+                'year_level' => $this->input->post('year_level'),
+                'academic_id' => $this->input->post('academic_year'),
+
+            );
+
+            $this->session->set_flashdata('success', 'Successfully Added!');
+            $this->Management_model->addSemester($arr);
+            redirect(base_url('management/semester'));
+        }
+    }
+
+    public function class()
+    {
+        $datas['academics'] = $this->Management_model->viewAcademics();
+        $datas['rooms'] = $this->Management_model->viewRooms();
+        $datas['schedules'] = $this->Management_model->viewSchedules();
+        $datas['courses'] = $this->Management_model->viewCourses();
+        $datas['semesters'] = $this->Management_model->viewSemesters();
+        $datas['subjects'] = $this->Subject_model->viewSubjects();
+
+        $this->load->view('header');
+        $this->load->view('form_add_class', $datas);
+    }
+
 }

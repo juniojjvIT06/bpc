@@ -133,6 +133,24 @@
                       <p>Schedule Management</p>
                     </a>
                   </li>
+                  <li class="nav-item">
+                    <a href="<?php echo base_url('management/academic'); ?>" class="nav-link ">
+                      <i class="nav-icon fas fa-user-plus"></i>
+                      <p>AcademicYear Managmnt</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="<?php echo base_url('management/semester'); ?>" class="nav-link ">
+                      <i class="nav-icon fas fa-user-plus"></i>
+                      <p>Semester Management</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="<?php echo base_url('management/class'); ?>" class="nav-link ">
+                      <i class="nav-icon fas fa-user-plus"></i>
+                      <p>Class Management</p>
+                    </a>
+                  </li>
                 </ul>
               </li>
 

@@ -59,6 +59,15 @@ class Instructor_model extends CI_Model
 		return $generated_id;
 	}
 
+    public function get_instructors_within_subject_specialty($subject_code){
+
+        $this->db->from("tbl_bpc_specialty");
+        $this->db->where("subject_code", $subject_code);
+        $this->db->join("tbl_bpc_instructors", 'tbl_bpc_instructors.instructors_id = tbl_bpc_specialty.instructors_id');
+        return $this->db->get()->result();
+
+    }
+
     public function addMachine($arr)
     {
         return $this->db->insert("tblmachine", $arr);

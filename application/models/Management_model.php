@@ -48,6 +48,29 @@ class Management_model extends CI_Model
         return $this->db->insert("tbl_bpc_schedule", $arr);
     }
 
+    public function viewSingleAcademic($code){
+        $this->db->where('academic_id', $code);
+        return $this->db->get("tbl_bpc_academic_year")->row();
+    }
+
+    public function viewAcademics(){
+        return $this->db->get("tbl_bpc_academic_year")->result();
+    }
+
+    public function addAcademic($arr){
+        return $this->db->insert("tbl_bpc_academic_year", $arr);
+    }
+
+    public function viewSemesters(){
+        return $this->db->get("tbl_bpc_semesters")->result();
+    }
+
+    public function addSemester($arr){
+        return $this->db->insert("tbl_bpc_semesters", $arr);
+    }
+
+
+
     public function loadPlatesPerDepartment($department)
     {
         $this->db->where('department_assign', $department);
