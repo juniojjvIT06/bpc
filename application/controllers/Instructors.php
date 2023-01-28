@@ -20,12 +20,14 @@ class Instructors extends CI_Controller {
 	 */
 
     public function add(){
+		$datas['colleges'] = $this->Management_model->getColleges();
         $this->load->view('header');
-        $this->load->view('form_add_instructor');
+        $this->load->view('form_add_instructor', $datas);
     }
 
 	public function list(){
 		$datas['instructors'] = $this->Instructor_model->viewInstructors();
+		// $datas['specialities'] = $this->Instructor_model->show_instructor_specialty();
 		$this->load->view('header');
         $this->load->view('list_view_instructor', $datas);
 	}
@@ -58,7 +60,7 @@ class Instructors extends CI_Controller {
 		$this->form_validation->set_rules('appointment_nature', 'Nature of Appoinment', 'required|trim');
 		$this->form_validation->set_rules('employment_status', 'Employment Status', 'required|trim');
 		$this->form_validation->set_rules('date_hired', 'Hired Date', 'required|trim');
-		$this->form_validation->set_rules('pp_image', 'Profile Picture', 'required' );
+		// $this->form_validation->set_rules('pp_image', 'Profile Picture', 'required' );
 
 		if($this->form_validation->run() == FALSE){
 			$this->session->set_flashdata('error', validation_errors() . $_FILES['pp_image']['name']);

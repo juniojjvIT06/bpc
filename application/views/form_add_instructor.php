@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Add Instructor</h1>
+                    <h1 class="m-0">Manage Instructor</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -140,7 +140,9 @@
 
                             <label for="inputMessage">College Assign:</label>
                             <select name="college_assign" class="form-control" required>
-                                <option value="SOA">College of Management and Entreprenuership</option>
+                                <?php foreach($colleges as $rows){ ?>
+                                <option value="<?= $rows -> college_code ?> ?>"><?= $rows -> college_description?></option>
+                                <?php } ?>
                             </select>
                             <label class="text-danger" style="font-size:13px;"> <?php echo form_error('department_ass') ?></label>
 

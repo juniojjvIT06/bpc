@@ -110,9 +110,27 @@
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="<?php echo base_url('instructors/specialty'); ?>" class="nav-link ">
+                    <a href="<?php echo base_url('management/add'); ?>" class="nav-link ">
                       <i class="nav-icon fas fa-user-plus"></i>
-                      <p>Specialty</p>
+                      <p>College Management</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="<?php echo base_url('management/room'); ?>" class="nav-link ">
+                      <i class="nav-icon fas fa-user-plus"></i>
+                      <p>Rooms Management</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="<?php echo base_url('management/course'); ?>" class="nav-link ">
+                      <i class="nav-icon fas fa-user-plus"></i>
+                      <p>Course Management</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="<?php echo base_url('management/schedule'); ?>" class="nav-link ">
+                      <i class="nav-icon fas fa-user-plus"></i>
+                      <p>Schedule Management</p>
                     </a>
                   </li>
                 </ul>

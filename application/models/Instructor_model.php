@@ -31,8 +31,10 @@ class Instructor_model extends CI_Model
 		}
     }
 
-    public function show_instructor_specialty(){
-        
+    public function show_instructor_specialty($instructor_id){
+        $this->db->from("tbl_bpc_specialty");
+        $this->db->where("instructors_id", $instructor_id);
+        return $this->db->get()->result();
     }
 
 

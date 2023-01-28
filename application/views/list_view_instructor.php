@@ -27,7 +27,7 @@
                         <li class="breadcrumb-item active">Instructors </li>
                     </ol>
                 </div><!-- /.col -->
-        </div><!-- /.row -->
+            </div><!-- /.row -->
             <?php if ($alert = $this->session->flashdata('success')) : ?>
                 <div class="row-group">
                     <div class="alert alert-dismissible alert-success">
@@ -66,9 +66,10 @@
                             <table class="table table-head-fixed text-center" id="example1">
                                 <thead>
                                     <tr>
+                                        <th>Instructor ID</th>
                                         <th>Name</th>
-                                        <th>Date of Birth</th>
-                                        <th>Department</th>
+                                        <th>Professional Number</th>
+                                        <th>Specialities</th>
                                         <th>Employment Status</th>
                                         <th>Action</th>
                                         <th>Deactivate</th>
@@ -79,36 +80,45 @@
                                 <tbody>
                                     <?php foreach ($instructors as $rows) { ?>
                                         <tr>
-                                            <td> <?= $rows->lastname ?> , <?= $rows->firstname ?>  <?= $rows->middlename ?> </td>
-                                            <td> <?= $rows->date_of_birth ?> </td>
-                                            <td>  </td>
-                                            <td><span class="badge badge-success"><?= $rows->employment_status ?></span></td>
-                                            <td><a href="<?php echo base_url('instructors/specialty/'). $rows -> instructors_id ?>"  class="btn btn-warning btn-block"  >Add Specialty</a>
-                                            <input type="button" href="#" class="btn btn-info btn-block"  value="Edit Profile"></button></td>
+                                            <td> <?= $rows-> instructors_id ?>  </td>
+                                            <td> <?= $rows->lastname ?> , <?= $rows -> salutation ?>. <?= $rows->firstname ?> <?= $rows->middlename ?> </td>
+                                            <td> <?= $rows->professional_no ?> </td>
+                                            <td>
+                                                <?php
+                                                $specialities = $this->Instructor_model->show_instructor_specialty($rows->instructors_id);
+                                                
+                                                foreach ($specialities as $row) { ?>
+                                                   <span class="badge badge-info"> <?= $row->subject_code ?></span>
+                                                <?php } ?>
+                                            </td>
+                                            <td><span class="badge badge-success"><?= $rows->employment_status ?></td>
+                                            <td><a href="<?php echo base_url('instructors/specialty/') . $rows->instructors_id ?>" class="btn btn-warning btn-block">Add Specialty</a>
+                                                <input type="button" href="#" class="btn btn-info btn-block" value="Edit Profile"></button>
+                                            </td>
                                             <td><input type="button" href="#" class="btn btn-danger btn-block" value="Deactivate"></button></td>
 
                                         </tr>
 
-                                                <!-- /.modal-content -->
-                                            </div>
-                                        </div>
-
-                                    <?php } ?>
-
-
-                                </tbody>
-
-                            </table>
+                                        <!-- /.modal-content -->
                         </div>
-
-                        <!-- /.card-body -->
                     </div>
-                    <!-- /.card -->
-                </div>
-            </div>
 
+                <?php } ?>
+
+
+                </tbody>
+
+                </table>
+                </div>
+
+                <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
         </div>
-    </section>
+</div>
+
+</div>
+</section>
 </div>
 <!-- /.row -->
 
@@ -123,7 +133,7 @@
 <script src="<?= base_url(); ?>plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
 <script src="<?= base_url(); ?>plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
 <script src="<?= base_url(); ?>plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-<script src="<?= base_url(); ?>plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script> 
+<script src="<?= base_url(); ?>plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
 <script src="<?= base_url(); ?>plugins/jszip/jszip.min.js"></script>
 <script src="<?= base_url(); ?>plugins/pdfmake/pdfmake.min.js"></script>
 <script src="<?= base_url(); ?>plugins/pdfmake/vfs_fonts.js"></script>
@@ -139,7 +149,7 @@
             "responsive": true,
             "lengthChange": false,
             "autoWidth": false,
-        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
         }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
         $('#example2').DataTable({
             "paging": true,
@@ -148,7 +158,7 @@
             "ordering": true,
             "info": true,
             "autoWidth": false,
-        "responsive": true,
+            "responsive": true,
         });
     });
 </script>
