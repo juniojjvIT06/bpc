@@ -136,12 +136,12 @@
                             <label class="text-danger" style="font-size:13px;"> <?php echo form_error('date_of_birth') ?></label>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-1">
 
                             <label for="inputMessage">College Assign:</label>
                             <select name="college_assign" class="form-control" required>
                                 <?php foreach($colleges as $rows){ ?>
-                                <option value="<?= $rows -> college_code ?> ?>"><?= $rows -> college_description?></option>
+                                <option value="<?= $rows -> college_code ?>"><?= $rows -> college_code?></option>
                                 <?php } ?>
                             </select>
                             <label class="text-danger" style="font-size:13px;"> <?php echo form_error('department_ass') ?></label>

@@ -71,8 +71,8 @@
                                         <th>Professional Number</th>
                                         <th>Specialities</th>
                                         <th>Employment Status</th>
-                                        <th>Action</th>
-                                        <th>Deactivate</th>
+                                        <th>Specialty</th>
+                                        <th>Actions</th>
 
                                     </tr>
                                 </thead>
@@ -80,26 +80,218 @@
                                 <tbody>
                                     <?php foreach ($instructors as $rows) { ?>
                                         <tr>
-                                            <td> <?= $rows-> instructors_id ?>  </td>
-                                            <td> <?= $rows->lastname ?> , <?= $rows -> salutation ?>. <?= $rows->firstname ?> <?= $rows->middlename ?> </td>
+                                            <td> <?= $rows->instructors_id ?> </td>
+                                            <td> <?= $rows->lastname ?> , <?= $rows->salutation ?>. <?= $rows->firstname ?> <?= $rows->middlename ?> </td>
                                             <td> <?= $rows->professional_no ?> </td>
                                             <td>
                                                 <?php
                                                 $specialities = $this->Instructor_model->show_instructor_specialty($rows->instructors_id);
-                                                
+
                                                 foreach ($specialities as $row) { ?>
-                                                   <span class="badge badge-info"> <?= $row->subject_code ?></span>
+                                                    <span class="badge badge-info"> <?= $row->subject_code ?></span>
                                                 <?php } ?>
                                             </td>
                                             <td><span class="badge badge-success"><?= $rows->employment_status ?></td>
-                                            <td><a href="<?php echo base_url('instructors/specialty/') . $rows->instructors_id ?>" class="btn btn-warning btn-block">Add Specialty</a>
-                                                <input type="button" href="#" class="btn btn-info btn-block" value="Edit Profile"></button>
+                                            <td>
+                                                <a href="<?php echo base_url('instructors/specialty/') . $rows->instructors_id ?>" class="btn btn-app bg-info">
+                                                    <i class="fas fa-users"></i> Manage Specialty
+                                                </a>
                                             </td>
-                                            <td><input type="button" href="#" class="btn btn-danger btn-block" value="Deactivate"></button></td>
+                                            <td class="project-actions text-right">
+                                                <a class="btn btn-primary btn-sm" href="#">
+                                                    <i class="fas fa-folder">
+                                                    </i>
+                                                    View Assign Classes
+                                                </a>
+                                                <a class="btn btn-info btn-sm" href="#" data-toggle="modal" data-target="#modal-edit-<?php echo $rows->instructors_id ?>">
+                                                    <i class="fas fa-pencil-alt">
+                                                    </i>
+                                                    Edit
+                                                </a>
+                                                <a class="btn btn-danger btn-sm" > 
+                                                <input type="button" href="<?= base_url('instructors/delete_instructor/' . $rows->instructors_id) ?> class="btn btn-danger btn-block"  onclick="return  confirm('Are you sure to proceed remove :  Instructor ID:' + '<?php echo $rows->instructors_id ?>' + + '<?php echo $rows->lastname ?>' + ,'<?php echo $rows->firstname ?>')">
+                                                    <i class="fas fa-trash">
+                                                    </i>
+                                    
+                                                    Delete
+                                                </a>
+                                            </td>
 
                                         </tr>
 
                                         <!-- /.modal-content -->
+
+
+                        </div>
+                    </div>
+
+                    <!-- /.modal-edit -->
+                    <div class="modal fade" id="modal-edit-<?php echo $rows->instructors_id ?>">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content ">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Update details below:</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <?= form_open_multipart("Instructors/update_instructor/" . $rows->instructors_id) ?>
+                                <div class="modal-body">
+
+                                    <div class="row ">
+
+                                        <div class="col">
+
+                                            <label for="inputName">Intructor ID:</label>
+                                            <input type="text" name="instructor_id" class="form-control" value="<?php echo $rows->instructors_id ?>" readonly>
+                                            <label class="text-danger" style="font-size:13px;"> <?php echo form_error('instructor_id') ?></label>
+
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-2">
+
+                                            <label for="inputName">Salutation:</label>
+                                            <select name="salutation" class="form-control" required>
+                                                <option value="<?php echo $rows->salutation ?>"><?php echo $rows->salutation ?></option>
+                                                <option value="MR">Mr.</option>
+                                                <option value="MS">Ms.</option>
+                                                <option value="DR">Dr.</option>
+                                            </select>
+                                            <label class="text-danger" style="font-size:13px;"> <?php echo form_error('salutation') ?></label>
+
+                                        </div>
+                                        <div class="col">
+
+                                            <label for="inputName">Lastname:</label>
+                                            <input type="text" name="lastname" class="form-control" value="<?php echo $rows->lastname ?>" required>
+                                            <label class="text-danger" style="font-size:13px;"> <?php echo form_error('lastname') ?></label>
+
+                                        </div>
+                                        <div class="col">
+
+                                            <label for="inputName">Firstname:</label>
+                                            <input type="text" name="firstname" class="form-control" value="<?php echo $rows->firstname ?>" required>
+                                            <label class="text-danger" style="font-size:13px;"> <?php echo form_error('par_no') ?></label>
+
+                                        </div>
+
+                                        <div class="col">
+
+                                            <label for="inputName">Middlename:</label>
+                                            <input type="text" name="middlename" class="form-control" value="<?php echo $rows->middlename ?>" required>
+                                            <label class="text-danger" style="font-size:13px;"> <?php echo form_error('middlename') ?></label>
+
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+
+                                            <label for="inputName">Barangay:</label>
+                                            <input type="text" name="barangay" class="form-control" value="<?php echo $rows->barangay ?>" required>
+                                            <label class="text-danger" style="font-size:13px;"> <?php echo form_error('barangay') ?></label>
+
+                                        </div>
+
+                                        <div class="col">
+
+                                            <label for="inputName">Town:</label>
+                                            <input type="text" name="town" class="form-control" value="<?php echo $rows->town ?>" required>
+                                            <label class="text-danger" style="font-size:13px;"> <?php echo form_error('town') ?></label>
+
+                                        </div>
+
+                                        <div class="col">
+
+                                            <label for="inputName">Province:</label>
+                                            <input type="text" name="province" class="form-control" value="<?php echo $rows->province ?>" required>
+                                            <label class="text-danger" style="font-size:13px;"> <?php echo form_error('province') ?></label>
+
+                                        </div>
+
+                                        <div class="col">
+
+                                            <label for="inputName">Sex:</label>
+                                            <select name="sex" class="form-control" required>
+                                                <option value="<?php echo $rows->sex ?>"><?php echo $rows->sex ?></option>
+                                                <option value="Male">Male</option>
+                                                <option value="Female">Female</option>
+                                            </select>
+                                            <label class="text-danger" style="font-size:13px;"> <?php echo form_error('sex') ?></label>
+
+                                        </div>
+                                        <div class="col">
+                                            <label>Date of birth</label>
+                                            <input type="date" name="date_of_birth" class="form-control" value="<?php echo $rows->date_of_birth ?>" required>
+                                            <label class="text-danger" style="font-size:13px;"> <?php echo form_error('date_of_birth') ?></label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+
+                                            <label for="inputMessage">College Assign:</label>
+                                            <select name="college_assign" class="form-control" required>
+                                                <option value="<?php echo $rows->college_code ?>"><?php echo $rows->college_code ?></option>
+                                                <?php foreach ($colleges as $row) { ?>
+                                                    <option value="<?= $row->college_code  ?>"><?= $row->college_code ?></option>
+                                                <?php } ?>
+                                            </select>
+                                            <label class="text-danger" style="font-size:13px;"> <?php echo form_error('department_ass') ?></label>
+
+                                        </div>
+                                        <div class="col">
+
+                                            <label>Profession Number:</label>
+                                            <input type="text" name="professional_no" class="form-control" value="<?php echo $rows->professional_no ?>" required>
+                                            <label class="text-danger" style="font-size:13px;"> <?php echo form_error('professional_no') ?></label>
+                                        </div>
+                                        <div class="col">
+                                            <label>Hired Date</label>
+                                            <input type="date" name="date_hired" class="form-control" value="<?php echo $rows->date_hired ?>" required>
+                                            <label class="text-danger" style="font-size:13px;"> <?php echo form_error('date_hired') ?></label>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+
+                                            <label>Nature of Appointment</label>
+                                            <select name="appointment_nature" class="form-control" required>
+                                                <option value="<?php echo $rows->appointment_nature ?>"><?php echo $rows->appointment_nature ?></option>
+                                                <option value="Temporary">Temporary</option>
+                                                <option value="Permanent">Permanent</option>
+                                            </select>
+                                            <label class="text-danger" style="font-size:13px;"> <?php echo form_error('appointment_nature') ?></label>
+
+                                        </div>
+                                        <div class="col">
+
+                                            <label>Employment Status</label>
+                                            <select name="employment_status" class="form-control" required>
+                                                <option value="<?php echo $rows->employment_status ?>"><?php echo $rows->employment_status ?></option>
+                                                <option value="part_time">Part-time</option>
+                                                <option value="full_time">Full-time</option>
+                                            </select>
+                                            <label class="text-danger" style="font-size:13px;"> <?php echo form_error('employment_status') ?></label>
+
+                                        </div>
+                                        <div class="col">
+                                            <label>Profile Picture</label>
+                                            <input type="file" class="form-control" name="pp_image">
+                                            <label class="text-danger" style="font-size:13px;"> <?php echo form_error('pp_image') ?></label>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <input type="submit" class="btn btn-success" value="UPDATE"></input>
+                                        </div>
+                                    </div>
+                                    <?= form_close() ?>
+
+                                </div>
+
+                            </div>
+                            <!-- /.modal-content -->
                         </div>
                     </div>
 
@@ -117,12 +309,7 @@
         </div>
 </div>
 
-</div>
-</section>
-</div>
-<!-- /.row -->
 
-<!-- /.col -->
 <!-- jQuery -->
 <script src="<?= base_url(); ?>plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
