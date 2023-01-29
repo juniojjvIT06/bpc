@@ -40,6 +40,11 @@ class Management_model extends CI_Model
         return $this->db->get("tbl_bpc_college")->row();
     }
 
+    public function viewSingleSchedule($code){
+        $this->db->where('schedule_code', $code);
+        return $this->db->get("tbl_bpc_schedule")->row();
+    }
+
     public function viewSchedules(){
         return $this->db->get("tbl_bpc_schedule")->result();
     }
@@ -67,6 +72,19 @@ class Management_model extends CI_Model
 
     public function addSemester($arr){
         return $this->db->insert("tbl_bpc_semesters", $arr);
+    }
+
+    public function addClassSchedule($arr){
+        return $this->db->insert("tbl_bpc_classes", $arr);
+    }
+
+    public function viewClassesSchedules(){
+        return $this->db->get("tbl_bpc_classes")->result();
+    }
+
+    public function viewSingleInstructor($instructors_id){
+        $this->db->where('instructors_id', $instructors_id);
+        return $this->db->get("tbl_bpc_instructors")->row();
     }
 
 

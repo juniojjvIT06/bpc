@@ -43,28 +43,22 @@
             <div class="card-header">
                 <h3 class="card-title">Management of Classes</h3>
             </div>
-            <?= form_open('management/class_add') ?>
+            <?= form_open('Management/class_add') ?>
             <div class="card-body">
                 <div class="row">
 
-                    <div class="col-md-3 form-group">
+                    <div class="col-md-2 form-group">
 
                         <label>Class Code</label>
                         <input type="text" class="form-control" name="class_code" value="<?php echo set_value('class_code') ?>" required>
                         <label class="text-danger" style="font-size:13px;"> <?php echo form_error('class_code') ?></label>
 
                     </div>
-                    <script>
-                        function updateSelection() {
-                            var select = document.getElementById("course_select");
-                            var selectedValue = select.options[select.selectedIndex].value;
-                            <?php $this->session->set_userdata('selectedValue', 'selectedValue'); ?>
-                        }
-                    </script>
+
                     <div class="col-md-3 form-group">
 
                         <label>Course Code</label>
-                        <select name="course_code" class="form-control" id="course_select" required>
+                        <select name="course_code" class="form-control" required>
                             <?php foreach ($courses as $rows) { ?>
                                 <option value="<?= $rows->course_code ?>"><?= $rows->course_description ?></option>
                             <?php } ?>
@@ -78,14 +72,14 @@
                         <label>Subject Code</label>
                         <select name="subject_code" class="form-control" id="subject_select" required>
                             <?php foreach ($subjects as $rows) { ?>
-                                <option value="<?= $rows->subject_code ?>"><?= $rows->subject_description ?></option>
+                                <option value="<?= $rows->subject_code ?>"><?= $rows->subject_code ?></option>
                             <?php } ?>
                         </select>
                         <label class="text-danger" style="font-size:13px;"> <?php echo form_error('subject_code') ?></label>
 
                     </div>
 
-                    <div class="col-md-3 form-group">
+                    <div class="col-md-2 form-group">
 
                         <label>Subject Schedule:</label>
                         <select name="schedule_code" class="form-control" required>
@@ -96,7 +90,7 @@
                         <label class="text-danger" style="font-size:13px;"> <?php echo form_error('schedule_code') ?></label>
 
                     </div>
-                    <div class="col-md-3 form-group">
+                    <div class="col-md-1 form-group">
 
                         <label>Semester:</label>
                         <select name="semester_code" class="form-control" required>
@@ -108,37 +102,18 @@
 
                     </div>
 
-                    <?php $instructors = $this->Instructor_model->get_instructors_within_subject_specialty($this->session->userdata('selectedValue')); ?>
-
-                    <div class="col-md-3 form-group">
-
-                        <label>Assign Instructor:</label>
-                        <select name="instructor_code" class="form-control" required>
-
-                            <?php
-                    
-                            foreach ($instructors as $rows) { ?>
-                                <option value="<?= $rows->instructors_id ?>"><?= $rows->lastname ?> , <?= $rows->firstname ?></option>
-                            <?php } ?>
-                        </select>
-                        <label class="text-danger" style="font-size:13px;"> <?php echo form_error('course_desc') ?></label>
-
+                </div>
+                <div class="row">
+                    <div class="col center">
+                        <input type="submit" class="btn bg-danger" Value="Generate">
                     </div>
-
-                    <div class="col-md-1 ">
-                        <p></p>
-                        <input type="submit" class="btn btn-app bg-info" value="Add">
-
-
-                    </div>
-
                 </div>
             </div>
             <?= form_close() ?>
         </div>
 
         <div class="card-header">
-            <h3 class="card-title">List of Schedule</h3>
+            <h3 class="card-title">List of Class Schedules</h3>
         </div>
 
 
@@ -149,24 +124,30 @@
 
                     <tr>
                         <th>No.</th>
-                        <th>Schedule Code</th>
-                        <th>Day/s</th>
+                        <th>Class Code</th>
+                        <th>Course Code</th>
+                        <th>Subject Code</th>
                         <th>Room Assign</th>
-                        <th>From</th>
-                        <th>To</th>
+                        <th>Day/s</th>
+                        <th>Start Time</th>
+                        <th>Start End</th>
+                        <th>Instructor</th>
                     </tr>
                 </thead>
 
                 <tbody>
                     <?php $i = 1;
-                    foreach ($schedules as $row) {  ?>
+                    foreach ($classes as $row) {  ?>
                         <tr>
                             <td><?= $i; ?></td>
-                            <td><?= $row->schedule_code; ?></td>
-                            <td><?= $row->day; ?></td>
-                            <td><?= $this->Management_model->viewSingleRoom($row->room_code)->room_description; ?></td>
-                            <td><?= $row->start_time; ?></td>
-                            <td><?= $row->end_time; ?></td>
+                            <td><?= $row->class_code; ?></td>
+                            <td><?= $row->course_code ?></td>
+                            <td><?= $row->subject_code ?></td>
+                            <td><?= $this->Management_model->viewSingleSchedule($row->schedule_code)->room_code ?></td>
+                            <td><?= $this->Management_model->viewSingleSchedule($row->schedule_code)->day; ?></td>
+                            <td><?= $this->Management_model->viewSingleSchedule($row->schedule_code)->start_time; ?></td>
+                            <td><?= $this->Management_model->viewSingleSchedule($row->schedule_code)->end_time; ?></td>
+                            <td><?= $this->Management_model->viewSingleInstructor($row->instructors_id)->lastname; ?>, <?= $this->Management_model->viewSingleInstructor($row->instructors_id)->firstname; ?><?= $this->Management_model->viewSingleInstructor($row->instructors_id)->middlename; ?></td>
                         <?php $i++;
                     } ?>
                         </tr>
@@ -194,8 +175,6 @@
 <link rel="stylesheet" href="<?php echo base_url(); ?>plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
 <link rel="stylesheet" href="<?php echo base_url(); ?>plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 
-<!-- Page specific script -->
-
 <script>
     $(function() {
         $("#example1").DataTable({
@@ -208,7 +187,7 @@
             "paging": true,
             "lengthChange": false,
             "searching": false,
-            "ordering": true,
+            "ordering": false,
             "info": true,
             "autoWidth": false,
             "responsive": true,

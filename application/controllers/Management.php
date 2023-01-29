@@ -207,17 +207,93 @@ class Management extends CI_Controller
         }
     }
 
-    public function class()
-    {
-        $datas['academics'] = $this->Management_model->viewAcademics();
+    public function class(){
+
         $datas['rooms'] = $this->Management_model->viewRooms();
         $datas['schedules'] = $this->Management_model->viewSchedules();
         $datas['courses'] = $this->Management_model->viewCourses();
         $datas['semesters'] = $this->Management_model->viewSemesters();
         $datas['subjects'] = $this->Subject_model->viewSubjects();
+        $datas['classes'] = $this->Management_model->viewClassesSchedules();
 
         $this->load->view('header');
         $this->load->view('form_add_class', $datas);
+    }
+
+    public function class_add()
+    {
+        $this->form_validation->set_rules('class_code', 'Class Code', 'required|trim|is_unique[tbl_bpc_classes.class_code]');
+        $this->form_validation->set_rules('course_code', 'Course Level', 'required|trim');
+        $this->form_validation->set_rules('subject_code', 'Subject Code', 'required|trim');
+        $this->form_validation->set_rules('schedule_code', 'Schedule Code', 'required|trim');
+        $this->form_validation->set_rules('semester_code', 'Semester Code', 'required|trim');
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->session->set_flashdata('error', validation_errors());
+            redirect(base_url('management/class'));
+        } else {
+            // $arr = array(
+
+            //     'semester_code' => $this->input->post('semester_code'),
+            //     'year_level' => $this->input->post('year_level'),
+            //     'academic_id' => $this->input->post('academic_year'),
+
+            // );
+
+            // $this->session->set_flashdata('success', 'Successfully Added!');
+            // $this->Management_model->addSemester($arr);
+
+            $this->session->set_userdata('set_class_code',$this->input->post('class_code'));
+            $this->session->set_userdata('set_course_code',$this->input->post('course_code'));
+            $this->session->set_userdata('set_subject_code',$this->input->post('subject_code'));
+            $this->session->set_userdata('set_schedule_code',$this->input->post('schedule_code'));
+            $this->session->set_userdata('set_semester_code',$this->input->post('semester_code'));
+
+            redirect(base_url('management/class_instructor'));
+        }
+    }
+
+    public function class_instructor()
+    {
+        $this->load->view('header');
+        $this->load->view('form_add_class_instructor');
+    }
+
+    public function classs_scheule_add()
+    {
+        $this->form_validation->set_rules('instructor_code', 'Semester Code', 'required|trim');
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->session->set_flashdata('error', validation_errors());
+            redirect(base_url('management/class_instructor'));
+        } else {
+            $arr = array(
+
+                'class_code' =>  $this->session->userdata('set_class_code'),
+                'course_code' =>  $this->session->userdata('set_course_code'),
+                'subject_code' =>  $this->session->userdata('set_subject_code'),
+                'schedule_code' =>  $this->session->userdata('set_schedule_code'),
+                'instructors_id' =>  $this->input->post('instructor_code'),
+                'semester_code' =>  $this->session->userdata('set_semester_code')
+
+            );
+
+            $this->session->set_flashdata('success', 'Successfully Added!');
+            $this->Management_model->addClassSchedule($arr);
+            redirect(base_url('management/class_schedule_cancel'));
+        }
+    }
+
+    public function class_schedule_cancel(){
+
+        $this->session->unset_userdata('set_class_code');        
+        $this->session->unset_userdata('set_course_code');        
+        $this->session->unset_userdata('set_subject_code');        
+        $this->session->unset_userdata('set_schedule_code');        
+        $this->session->unset_userdata('set_semester_code');     
+
+        redirect(base_url('management/class'));   
+        
     }
 
 }
