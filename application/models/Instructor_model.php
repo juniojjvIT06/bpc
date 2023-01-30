@@ -44,6 +44,46 @@ class Instructor_model extends CI_Model
         }
     }
 
+    public function update_specialties($arr, $instructor_id)
+    {
+        foreach ($arr as $value) {
+            $data = array(
+                'subject_code' => $value,
+                'instructors_id' => $instructor_id
+            );
+            $this->db->update('tbl_bpc_specialty', $data);
+        }
+    }
+
+    public function update_single_specialty($instructor_id, $subject_code){
+
+        $data = array(
+            'subject_code' => $subject_code,
+            'instructors_id' => $instructor_id
+        );
+
+
+        $this->db->where("instructors_id", $instructor_id);
+        $this->db->where("subject_code", $subject_code);
+        $this->db->update('tbl_bpc_specialty', $data);
+    }
+    public function insert_single_specialty($instructor_id, $subject_code){
+
+        $data = array(
+            'subject_code' => $subject_code,
+            'instructors_id' => $instructor_id
+        );
+
+        $this->db->insert('tbl_bpc_specialty', $data);
+    }
+    public function specialty_existence($instructor_id, $subject_code){
+
+        $this->db->where("instructors_id", $instructor_id);
+        $this->db->where("subject_code", $subject_code);
+
+        return $this->db->get("tbl_bpc_specialty")->result();
+    }
+
     public function show_instructor_specialty($instructor_id)
     {
         $this->db->from("tbl_bpc_specialty");

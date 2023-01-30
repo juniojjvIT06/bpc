@@ -35,17 +35,44 @@ class Instructors extends CI_Controller
 		$this->load->view('header');
 		$this->load->view('list_view_instructor', $datas);
 	}
+
 	public function specialty($instructor_id)
 	{
 		$this->session->set_userdata('selected_id', $instructor_id);
 		$datas['subjects'] = $this->Subject_model->viewSubjects();
+		$datas['instructor_specialty'] =  $this->Instructor_model->show_instructor_specialty($instructor_id);
 		$this->load->view('header');
 		$this->load->view('form_add_specialty', $datas);
 	}
+
 	public function add_speciality($instructor_id)
 	{
 		$selected_values = $this->input->post('subjects');
-		$this->Instructor_model->add_specialties($selected_values, $instructor_id);
+		$instructors_specialties = $this->Instructor_model->show_instructor_specialty($this->session->userdata('selected_id'));
+		// foreach ($selected_values as $sv) {
+
+		// 	$this->Instructor_model->update_single_specialty($instructor_id, $sv);
+		// }
+
+		// foreach
+		foreach ($instructors_specialties as $is) {
+			foreach ($selected_values as $sv) {
+				if ($sv == $is->subject_code) {
+					$this->Instructor_model->update_single_specialty($instructor_id, $is->subject_code);
+				}
+			}
+		}
+
+		foreach ($selected_values as $sv) {
+			if (empty($this->Instructor_model->specialty_existence($instructor_id, $sv))) {
+				$this->Instructor_model->insert_single_specialty($instructor_id, $sv);
+			}
+		}
+
+
+
+
+		// $this->Instructor_model->add_specialties($selected_values, $instructor_id);
 		$this->session->set_flashdata('success', 'Successfully Added!');
 		$this->session->unset_userdata('selected_id');
 		redirect(base_url('instructors/list'));
@@ -150,7 +177,7 @@ class Instructors extends CI_Controller
 		// $this->form_validation->set_rules('pp_image', 'Profile Picture', 'required' );
 
 		if ($this->form_validation->run() == FALSE) {
-			$this->session->set_flashdata('error', validation_errors() );
+			$this->session->set_flashdata('error', validation_errors());
 			redirect(base_url('instructors/list'));
 		} else {
 
@@ -183,10 +210,11 @@ class Instructors extends CI_Controller
 		}
 	}
 
-	public function delete_instructor($instructor_id){
-			$this->session->set_flashdata('success', 'Successfully Deleted!');
-			//$this->session->userdata('lgudms_user_id');
-			$this->Instructor_model->delete_instructor($instructor_id);
-			redirect(base_url('instructors/list'));
+	public function delete_instructor($instructor_id)
+	{
+		$this->session->set_flashdata('success', 'Successfully Deleted!');
+		//$this->session->userdata('lgudms_user_id');
+		$this->Instructor_model->delete_instructor($instructor_id);
+		redirect(base_url('instructors/list'));
 	}
 }
