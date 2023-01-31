@@ -210,7 +210,7 @@ class Instructors extends CI_Controller
 		}
 	}
 
-	public function delete_instructor($instructor_id)
+	public function instructor_delete($instructor_id)
 	{
 		$this->session->set_flashdata('success', 'Successfully Deleted!');
 		//$this->session->userdata('lgudms_user_id');

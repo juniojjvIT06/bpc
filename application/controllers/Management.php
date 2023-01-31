@@ -51,6 +51,37 @@ class Management extends CI_Controller
         }
     }
 
+    public function college_update($instructor_id)
+	{
+
+		$this->form_validation->set_rules('college_desc_edit', 'College Description', 'required|trim');
+
+		if ($this->form_validation->run() == FALSE) {
+			$this->session->set_flashdata('error', validation_errors());
+			redirect(base_url('management/add'));
+		} else {
+
+			$arr = array(
+
+				'college_description' => $this->input->post('college_desc_edit'),
+
+			);
+
+            $college_code = $this->input->post('college_code_edit');
+
+			$this->session->set_flashdata('success', 'Successfully Updated!');
+			$this->Management_model->update_college($arr, $college_code);
+
+			redirect(base_url('management/add'));
+		}
+	}
+
+    public function college_delete($college_code){
+            $this->Management_model->delete_college($college_code);
+             $this->session->set_flashdata('success', 'Successfully Deleted!');
+            redirect(base_url('management/add'));
+    }
+
     public function room()
     {
         $datas['rooms'] = $this->Management_model->viewRooms();

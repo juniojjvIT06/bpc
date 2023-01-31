@@ -12,6 +12,20 @@ class Management_model extends CI_Model
         return $this->db->get("tbl_bpc_college")->result();
     }
 
+    public function update_college($array, $college_coode)
+    {
+
+            $this->db->where('college_code', $college_coode);
+            $this->db->update('tbl_bpc_college', $array);
+        
+    }
+
+    public function delete_college( $college_coode)
+    {
+            $this->db->where('college_code', $college_coode);
+            $this->db->delete('tbl_bpc_college');
+    }
+
        
     public function addRoom($arr){
         return $this->db->insert("tbl_bpc_rooms", $arr);

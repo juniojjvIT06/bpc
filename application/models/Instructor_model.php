@@ -67,6 +67,7 @@ class Instructor_model extends CI_Model
         $this->db->where("subject_code", $subject_code);
         $this->db->update('tbl_bpc_specialty', $data);
     }
+    
     public function insert_single_specialty($instructor_id, $subject_code){
 
         $data = array(

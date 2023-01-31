@@ -40,20 +40,21 @@
                 </div>
             </div>
         <?php endif ?>
+        
         <?= form_open_multipart("instructors/add_i") ?>
         <div class="container-fluid">
             <div class="card card-info">
                 <div class="card-header float-right">
                     <h3>
-                    Add Instructor
-                    <input type="submit" class="btn btn-success float-right" value="Add">   
-                    </h3> 
+                        Add Instructor
+                        <input type="submit" class="btn btn-success float-right" value="Add">
+                    </h3>
                 </div>
-             
+
                 <!-- /.card-header -->
                 <div class="card-body">
                     <h5><label>Filled-out all the fields.</label></h5>
-                    
+
                     <div class="row ">
 
                         <div class="col-md-2">
@@ -140,8 +141,8 @@
 
                             <label for="inputMessage">College Assign:</label>
                             <select name="college_assign" class="form-control" required>
-                                <?php foreach($colleges as $rows){ ?>
-                                <option value="<?= $rows -> college_code ?>"><?= $rows -> college_code?></option>
+                                <?php foreach ($colleges as $rows) { ?>
+                                    <option value="<?= $rows->college_code ?>"><?= $rows->college_code ?></option>
                                 <?php } ?>
                             </select>
                             <label class="text-danger" style="font-size:13px;"> <?php echo form_error('department_ass') ?></label>
@@ -181,7 +182,7 @@
                         </div>
                         <div class="col-md-2">
                             <label>Profile Picture</label>
-                            <input type="file" class="form-control" name="pp_image" >
+                            <input type="file" class="form-control" name="pp_image">
                             <label class="text-danger" style="font-size:13px;"> <?php echo form_error('pp_image') ?></label>
                         </div>
                     </div>
@@ -191,17 +192,17 @@
             <div class="card card-info">
                 <div class="card-header float-right">
                     <h3>
-                     Specializations       
-                    </h3> 
+                        Specializations
+                    </h3>
                 </div>
-             
+
                 <!-- /.card-header -->
                 <div class="card-body">
                     <h5><label>Check all that apply:</label></h5>
-                  
+
                     <div class="row ">
 
-                       
+
                     </div>
                 </div>
             </div>

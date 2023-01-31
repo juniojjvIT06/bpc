@@ -108,13 +108,11 @@
                                                     </i>
                                                     Edit
                                                 </a>
-                                                <a class="btn btn-danger btn-sm" > 
-                                                <input type="button" href="<?= base_url('instructors/delete_instructor/' . $rows->instructors_id) ?> class="btn btn-danger btn-block"  onclick="return  confirm('Are you sure to proceed remove :  Instructor ID:' + '<?php echo $rows->instructors_id ?>' + + '<?php echo $rows->lastname ?>' + ,'<?php echo $rows->firstname ?>')">
-                                                    <i class="fas fa-trash">
-                                                    </i>
-                                    
-                                                    Delete
-                                                </a>
+
+                                                <a href="<?= base_url('instructors/instructor_delete/' .  $rows->instructors_id) ?>"><input type="button" class="btn btn-danger btn-sm" onclick="return  confirm('Are you sure to proceed remove Instructor:  ' + '<?= $rows->lastname ?> , <?= $rows->salutation ?>. <?= $rows->firstname ?> <?= $rows->middlename ?>')" value="Delete">
+
+                                                    </button></a>
+
                                             </td>
 
                                         </tr>
