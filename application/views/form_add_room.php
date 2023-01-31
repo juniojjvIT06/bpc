@@ -91,27 +91,104 @@
         <div class="card-body">
             <table class="table table-striped nowrap text-center" id="example1">
                 <thead>
-                    
+
                     <tr>
                         <th>No.</th>
                         <th>Room Code</th>
                         <th>Room Description</th>
                         <th>Room Capacity</th>
-                        <th>Status</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                <?php $i = 1;
+                    <?php $i = 1;
                     foreach ($rooms as $row) {  ?>
-                    <tr>
-                    <td><?=  $i; ?></td>
-                    <td><?=  $row -> room_code; ?></td>
-                    <td><?=  $row -> room_description; ?></td>
-                    <td><?=  $row -> room_capacity; ?></td>
-                    <td><?=  $row -> status; ?></td>
-                        <?php $i++; } ?>
-                        </tr>
+                        <tr>
+                            <td><?= $i; ?></td>
+                            <td><?= $row->room_code; ?></td>
+                            <td><?= $row->room_description; ?></td>
+                            <td><?= $row->room_capacity; ?></td>
+                            <td>
+                                <a class="btn btn-info btn-sm" href="#" data-toggle="modal" data-target="#modal-edit-<?php echo $row->room_code ?>">
+                                    <i class="fas fa-pencil-alt">
+                                    </i>
+                                    Edit
+                                </a>
+
+                            </td>
+                            <!-- /.modal-edit -->
+                            <div class="modal fade" id="modal-edit-<?php echo $row->room_code ?>">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content form-group">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Room Code Management:</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <?= form_open_multipart("Management/room_update/" . $row->room_code) ?>
+                                        <div class="modal-body">
+
+                                            <div class="row ">
+
+                                                <div class="col">
+
+                                                    <label for="inputName">Room Code:</label>
+                                                    <input type="text" name="room_code_edit" class="form-control" value="<?php echo $row->room_code ?>" readonly>
+                                                    <label class="text-danger" style="font-size:13px;"> <?php echo form_error('room_code_edit') ?></label>
+
+                                                </div>
+                                            </div>
+                                            <div class="row">
+
+
+                                                <div class="col">
+
+                                                    <label for="inputName">Room Description:</label>
+                                                    <input type="text" name="room_desc_edit" class="form-control" value="<?php echo $row->room_description ?>" required>
+                                                    <label class="text-danger" style="font-size:13px;"> <?php echo form_error('room_desc_edit') ?></label>
+
+                                                </div>
+                                            </div>
+                                            <div class="row">
+
+
+                                                <div class="col">
+
+                                                    <label for="inputName">Room Capacity:</label>
+                                                    <input type="number" name="room_capacity_edit" class="form-control" value="<?php echo $row->room_capacity ?>" required>
+                                                    <label class="text-danger" style="font-size:13px;"> <?php echo form_error('room_capcity_edit') ?></label>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="row ">
+                                                <div class="col">
+                                                    <input type="submit" class="btn btn-success" value="UPDATE"></input>
+                                                    <!-- <input type="button" class="btn btn-danger" value="DELETE"></input> -->
+                                                    <a href="<?= base_url('management/room_delete/' . $row->room_code) ?>"><input type="button" class="btn btn-danger" onclick="return  confirm('Are you sure to proceed remove Room Code:  ' + '<?php echo $row->room_code ?>')" value="Delete"></button></a>
+
+
+                                                </div>
+                                                <div class="col">
+
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+
+                                        <?= form_close() ?>
+
+                                    </div>
+
+                                </div>
+                                <!-- /.modal-content -->
+                            </div>
+                        <?php $i++;
+                    } ?>
                 </tbody>
             </table>
         </div>

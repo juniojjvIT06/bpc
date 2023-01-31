@@ -48,21 +48,21 @@
             <div class="card-body">
                 <div class="row">
 
-                    <div class="col-md-3 form-group">
+                    <div class="col-md-2 form-group">
 
                         <label>Schedule Code</label>
                         <input type="text" class="form-control" name="schedule_code" value="<?php echo set_value('schedule_code') ?>" required>
                         <label class="text-danger" style="font-size:13px;"> <?php echo form_error('schedule_code') ?></label>
 
                     </div>
-                    <div class="col-md-3 form-group">
+                    <div class="col-md-1 form-group">
 
                         <label>Schedule Day/s</label>
                         <input type="text" class="form-control" name="day" value="<?php echo set_value('day') ?>" required>
                         <label class="text-danger" style="font-size:13px;"> <?php echo form_error('day') ?></label>
 
                     </div>
-                    <div class="col-md-3 form-group">
+                    <div class="col-md-2 form-group">
 
                         <label>Assign Room:</label>
                         <select name="room_code" class="form-control" required>
@@ -74,14 +74,14 @@
 
                     </div>
 
-                    <div class="col-md-3 form-group">
+                    <div class="col-md-2 form-group">
 
                         <label>Time[From]</label>
                         <input type="time" class="form-control" name="start_time" value="<?php echo set_value('start_time') ?>" required>
                         <label class="text-danger" style="font-size:13px;"> <?php echo form_error('course_desc') ?></label>
 
                     </div>
-                    <div class="col-md-3 form-group">
+                    <div class="col-md-2 form-group">
 
                         <label>Time[To]</label>
                         <input type="time" class="form-control" name="end_time" value="<?php echo set_value('end_time') ?>" required>
@@ -118,6 +118,7 @@
                         <th>Room Assign</th>
                         <th>From</th>
                         <th>To</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
 
@@ -131,8 +132,98 @@
                             <td><?= $this->Management_model->viewSingleRoom($row->room_code)->room_description; ?></td>
                             <td><?= $row->start_time; ?></td>
                             <td><?= $row->end_time; ?></td>
-                        <?php $i++;
-                    } ?>
+                            <td>
+                                <a class="btn btn-info btn-sm" href="#" data-toggle="modal" data-target="#modal-edit-<?php echo str_replace(" ", "", $row->schedule_code) ?>">
+                                    <i class="fas fa-pencil-alt">
+                                    </i>
+                                    Edit
+                                </a>
+
+                            </td>
+                            <!-- /.modal-edit -->
+                            <div class="modal fade" id="modal-edit-<?php echo str_replace(" ", "", $row->schedule_code) ?>">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content form-group">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Schedule Code Management:</h4>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <?= form_open_multipart("management/schedule_update/" . $row->schedule_code) ?>
+                                        <div class="modal-body">
+
+                                            <div class="row ">
+
+                                                <div class="col">
+
+                                                    <label for="inputName">Schedule Code:</label>
+                                                    <input type="text" name="schedule_code_edit" class="form-control" value="<?php echo $row->schedule_code ?>" readonly>
+                                                    <label class="text-danger" style="font-size:13px;"> <?php echo form_error('schedule_code_edit') ?></label>
+
+                                                </div>
+                                            </div>
+                                            <div class="row ">
+
+                                                <div class="col">
+
+                                                    <label for="inputName">Day:</label>
+                                                    <input type="text" name="day_edit" class="form-control" value="<?php echo $row->day ?>">
+                                                    <label class="text-danger" style="font-size:13px;"> <?php echo form_error('day_edit') ?></label>
+
+                                                </div>
+                                            </div>
+                                            <div class="row">
+
+
+                                                <div class="col">
+
+                                                    <label for="inputName">Room code:</label>
+                                                    <input type="text" name="room_code_edit" class="form-control" value="<?php echo $row->room_code ?>" required>
+                                                    <label class="text-danger" style="font-size:13px;"> <?php echo form_error('room_code_edit') ?></label>
+
+                                                </div>
+                                            </div>
+                                            <div class="row">
+
+                                                <div class="col">
+
+                                                    <label>Time[From]</label>
+                                                    <input type="time" class="form-control" name="start_time_edit" value="<?php echo $row->start_time ?>" required>
+                                                    <label class="text-danger" style="font-size:13px;"> <?php echo form_error('start_time_edit') ?></label>
+
+                                                </div>
+
+                                            </div>
+                                            <div class="row">
+
+                                                <div class="col">
+                                                    <label>Time[To]</label>
+                                                    <input type="time" class="form-control" name="end_time_edit" value="<?php echo $row->end_time ?>" required>
+                                                    <label class="text-danger" style="font-size:13px;"> <?php echo form_error('end_time_edit') ?></label>
+                                                </div>
+
+                                            </div>
+
+                                            <div class="row ">
+                                                <div class="col">
+                                                    <input type="submit" class="btn btn-success" value="UPDATE"></input>
+                                                    <!-- <input type="button" class="btn btn-danger" value="DELETE"></input> -->
+                                                    <a href="<?= base_url('management/schedule_delete/') . $row->schedule_code ?>"><input type="button" class="btn btn-danger" onclick="return  confirm('Are you sure to proceed remove Schedule Code:  ' + '<?php echo $row->schedule_code ?>')" value="Delete"></button></a>
+
+
+                                                </div>
+
+                                            </div>
+
+                                            <?= form_close() ?>
+
+                                        <?php $i++;
+                                    } ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </tr>
                 </tbody>
             </table>

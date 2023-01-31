@@ -38,6 +38,20 @@ class Management_model extends CI_Model
         return $this->db->get("tbl_bpc_rooms")->row();
     }
 
+    public function update_room($array, $room_code)
+    {
+
+            $this->db->where('room_code', $room_code);
+            $this->db->update('tbl_bpc_rooms', $array);
+        
+    }
+
+    public function delete_room( $room_code)
+    {
+            $this->db->where('room_code', $room_code);
+            $this->db->delete('tbl_bpc_rooms');
+    }
+
     public function viewCourses(){
         return $this->db->get("tbl_bpc_courses")->result();
     }
@@ -47,6 +61,20 @@ class Management_model extends CI_Model
     }
     public function addCourse($arr){
         return $this->db->insert("tbl_bpc_courses", $arr);
+    }
+
+    public function update_course($array, $course_code)
+    {
+
+            $this->db->where('course_code', $course_code);
+            $this->db->update('tbl_bpc_courses', $array);
+        
+    }
+
+    public function delete_course($course_code)
+    {
+            $this->db->where('course_code', $course_code);
+            $this->db->delete('tbl_bpc_courses');
     }
 
     public function viewSingleCollege($code){
@@ -65,6 +93,19 @@ class Management_model extends CI_Model
 
     public function addSchedule($arr){
         return $this->db->insert("tbl_bpc_schedule", $arr);
+    }
+    public function update_schedule($array, $schedule_code)
+    {
+
+            $this->db->where('schedule_code', $schedule_code);
+            $this->db->update('tbl_bpc_schedule', $array);
+        
+    }
+
+    public function delete_schedule($schedule_code)
+    {
+            $this->db->where('schedule_code', $schedule_code);
+            $this->db->delete('tbl_bpc_schedule');
     }
 
     public function viewSingleAcademic($code){
