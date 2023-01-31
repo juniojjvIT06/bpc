@@ -301,7 +301,7 @@ class Management extends CI_Controller
 
     public function academic_add()
     {
-        $this->form_validation->set_rules('academic_year', 'Academic Year', 'required|trim');
+        $this->form_validation->set_rules('academic_year', 'Academic Year', 'required|trim|no_spaces|is_unique[tbl_bpc_academic_year.academic_year]');
         if ($this->form_validation->run() == FALSE) {
             $this->session->set_flashdata('error', validation_errors());
             redirect(base_url('management/academic'));
@@ -316,6 +316,39 @@ class Management extends CI_Controller
             $this->Management_model->addAcademic($arr);
             redirect(base_url('management/academic'));
         }
+    }
+
+    
+    public function academic_update($academic_id)
+    {
+
+        $this->form_validation->set_rules('academic_year_edit', 'Academic Year Description', 'required|trim|no_spaces|is_unique[tbl_bpc_academic_year.academic_year]');
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->session->set_flashdata('error', validation_errors());
+            redirect(base_url('management/academic'));
+        } else {
+
+            $arr = array(
+
+                'academic_year' => $this->input->post('academic_year_edit'),
+
+            );
+
+            $academic_id = $this->input->post('academic_id_edit');
+
+            $this->session->set_flashdata('success', 'Successfully Updated!');
+            $this->Management_model->update_academic($arr, $academic_id);
+
+            redirect(base_url('management/academic'));
+        }
+    }
+
+    public function academic_delete($academic_id)
+    {
+        $this->Management_model->delete_academic($academic_id);
+        $this->session->set_flashdata('success', 'Successfully Deleted!');
+        redirect(base_url('management/academic'));
     }
 
     public function semester()
@@ -348,6 +381,41 @@ class Management extends CI_Controller
             $this->Management_model->addSemester($arr);
             redirect(base_url('management/semester'));
         }
+    }
+
+    public function semester_update($semester_id)
+    {
+
+        $this->form_validation->set_rules('year_level_edit', 'Year Level', 'required|trim|no_spaces');
+        $this->form_validation->set_rules('academic_year_edit', 'Academic Year Description', 'required|trim|no_spaces');
+
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->session->set_flashdata('error', validation_errors());
+            redirect(base_url('management/semester'));
+        } else {
+
+            $arr = array(
+
+                'year_level' => $this->input->post('year_level_edit'),
+                'academic_id' => $this->input->post('academic_year_edit'),
+
+            );
+
+            $semester_id = $this->input->post('semester_id_edit');
+
+            $this->session->set_flashdata('success', 'Successfully Updated!');
+            $this->Management_model->update_semester($arr, $semester_id);
+
+            redirect(base_url('management/semester'));
+        }
+    }
+
+    public function semester_delete($semester_id)
+    {
+        $this->Management_model->delete_semester($semester_id);
+        $this->session->set_flashdata('success', 'Successfully Deleted!');
+        redirect(base_url('management/semester'));
     }
 
     public function class()

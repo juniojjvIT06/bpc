@@ -77,22 +77,86 @@
         <div class="card-body">
             <table class="table table-striped nowrap text-center" id="example1">
                 <thead>
-                    
+
                     <tr>
                         <th>No.</th>
                         <th>Academic Year</th>
+                        <th>Action</th>
 
                     </tr>
                 </thead>
 
                 <tbody>
-                <?php $i = 1;
+                    <?php $i = 1;
                     foreach ($academics as $row) {  ?>
-                    <tr>
-                    <td><?=  $i; ?></td>
-                    <td><?=  $row -> academic_year; ?></td>
-                        <?php $i++; } ?>
+                        <tr>
+                            <td><?= $i; ?></td>
+                            <td><?= $row->academic_year; ?></td>
+                            <td>
+                                <a class="btn btn-info btn-sm" href="#" data-toggle="modal" data-target="#modal-edit-<?php echo str_replace(" ", "", $row->academic_id) ?>">
+                                    <i class="fas fa-pencil-alt">
+                                    </i>
+                                    Edit
+                                </a>
+
+                            </td>
+
                         </tr>
+                        <!-- /.modal-edit -->
+                        <div class="modal fade" id="modal-edit-<?php echo str_replace(" ", "", $row->academic_id) ?>">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content form-group">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Academic Year Management:</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <?= form_open_multipart("management/academic_update/" . $row->academic_id) ?>
+                                    <div class="modal-body">
+
+                                        <div class="row ">
+
+                                            <div class="col">
+
+                                                <label for="inputName">Academic Id:</label>
+                                                <input type="text" name="academic_id_edit" class="form-control" value="<?php echo $row->academic_id ?>" readonly>
+                                                <label class="text-danger" style="font-size:13px;"> <?php echo form_error('academic_id_edit') ?></label>
+
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+
+                                                <label for="inputName">Academic Year:</label>
+                                                <input type="text" name="academic_year_edit" class="form-control" value="<?php echo $row->academic_year ?>" require>
+                                                <label class="text-danger" style="font-size:13px;"> <?php echo form_error('academic_year_edit') ?></label>
+
+                                            </div>
+
+                                        </div>
+                                        <div class="row ">
+                                            <div class="col">
+                                                <input type="submit" class="btn btn-success" value="UPDATE"></input>
+                                                <!-- <input type="button" class="btn btn-danger" value="DELETE"></input> -->
+                                                <a href="<?= base_url('management/academic_delete/') . str_replace(" ", "", $row->academic_id) ?>"><input type="button" class="btn btn-danger" onclick="return  confirm('Are you sure to proceed remove Academic Year:  ' + '<?php echo $row->academic_year ?>')" value="Delete"></button></a>
+
+
+                                            </div>
+                                            <div class="col">
+
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+
+                                    <?= form_close() ?>
+
+                                <?php $i++;
+                            } ?>
+                                </tr>
                 </tbody>
             </table>
         </div>

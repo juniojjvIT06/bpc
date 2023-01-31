@@ -70,23 +70,24 @@
                             <div class="form-group">
 
                                 <?php $i = 1;
+
                                 foreach ($subjects as $row) {
-                                    foreach ($instructor_specialty as $rows) {
-                                        if ($row->subject_code == $rows->subject_code) { ?>
+                                    foreach ($instructor_specialty as $is) {
+                                        if ($row->subject_code != $is->subject_code) {
+
+
+                                ?>
                                             <div class="custom-control custom-checkbox">
                                                 <input class="custom-control-input" type="checkbox" id="customCheckbox<?= $i ?>" checked="true" name="subjects[]" value="<?= $row->subject_code ?>">
                                                 <label for="customCheckbox<?= $i ?>" class="custom-control-label"><?= $row->subject_code ?> - <?= $row->subject_description  ?> </label>
                                             </div>
-                                        <?php
-                                        } else { ?>
-                                            <div class="custom-control custom-checkbox">
-                                                <input class="custom-control-input" type="checkbox" id="customCheckbox<?= $i ?>" name="subjects[]" value="<?= $row->subject_code ?>">
-                                                <label for="customCheckbox<?= $i ?>" class="custom-control-label"><?= $row->subject_code ?> - <?= $row->subject_description  ?> </label>
-                                            </div>
+
+
                                 <?php }
+                                        $i++;
                                     }
-                                    $i++;
-                                } ?>  
+                                }   ?>
+
 
                             </div>
                             <div class="form-group">

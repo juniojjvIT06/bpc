@@ -62,6 +62,13 @@
                         <label class="text-danger" style="font-size:13px;"> <?php echo form_error('subject_desc') ?></label>
 
                     </div>
+                    <div class="col-md-3 form-group">
+
+                        <label>Subject Units</label>
+                        <input type="number" class="form-control" name="subject_units" value="<?php echo set_value('subject_units') ?>" required>
+                        <label class="text-danger" style="font-size:13px;"> <?php echo form_error('subject_units') ?></label>
+
+                    </div>
 
                     <div class="col-md-1 ">
                         <p></p>
@@ -84,23 +91,106 @@
         <div class="card-body">
             <table class="table table-striped nowrap text-center" id="example1">
                 <thead>
-                    
+
                     <tr>
                         <th>No.</th>
                         <th>Subject Code</th>
                         <th>Subject Description</th>
+                        <th>Subject Units</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                <?php $i = 1;
+                    <?php $i = 1;
                     foreach ($subjects as $row) {  ?>
-                    <tr>
-                    <td><?=  $i; ?></td>
-                    <td><?=  $row -> subject_code; ?></td>
-                    <td><?=  $row -> subject_description; ?></td>
-                        <?php $i++; } ?>
+                        <tr>
+                            <td><?= $i; ?></td>
+                            <td><?= $row->subject_code; ?></td>
+                            <td><?= $row->subject_description; ?></td>
+                            <td><?= $row->subject_units; ?></td>
+                            <td>
+                                <a class="btn btn-info btn-sm" href="#" data-toggle="modal" data-target="#modal-edit-<?php echo str_replace(" ", "", $row->subject_code) ?>">
+                                    <i class="fas fa-pencil-alt">
+                                    </i>
+                                    Edit
+                                </a>
+
+                            </td>
+
                         </tr>
+                        <!-- /.modal-edit -->
+                        <div class="modal fade" id="modal-edit-<?php echo str_replace(" ", "", $row->subject_code) ?>">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content form-group">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Subject Code Management:</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <?= form_open_multipart("subjects/subject_update/" . $row->subject_code) ?>
+                                    <div class="modal-body">
+
+                                        <div class="row ">
+
+                                            <div class="col">
+
+                                                <label for="inputName">Subject Code:</label>
+                                                <input type="text" name="subject_code_edit" class="form-control" value="<?php echo $row->subject_code ?>" readonly>
+                                                <label class="text-danger" style="font-size:13px;"> <?php echo form_error('subject_code_edit') ?></label>
+
+                                            </div>
+                                        </div>
+                                        <div class="row">
+
+
+                                            <div class="col">
+
+                                                <label for="inputName">Subject Description:</label>
+                                                <input type="text" name="subject_desc_edit" class="form-control" value="<?php echo $row->subject_description ?>" required>
+                                                <label class="text-danger" style="font-size:13px;"> <?php echo form_error('subject_desc_edit') ?></label>
+
+                                            </div>
+                                        </div>
+                                        <div class="row">
+
+
+                                            <div class="col">
+
+                                                <div class="col-md-3 form-group">
+
+                                                    <label>Subject Units</label>
+                                                    <input type="number" class="form-control" name="subject_units_edit" value="<?php echo $row->subject_units ?>" required>
+                                                    <label class="text-danger" style="font-size:13px;"> <?php echo form_error('subject_units_edit') ?></label>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="row ">
+                                            <div class="col">
+                                                <input type="submit" class="btn btn-success" value="UPDATE"></input>
+                                                <!-- <input type="button" class="btn btn-danger" value="DELETE"></input> -->
+                                                <a href="<?= base_url('subjects/subject_delete/') . str_replace(" ", "", $row->subject_code) ?>"><input type="button" class="btn btn-danger" onclick="return  confirm('Are you sure to proceed remove Course Code:  ' + '<?php echo $row->subject_code ?>')" value="Delete"></button></a>
+
+
+                                            </div>
+                                            <div class="col">
+
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+
+                                    <?= form_close() ?>
+
+                                <?php $i++;
+                            } ?>
+                                </tr>
                 </tbody>
             </table>
         </div>
