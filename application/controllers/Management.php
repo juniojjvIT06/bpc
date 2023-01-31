@@ -159,7 +159,7 @@ class Management extends CI_Controller
 
     public function course_add()
     {
-        $this->form_validation->set_rules('course_code', 'Course Code', 'required|trim|is_unique[tbl_bpc_courses.course_code]');
+        $this->form_validation->set_rules('course_code', 'Course Code', 'required|trim|is_unique[tbl_bpc_courses.course_code]|no_spaces');
         $this->form_validation->set_rules('course_desc', 'Course Description', 'required|trim');
         $this->form_validation->set_rules('college_code', 'College Code', 'required|trim');
 
@@ -494,6 +494,46 @@ class Management extends CI_Controller
             $this->Management_model->addClassSchedule($arr);
             redirect(base_url('management/class_schedule_cancel'));
         }
+    }
+
+    public function class_schedule_update($class_code)
+    {
+
+        $this->form_validation->set_rules('subject_code_edit', 'Subject Code', 'required|trim|no_spaces');
+        $this->form_validation->set_rules('course_code_edit', 'Course Code', 'required|trim|no_spaces');
+        $this->form_validation->set_rules('schedule_code_edit', 'Schedule Code', 'required|trim|no_spaces');
+        $this->form_validation->set_rules('subject_code_edit', 'Subejct Code', 'required|trim|no_spaces');
+        $this->form_validation->set_rules('semester_code_edit', 'Semester', 'required|trim|no_spaces');
+
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->session->set_flashdata('error', validation_errors());
+            redirect(base_url('management/class'));
+        } else {
+
+            $arr = array(
+
+                'course_code' => $this->input->post('course_code_edit'),
+                'subject_code' => $this->input->post('subject_code_edit'),
+                'schedule_code' => $this->input->post('schedule_code_edit'),
+                'semester_code' => $this->input->post('semester_code_edit'),
+
+            );
+
+            $class_code = $this->input->post('class_code_edit');
+
+            $this->session->set_flashdata('success', 'Successfully Updated!');
+            $this->Management_model->update_class_schedule($arr, $class_code);
+
+            redirect(base_url('management/class'));
+        }
+    }
+
+    public function class_schedule_delete($class_code)
+    {
+        $this->Management_model->delete_class_schedule($class_code);
+        $this->session->set_flashdata('success', 'Successfully Deleted!');
+        redirect(base_url('management/class'));
     }
 
     public function class_schedule_cancel()

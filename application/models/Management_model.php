@@ -178,6 +178,19 @@ class Management_model extends CI_Model
         return $this->db->get("tbl_bpc_classes")->result();
     }
 
+    public function update_class_schedule($array, $class_code)
+    {
+
+        $this->db->where('class_code', $class_code);
+        $this->db->update('tbl_bpc_classes', $array);
+    }
+
+    public function delete_class_schedule($class_code)
+    {
+        $this->db->where('class_code', $class_code);
+        $this->db->delete('tbl_bpc_classes');
+    }
+
     public function viewSingleInstructor($instructors_id)
     {
         $this->db->where('instructors_id', $instructors_id);
