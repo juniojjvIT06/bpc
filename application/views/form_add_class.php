@@ -149,22 +149,22 @@
                                 } else {
                                     echo "<span class='badge badge-warning'>Not assigned/remove</span>";
                                 } ?> </td>
-                            <td><?php if (!$row->schedule_code) {
+                            <td><?php if (!empty($row->schedule_code)) {
                                     echo $this->Management_model->viewSingleSchedule($row->schedule_code)->day;
                                 } else {
                                     echo "<span class='badge badge-warning'>Not assigned/remove</span>";
                                 } ?></td>
-                            <td><?php if (!$row->schedule_code) {
+                            <td><?php if (!empty($row->schedule_code)) {
                                     echo $this->Management_model->viewSingleSchedule($row->schedule_code)->start_time;
                                 } else {
                                     echo "<span class='badge badge-warning'>Not assigned/remove</span>";
                                 } ?> </td>
-                            <td><?php if (!$row->schedule_code) {
+                            <td><?php if (!empty($row->schedule_code)) {
                                     echo $this->Management_model->viewSingleSchedule($row->schedule_code)->end_time;
                                 } else {
                                     echo "<span class='badge badge-warning'>Not assigned/remove</span>";
                                 } ?> </td>
-                            <td><?php if (!$row->instructors_id) {
+                            <td><?php if (!empty($row->instructors_id)) {
                                     echo $this->Management_model->viewSingleInstructor($row->instructors_id)->lastname; ?>, <?= $this->Management_model->viewSingleInstructor($row->instructors_id)->firstname; ?><?= $this->Management_model->viewSingleInstructor($row->instructors_id)->middlename;
                                                                                                                                                                                                                 } else {
                                                                                                                                                                                                                     echo "<span class='badge badge-warning'>Not assigned/remove</span>";
