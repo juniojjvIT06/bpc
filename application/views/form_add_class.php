@@ -164,12 +164,17 @@
                                 } else {
                                     echo "<span class='badge badge-warning'>Not assigned/remove</span>";
                                 } ?> </td>
-                            <td><?php if (!empty($row->instructors_id)) {
+                            <td><?php if (!empty($this->Management_model->viewSingleInstructor($row->instructors_id)->lastname)) {
                                     echo $this->Management_model->viewSingleInstructor($row->instructors_id)->lastname; ?>, <?= $this->Management_model->viewSingleInstructor($row->instructors_id)->firstname; ?><?= $this->Management_model->viewSingleInstructor($row->instructors_id)->middlename;
                                                                                                                                                                                                                 } else {
                                                                                                                                                                                                                     echo "<span class='badge badge-warning'>Not assigned/remove</span>";
-                                                                                                                                                                                                                } ?>
-
+                                                                                                                                                                                                                    ?>
+                                <br><a class="btn btn-info btn-sm" href="#" data-toggle="modal" data-target="#modal-reassign-<?php echo str_replace(" ", "", $row->class_code) ?>">
+                                    <i class="fas fa-pencil-alt">
+                                    </i>
+                                    Assign an Instructor
+                                </a>
+                            <?php } ?>
                             <td>
                                 <a class="btn btn-info btn-sm" href="#" data-toggle="modal" data-target="#modal-edit-<?php echo str_replace(" ", "", $row->class_code) ?>">
                                     <i class="fas fa-pencil-alt">
@@ -238,13 +243,14 @@
 
                                                 <label>Schedule Code:</label>
                                                 <select name="schedule_code_edit" class="form-control" required>
-                                                    <?php  if (empty($this->Management_model->viewSchedules())){?> 
+                                                    <?php if (empty($this->Management_model->viewSchedules())) { ?>
                                                         <option value="" class='badge badge-danger'>Please Add Schedule at Schedule Management Section</option>
-                                                        <?php } else {?>
-                                                    <option value="<?= $row->schedule_code ?>"><?= $row->schedule_code ?></option>
-                                                    <?php foreach ($schedules as $rows) { ?>
-                                                        <option value="<?= $rows->schedule_code ?>"><?= $rows->schedule_code ?></option>
-                                                    <?php }} ?>
+                                                    <?php } else { ?>
+                                                        <option value="<?= $row->schedule_code ?>"><?= $row->schedule_code ?></option>
+                                                        <?php foreach ($schedules as $rows) { ?>
+                                                            <option value="<?= $rows->schedule_code ?>"><?= $rows->schedule_code ?></option>
+                                                    <?php }
+                                                    } ?>
                                                 </select>
                                                 <label class="text-danger" style="font-size:13px;"> <?php echo form_error('schedule_code_edit') ?></label>
 
@@ -256,7 +262,7 @@
 
                                                 <label>Semester:</label>
                                                 <select name="semester_code_edit" class="form-control" required>
-                                                <option value="<?= $row->semester_code ?>"><?= $row->semester_code ?></option>
+                                                    <option value="<?= $row->semester_code ?>"><?= $row->semester_code ?></option>
                                                     <?php foreach ($semesters as $rows) { ?>
                                                         <option value="<?= $rows->semester_code ?>"><?= $rows->semester_code ?></option>
                                                     <?php } ?>
@@ -283,13 +289,119 @@
 
 
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <?= form_close() ?>
+
+                        <!-- /.modal-reassign -->
+                        <div class="modal fade" id="modal-reassign-<?php echo str_replace(" ", "", $row->class_code) ?>">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content form-group">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Class Instructor Reassignment:</h4>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <?= form_open_multipart("Management/class_instructor_reassign") ?>
+                                    <div class="modal-body">
+
+                                        <div class="row ">
+
+                                            <div class="col">
+
+                                                <label for="inputName">Class Code:</label>
+                                                <input type="text" name="class_code_res" class="form-control" value="<?php echo $row->class_code ?>" readonly>
+                                                <label class="text-danger" style="font-size:13px;"> <?php echo form_error('class_code_res') ?></label>
+
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+
+                                                <label>Course Code</label>
+                                                <select name="course_code_res" class="form-control" readonly>
+                                                    <option value="<?= $row->course_code ?>"><?= $row->course_code ?></option>
+                                                    <?php foreach ($courses as $rows) { ?>
+                                                        <option value="<?= $rows->course_code ?>"><?= $rows->course_code ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                                <label class="text-danger" style="font-size:13px;"> <?php echo form_error('course_code_res') ?></label>
+
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+
+                                                <label>Subject Code:</label>
+                                                <select name="subject_code_res" class="form-control" readonly>
+                                                    <option value="<?= $row->subject_code ?>"><?= $row->subject_code ?></option>
+                                                    
+                                                </select>
+                                                <label class="text-danger" style="font-size:13px;"> <?php echo form_error('subject_code_res') ?></label>
+
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+
+                                                <label>Schedule Code:</label>
+                                                <select name="schedule_code_res" class="form-control" readonly>
+                                                    <?php if (empty($this->Management_model->viewSchedules())) { ?>
+                                                        <option value="" class='badge badge-danger'>Please Add Schedule at Schedule Management Section</option>
+                                                    <?php } else { ?>
+                                                        <option value="<?= $row->schedule_code ?>"><?= $row->schedule_code ?></option>
+                                                        <?php foreach ($schedules as $rows) { ?>
+                                                            <option value="<?= $rows->schedule_code ?>"><?= $rows->schedule_code ?></option>
+                                                    <?php }
+                                                    } ?>
+                                                </select>
+                                                <label class="text-danger" style="font-size:13px;"> <?php echo form_error('schedule_code_res') ?></label>
+
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+
+                                                <label>Semester:</label>
+                                                <select name="semester_code_res" class="form-control" readonly>
+                                                    <option value="<?= $row->semester_code ?>"><?= $row->semester_code ?></option>
+                                                    <?php foreach ($semesters as $rows) { ?>
+                                                        <option value="<?= $rows->semester_code ?>"><?= $rows->semester_code ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                                <label class="text-danger" style="font-size:13px;"> <?php echo form_error('semester_code_res') ?></label>
 
 
-                                    <?= form_close() ?>
+                                            </div>
 
-                                <?php $i++;
-                            } ?>
-                                </tr>
+                                        </div>
+
+                                        <div class="row ">
+                                            <div class="col">
+                                                <input type="submit" class="btn btn-success" value="Check Instructor"></input>
+                                                <!-- <input type="button" class="btn btn-danger" value="DELETE"></input> -->
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <?= form_close() ?>
+
+                    <?php $i++;
+                    } ?>
+                    </tr>
                 </tbody>
             </table>
         </div>

@@ -43,7 +43,7 @@
             <div class="card-header">
                 <h3 class="card-title">Class Schedule Assignment</h3>
             </div>
-            <?= form_open('management/classs_scheule_add') ?>
+            <?= form_open('management/classs_schedule_add') ?>
             <div class="card-body">
                 <div class="row">
 

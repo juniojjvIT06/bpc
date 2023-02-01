@@ -464,6 +464,38 @@ class Management extends CI_Controller
             redirect(base_url('management/class_instructor'));
         }
     }
+    public function class_instructor_reassign()
+    {
+        $this->form_validation->set_rules('class_code_res', 'Class Code', '');
+        $this->form_validation->set_rules('course_code_res', 'Course Level', 'required|trim');
+        $this->form_validation->set_rules('subject_code_res', 'Subject Code', 'required|trim');
+        $this->form_validation->set_rules('schedule_code_res', 'Schedule Code', 'required|trim');
+        $this->form_validation->set_rules('semester_code_res', 'Semester Code', 'required|trim');
+
+        if ($this->form_validation->run() == FALSE) {
+            $this->session->set_flashdata('error', validation_errors());
+            redirect(base_url('management/class'));
+        } else {
+            // $arr = array(
+
+            //     'semester_code' => $this->input->post('semester_code'),
+            //     'year_level' => $this->input->post('year_level'),
+            //     'academic_id' => $this->input->post('academic_year'),
+
+            // );
+
+            // $this->session->set_flashdata('success', 'Successfully Added!');
+            // $this->Management_model->addSemester($arr);
+
+            $this->session->set_userdata('set_class_code', $this->input->post('class_code_res'));
+            $this->session->set_userdata('set_course_code', $this->input->post('course_code_res'));
+            $this->session->set_userdata('set_subject_code', $this->input->post('subject_code_res'));
+            $this->session->set_userdata('set_schedule_code', $this->input->post('schedule_code_res'));
+            $this->session->set_userdata('set_semester_code', $this->input->post('semester_code_res'));
+
+            redirect(base_url('management/class_instructor'));
+        }
+    }
 
     public function class_instructor()
     {
@@ -471,7 +503,7 @@ class Management extends CI_Controller
         $this->load->view('form_add_class_instructor');
     }
 
-    public function classs_scheule_add()
+    public function classs_schedule_add()
     {
         $this->form_validation->set_rules('instructor_code', 'Semester Code', 'required|trim');
 
