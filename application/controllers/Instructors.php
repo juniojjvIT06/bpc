@@ -22,6 +22,7 @@ class Instructors extends CI_Controller
 
 	public function add()
 	{
+		$this->ensure_sign_in();
 		$datas['colleges'] = $this->Management_model->getColleges();
 		$this->load->view('header');
 		$this->load->view('form_add_instructor', $datas);
@@ -29,6 +30,7 @@ class Instructors extends CI_Controller
 
 	public function list()
 	{
+		$this->ensure_sign_in();
 		$datas['instructors'] = $this->Instructor_model->viewInstructors();
 		$datas['colleges'] = $this->Management_model->getColleges();
 		// $datas['specialities'] = $this->Instructor_model->show_instructor_specialty();
@@ -38,6 +40,7 @@ class Instructors extends CI_Controller
 
 	public function specialty($instructor_id)
 	{
+		$this->ensure_sign_in();
 		$this->session->set_userdata('selected_id', $instructor_id);
 		$datas['subjects'] = $this->Subject_model->viewSubjects();
 		$datas['instructor_specialty'] =  $this->Instructor_model->show_instructor_specialty($instructor_id);
@@ -47,6 +50,7 @@ class Instructors extends CI_Controller
 
 	public function add_speciality($instructor_id)
 	{
+		$this->ensure_sign_in();
 		$selected_values = $this->input->post('subjects');
 		$instructors_specialties = $this->Instructor_model->show_instructor_specialty($this->session->userdata('selected_id'));
 		// foreach ($selected_values as $sv) {
@@ -80,7 +84,7 @@ class Instructors extends CI_Controller
 
 	public function add_i()
 	{
-
+		$this->ensure_sign_in();
 		$this->form_validation->set_rules('salutation', 'Salutation', 'required|trim');
 		$this->form_validation->set_rules('lastname', 'Lastname', 'required|trim');
 		$this->form_validation->set_rules('firstname', 'Firstname', 'required|trim');
@@ -175,7 +179,7 @@ class Instructors extends CI_Controller
 
 	public function update_instructor($instructor_id)
 	{
-
+		$this->ensure_sign_in();
 		$this->form_validation->set_rules('salutation', 'Salutation', 'required|trim');
 		$this->form_validation->set_rules('lastname', 'Lastname', 'required|trim');
 		$this->form_validation->set_rules('firstname', 'Firstname', 'required|trim');
@@ -239,9 +243,17 @@ class Instructors extends CI_Controller
 
 	public function instructor_delete($instructor_id)
 	{
+		$this->ensure_sign_in();
 		$this->session->set_flashdata('success', 'Successfully Deleted!');
 		//$this->session->userdata('lgudms_user_id');
 		$this->Instructor_model->delete_instructor($instructor_id);
 		redirect(base_url('instructors/list'));
 	}
+
+	public function ensure_sign_in()
+    {
+        if (!isset($this->session->code_id)) {
+            redirect('users/');
+        }
+    }
 }

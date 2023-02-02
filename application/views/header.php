@@ -54,15 +54,10 @@
             <button type="button" class="float-right btn btn-block btn-success btn-xs">Active</button> <?php } ?>
         </li>
         <li class="nav-item ">
-          <a href="#" class="nav-link float-right"> <?php echo $this->session->userdata('fullname'); ?> </a>
+          <a href="#" class="nav-link float-right"> <?php echo $this->session->userdata('code_id'); ?> </a>
         </li>
         <li class="nav-item">
-
-          <?php if ($this->session->userdata('category') === 'SUPPLIER') { ?>
-            <a href="<?php echo base_url('users/supplier_logout'); ?>" class="nav-link float-right"><i class="nav-link fas fa-sign-out-alt">Logout </i> </a>
-          <?php } else { ?>
-            <a href="<?php echo base_url('users/logout'); ?>" class="nav-link float-right"><i class="nav-link fas fa-sign-out-alt">Logout </i> </a>
-          <?php } ?>
+          <a href="<?php echo base_url('users/logout'); ?>" class="nav-link float-right"><i class="nav-link fas fa-sign-out-alt">Logout </i> </a>
         </li>
       </ul>
 
@@ -70,8 +65,9 @@
 
     <aside class="main-sidebar sidebar-dark-primary">
       <!-- Brand Logo -->
-      <a href=" <?php echo base_url(); ?>/index3.html" class="brand-link">
-        <span class="brand-text font-weight-light text-align-center">Bayambang Polytechnic College</span>
+      <a href="<?= base_url('users') ?>" class="brand-link">
+        <img src="<?= base_url('./assets/BPC-LOGO.png') ?>" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+        <span class="brand-text font-weight-heavy">BPC Portal</span>
       </a>
 
       <!-- Sidebar -->
@@ -82,77 +78,121 @@
             <!-- Add icons to the links using the .nav-icon class
               with font-awesome or any other icon font library -->
 
-              <li class="nav-item menu-open">
-                <a href=" <?php echo base_url(); ?>/#" class="nav-link active">
-                  <i class="nav-icon fas fa-cog"></i>
-                  <p>
-                    User Management
-                    <i class="right fas fa-angle-left"></i>
-                  </p>
-                </a>
-                <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="<?php echo base_url('instructors/add'); ?>" class="nav-link ">
-                      <i class="nav-icon fas fa-user-plus"></i>
-                      <p>Add User</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="<?php echo base_url('subjects/add'); ?>" class="nav-link ">
-                      <i class="nav-icon fas fa-user-plus"></i>
-                      <p>Subject Management</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="<?php echo base_url('instructors/list'); ?>" class="nav-link ">
-                      <i class="nav-icon fas fa-user-plus"></i>
-                      <p>List of Instructors</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="<?php echo base_url('management/add'); ?>" class="nav-link ">
-                      <i class="nav-icon fas fa-user-plus"></i>
-                      <p>College Management</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="<?php echo base_url('management/room'); ?>" class="nav-link ">
-                      <i class="nav-icon fas fa-user-plus"></i>
-                      <p>Rooms Management</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="<?php echo base_url('management/course'); ?>" class="nav-link ">
-                      <i class="nav-icon fas fa-user-plus"></i>
-                      <p>Course Management</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="<?php echo base_url('management/schedule'); ?>" class="nav-link ">
-                      <i class="nav-icon fas fa-user-plus"></i>
-                      <p>Schedule Management</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="<?php echo base_url('management/academic'); ?>" class="nav-link ">
-                      <i class="nav-icon fas fa-user-plus"></i>
-                      <p>AcademicYear Managmnt</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="<?php echo base_url('management/semester'); ?>" class="nav-link ">
-                      <i class="nav-icon fas fa-user-plus"></i>
-                      <p>Semester Management</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="<?php echo base_url('management/class'); ?>" class="nav-link ">
-                      <i class="nav-icon fas fa-user-plus"></i>
-                      <p>Class Management</p>
-                    </a>
-                  </li>
-                </ul>
-              </li>
+            <li class="nav-item menu-open">
+              <a href=" <?php echo base_url(); ?>/#" class="nav-link active">
+                <i class="nav-icon fas fa-cog"></i>
+                <p>
+                  Administrator
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="#" class="nav-link ">
+                    <i class="nav-icon fas fa-chart-pie"></i>
+                    <p>Dashboard</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+            <li class="nav-item menu-open">
+              <a href=" <?php echo base_url(); ?>/#" class="nav-link active">
+                <i class="nav-icon fas fa-cog"></i>
+                <p>
+                  User Management
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="<?php echo base_url('instructors/add'); ?>" class="nav-link ">
+                    <i class="nav-icon fas fa-user-plus"></i>
+                    <p>Add User</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+            <li class="nav-item menu-open">
+              <a href=" <?php echo base_url(); ?>/#" class="nav-link active">
+                <i class="nav-icon fas fa-cog"></i>
+                <p>
+                  Instructor Management
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="<?php echo base_url('instructors/list'); ?>" class="nav-link ">
+                    <i class="nav-icon fas fa-list-ol"></i>
+                    <p>List of Instructors</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+
+            <li class="nav-item menu-open">
+              <a href=" <?php echo base_url(); ?>/#" class="nav-link active">
+                <i class="nav-icon fas fa-cog"></i>
+                <p>
+                  Management Settings
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="<?php echo base_url('subjects/add'); ?>" class="nav-link ">
+                    <i class="nav-icon fas fa-book"></i>
+                    <p>Subject Management</p>
+                  </a>
+                </li>
+
+                <li class="nav-item">
+                  <a href="<?php echo base_url('management/add'); ?>" class="nav-link ">
+                    <i class="nav-icon fas fa-chair"></i>
+                    <p>College Management</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="<?php echo base_url('management/room'); ?>" class="nav-link ">
+                    <i class="nav-icon fas fa-door-open"></i>
+                    <p>Rooms Management</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="<?php echo base_url('management/course'); ?>" class="nav-link ">
+                    <i class="nav-icon fas fa-plus"></i>
+                    <p>Course Management</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="<?php echo base_url('management/schedule'); ?>" class="nav-link ">
+                    <i class="nav-icon fas fa-calendar"></i>
+                    <p>Schedule Management</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="<?php echo base_url('management/academic'); ?>" class="nav-link ">
+                    <i class="nav-icon fas fa-folder-plus"></i>
+                    <p>AcademicYear Managmnt</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="<?php echo base_url('management/semester'); ?>" class="nav-link ">
+                    <i class="nav-icon fas fa-user-plus"></i>
+                    <p>Semester Management</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="<?php echo base_url('management/class'); ?>" class="nav-link ">
+                    <i class="nav-icon fas fa-user-plus"></i>
+                    <p>Class Management</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
 
           </ul>
         </nav>

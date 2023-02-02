@@ -22,6 +22,7 @@ class Management extends CI_Controller
 
     public function add()
     {
+        $this->ensure_sign_in();
         $datas['colleges'] = $this->Management_model->viewColleges();
         $this->load->view('header');
         $this->load->view('form_add_college', $datas);
@@ -29,6 +30,7 @@ class Management extends CI_Controller
 
     public function college_add()
     {
+        $this->ensure_sign_in();
         $this->form_validation->set_rules('college_code', 'College Code', 'required|trim|is_unique[tbl_bpc_college.college_code]');
         $this->form_validation->set_rules('college_desc', 'College Description', 'required|trim');
 
@@ -53,7 +55,7 @@ class Management extends CI_Controller
 
     public function college_update($instructor_id)
     {
-
+        $this->ensure_sign_in();
         $this->form_validation->set_rules('college_desc_edit', 'College Description', 'required|trim');
 
         if ($this->form_validation->run() == FALSE) {
@@ -78,6 +80,7 @@ class Management extends CI_Controller
 
     public function college_delete($college_code)
     {
+        $this->ensure_sign_in();
         $this->Management_model->delete_college($college_code);
         $this->session->set_flashdata('success', 'Successfully Deleted!');
         redirect(base_url('management/add'));
@@ -85,6 +88,7 @@ class Management extends CI_Controller
 
     public function room()
     {
+        $this->ensure_sign_in();
         $datas['rooms'] = $this->Management_model->viewRooms();
         $this->load->view('header');
         $this->load->view('form_add_room', $datas);
@@ -92,7 +96,7 @@ class Management extends CI_Controller
 
     public function room_update($room_code)
     {
-
+        $this->ensure_sign_in();
         $this->form_validation->set_rules('room_desc_edit', 'College Description', 'required|trim');
         $this->form_validation->set_rules('room_capacity_edit', 'College Description', 'required|trim');
 
@@ -119,6 +123,7 @@ class Management extends CI_Controller
 
     public function room_add()
     {
+        $this->ensure_sign_in();
         $this->form_validation->set_rules('room_code', 'Room Code', 'required|trim|is_unique[tbl_bpc_rooms.room_code]');
         $this->form_validation->set_rules('room_desc', 'Room Description', 'required|trim');
         $this->form_validation->set_rules('room_capacity', 'Room Capacity', 'required|trim');
@@ -144,6 +149,7 @@ class Management extends CI_Controller
 
     public function room_delete($room_code)
     {
+        $this->ensure_sign_in();
         $this->Management_model->delete_room($room_code);
         $this->session->set_flashdata('success', 'Successfully Deleted!');
         redirect(base_url('management/room'));
@@ -151,6 +157,7 @@ class Management extends CI_Controller
 
     public function course()
     {
+        $this->ensure_sign_in();
         $datas['courses'] = $this->Management_model->viewCourses();
         $datas['colleges'] = $this->Management_model->getColleges();
         $this->load->view('header');
@@ -159,6 +166,7 @@ class Management extends CI_Controller
 
     public function course_add()
     {
+        $this->ensure_sign_in();
         $this->form_validation->set_rules('course_code', 'Course Code', 'required|trim|is_unique[tbl_bpc_courses.course_code]|no_spaces');
         $this->form_validation->set_rules('course_desc', 'Course Description', 'required|trim');
         $this->form_validation->set_rules('college_code', 'College Code', 'required|trim');
@@ -169,7 +177,7 @@ class Management extends CI_Controller
         } else {
             $arr = array(
 
-                'course_code' => str_replace(" ", "",$this->input->post('course_code')),
+                'course_code' => str_replace(" ", "", $this->input->post('course_code')),
                 'course_description' => $this->input->post('course_desc'),
                 'college_code' => $this->input->post('college_code')
             );
@@ -182,7 +190,7 @@ class Management extends CI_Controller
 
     public function course_update($course_code)
     {
-
+        $this->ensure_sign_in();
         $this->form_validation->set_rules('course_desc_edit', 'Course Description', 'required|trim');
         $this->form_validation->set_rules('course_college_under_edit', 'College Under Description', 'required|trim');
 
@@ -210,6 +218,7 @@ class Management extends CI_Controller
 
     public function course_delete($course_code)
     {
+        $this->ensure_sign_in();
         $this->Management_model->delete_course($course_code);
         $this->session->set_flashdata('success', 'Successfully Deleted!');
         redirect(base_url('management/course'));
@@ -217,6 +226,7 @@ class Management extends CI_Controller
 
     public function schedule()
     {
+        $this->ensure_sign_in();
         $datas['rooms'] = $this->Management_model->viewRooms();
         $datas['schedules'] = $this->Management_model->viewSchedules();
         $this->load->view('header');
@@ -225,6 +235,7 @@ class Management extends CI_Controller
 
     public function schedule_add()
     {
+        $this->ensure_sign_in();
         $this->form_validation->set_rules('schedule_code', 'Schedule Code', 'required|trim|is_unique[tbl_bpc_schedule.schedule_code]');
         $this->form_validation->set_rules('day', 'Schedule Day/s', 'required|trim');
         $this->form_validation->set_rules('room_code', 'Room Code', 'required|trim');
@@ -237,7 +248,7 @@ class Management extends CI_Controller
         } else {
             $arr = array(
 
-                'schedule_code' => str_replace(" ", "",$this->input->post('schedule_code')),
+                'schedule_code' => str_replace(" ", "", $this->input->post('schedule_code')),
                 'day' => $this->input->post('day'),
                 'room_code' => $this->input->post('room_code'),
                 'start_time' => $this->input->post('start_time'),
@@ -252,12 +263,12 @@ class Management extends CI_Controller
 
     public function schedule_update($schedule_code)
     {
-
+        $this->ensure_sign_in();
         $this->form_validation->set_rules('day_edit', 'Day Description', 'required|trim');
         $this->form_validation->set_rules('room_code_edit', 'Room Code Description', 'required|trim');
         $this->form_validation->set_rules('start_time_edit', 'Time Start Description', 'required|trim');
         $this->form_validation->set_rules('end_time_edit', 'Time End Description', 'required|trim');
-       
+
 
 
         if ($this->form_validation->run() == FALSE) {
@@ -286,6 +297,7 @@ class Management extends CI_Controller
 
     public function schedule_delete($schedule_code)
     {
+        $this->ensure_sign_in();
         $this->Management_model->delete_schedule($schedule_code);
         $this->session->set_flashdata('success', 'Successfully Deleted!');
         redirect(base_url('management/schedule'));
@@ -294,6 +306,7 @@ class Management extends CI_Controller
 
     public function academic()
     {
+        $this->ensure_sign_in();
         $datas['academics'] = $this->Management_model->viewAcademics();
         $this->load->view('header');
         $this->load->view('form_add_academic_year', $datas);
@@ -301,6 +314,7 @@ class Management extends CI_Controller
 
     public function academic_add()
     {
+        $this->ensure_sign_in();
         $this->form_validation->set_rules('academic_year', 'Academic Year', 'required|trim|no_spaces|is_unique[tbl_bpc_academic_year.academic_year]');
         if ($this->form_validation->run() == FALSE) {
             $this->session->set_flashdata('error', validation_errors());
@@ -318,10 +332,10 @@ class Management extends CI_Controller
         }
     }
 
-    
+
     public function academic_update($academic_id)
     {
-
+        $this->ensure_sign_in();
         $this->form_validation->set_rules('academic_year_edit', 'Academic Year Description', 'required|trim|no_spaces|is_unique[tbl_bpc_academic_year.academic_year]');
 
         if ($this->form_validation->run() == FALSE) {
@@ -346,6 +360,7 @@ class Management extends CI_Controller
 
     public function academic_delete($academic_id)
     {
+        $this->ensure_sign_in();
         $this->Management_model->delete_academic($academic_id);
         $this->session->set_flashdata('success', 'Successfully Deleted!');
         redirect(base_url('management/academic'));
@@ -353,6 +368,7 @@ class Management extends CI_Controller
 
     public function semester()
     {
+        $this->ensure_sign_in();
         $datas['semesters'] = $this->Management_model->viewSemesters();
         $datas['academics'] = $this->Management_model->viewAcademics();
         $this->load->view('header');
@@ -361,6 +377,7 @@ class Management extends CI_Controller
 
     public function semester_add()
     {
+        $this->ensure_sign_in();
         $this->form_validation->set_rules('semester_code', 'Semester Code', 'required|trim|is_unique[tbl_bpc_semesters.semester_code]');
         $this->form_validation->set_rules('year_level', 'Year Level', 'required|trim');
         $this->form_validation->set_rules('academic_year', 'Academic Year', 'required|trim');
@@ -385,7 +402,7 @@ class Management extends CI_Controller
 
     public function semester_update($semester_id)
     {
-
+        $this->ensure_sign_in();
         $this->form_validation->set_rules('year_level_edit', 'Year Level', 'required|trim|no_spaces');
         $this->form_validation->set_rules('academic_year_edit', 'Academic Year Description', 'required|trim|no_spaces');
 
@@ -413,6 +430,7 @@ class Management extends CI_Controller
 
     public function semester_delete($semester_id)
     {
+        $this->ensure_sign_in();
         $this->Management_model->delete_semester($semester_id);
         $this->session->set_flashdata('success', 'Successfully Deleted!');
         redirect(base_url('management/semester'));
@@ -420,7 +438,7 @@ class Management extends CI_Controller
 
     public function class()
     {
-
+        $this->ensure_sign_in();
         $datas['rooms'] = $this->Management_model->viewRooms();
         $datas['schedules'] = $this->Management_model->viewSchedules();
         $datas['courses'] = $this->Management_model->viewCourses();
@@ -434,6 +452,7 @@ class Management extends CI_Controller
 
     public function class_add()
     {
+        $this->ensure_sign_in();
         $this->form_validation->set_rules('class_code', 'Class Code', 'required|trim|is_unique[tbl_bpc_classes.class_code]');
         $this->form_validation->set_rules('course_code', 'Course Level', 'required|trim');
         $this->form_validation->set_rules('subject_code', 'Subject Code', 'required|trim');
@@ -466,6 +485,7 @@ class Management extends CI_Controller
     }
     public function class_instructor_reassign()
     {
+        $this->ensure_sign_in();
         $this->form_validation->set_rules('class_code_res', 'Class Code', '');
         $this->form_validation->set_rules('course_code_res', 'Course Level', 'required|trim');
         $this->form_validation->set_rules('subject_code_res', 'Subject Code', 'required|trim');
@@ -499,46 +519,47 @@ class Management extends CI_Controller
 
     public function class_instructor()
     {
+        $this->ensure_sign_in();
         $this->load->view('header');
         $this->load->view('form_add_class_instructor');
     }
 
     public function class_schedule_add()
     {
+        $this->ensure_sign_in();
         $this->form_validation->set_rules('instructor_code', 'Semester Code', 'required|trim');
 
         if ($this->form_validation->run() == FALSE) {
             $this->session->set_flashdata('error', validation_errors());
             redirect(base_url('management/class_instructor'));
         } else {
-                $check_classcode = $this->Management_model->check_class_code_exist($this->session->userdata('set_class_code'));
-            if(empty($check_classcode)){
-            $arr = array(
+            $check_classcode = $this->Management_model->check_class_code_exist($this->session->userdata('set_class_code'));
+            if (empty($check_classcode)) {
+                $arr = array(
 
-                'class_code' =>  $this->session->userdata('set_class_code'),
-                'course_code' =>  $this->session->userdata('set_course_code'),
-                'subject_code' =>  $this->session->userdata('set_subject_code'),
-                'schedule_code' =>  $this->session->userdata('set_schedule_code'),
-                'instructors_id' =>  $this->input->post('instructor_code'),
-                'semester_code' =>  $this->session->userdata('set_semester_code')
+                    'class_code' =>  $this->session->userdata('set_class_code'),
+                    'course_code' =>  $this->session->userdata('set_course_code'),
+                    'subject_code' =>  $this->session->userdata('set_subject_code'),
+                    'schedule_code' =>  $this->session->userdata('set_schedule_code'),
+                    'instructors_id' =>  $this->input->post('instructor_code'),
+                    'semester_code' =>  $this->session->userdata('set_semester_code')
 
-            );
+                );
 
-            $this->session->set_flashdata('success', 'Successfully Added!');
-            $this->Management_model->addClassSchedule($arr);
-            redirect(base_url('management/class_schedule_cancel'));
-        }else{
-            $this->session->set_flashdata('success', 'Successfully Class Schedule Reassign!');
-            $this->Management_model->reasssign_instructror($this->session->userdata('set_class_code'), $this->input->post('instructor_code'));
-            redirect(base_url('management/class_schedule_cancel'));
-        }
-
+                $this->session->set_flashdata('success', 'Successfully Added!');
+                $this->Management_model->addClassSchedule($arr);
+                redirect(base_url('management/class_schedule_cancel'));
+            } else {
+                $this->session->set_flashdata('success', 'Successfully Class Schedule Reassign!');
+                $this->Management_model->reasssign_instructror($this->session->userdata('set_class_code'), $this->input->post('instructor_code'));
+                redirect(base_url('management/class_schedule_cancel'));
+            }
         }
     }
 
     public function class_schedule_update($class_code)
     {
-
+        $this->ensure_sign_in();
         $this->form_validation->set_rules('subject_code_edit', 'Subject Code', 'required|trim|no_spaces');
         $this->form_validation->set_rules('course_code_edit', 'Course Code', 'required|trim|no_spaces');
         $this->form_validation->set_rules('schedule_code_edit', 'Schedule Code', 'required|trim|no_spaces');
@@ -571,6 +592,7 @@ class Management extends CI_Controller
 
     public function class_schedule_delete($class_code)
     {
+        $this->ensure_sign_in();
         $this->Management_model->delete_class_schedule($class_code);
         $this->session->set_flashdata('success', 'Successfully Deleted!');
         redirect(base_url('management/class'));
@@ -578,7 +600,7 @@ class Management extends CI_Controller
 
     public function class_schedule_cancel()
     {
-
+        $this->ensure_sign_in();
         $this->session->unset_userdata('set_class_code');
         $this->session->unset_userdata('set_course_code');
         $this->session->unset_userdata('set_subject_code');
@@ -586,5 +608,12 @@ class Management extends CI_Controller
         $this->session->unset_userdata('set_semester_code');
 
         redirect(base_url('management/class'));
+    }
+
+    public function ensure_sign_in()
+    {
+        if (!isset($this->session->code_id)) {
+            redirect('users/');
+        }
     }
 }

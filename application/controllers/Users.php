@@ -24,11 +24,6 @@ class Users extends CI_Controller
 		$this->load->view('user_login');
 	}
 
-	public function register()
-	{
-		$this->load->view('header');
-	}
-
 	public function login()
 	{
 		$this->form_validation->set_rules('code_id', 'Code ID Number', 'required|trim');
@@ -77,7 +72,7 @@ class Users extends CI_Controller
 
 		$this->form_validation->set_rules('current-password', 'New Password', 'required|trim');
 		$this->form_validation->set_rules('new-password', 'New Password', 'required|trim');
-		$this->form_validation->set_rules('confirm-new-password', 'Confirm NEw Password', 'required|trim');
+		$this->form_validation->set_rules('confirm-new-password', 'Confirm New Password', 'required|trim');
 
 		$query = $this->User_model->login($this->session->userdata('code_id'));
 		$current_password = md5($this->input->post('current-password'));
@@ -96,8 +91,7 @@ class Users extends CI_Controller
 				redirect('users/');
 			} else {
 
-				md5($new_password);
-				$this->User_model->update_new_password($this->session->set_userdata('code_id'), $new_password);
+				$this->User_model->update_new_password($this->session->userdata('code_id'), md5($new_password));
 				$this->destroy_all_session();
 				$this->session->set_flashdata('success', "Login with new Password!");
 				redirect('users/');
@@ -113,5 +107,18 @@ class Users extends CI_Controller
 	public function first_login()
 	{
 		$this->load->view('form_change_password');
+	}
+
+	public function logout()
+	{
+		$this->session->sess_destroy();
+		redirect('users/index');
+	}
+
+	public function ensure_sign_in()
+	{
+		if (!isset($this->session->code_id)) {
+			redirect('users/');
+		}
 	}
 }

@@ -47,7 +47,7 @@
             <div class="card-body">
                 <div class="row">
 
-                    <div class="col-md-2 form-group">
+                    <div class="col-md-1 form-group">
 
                         <label>Class Code</label>
                         <input type="text" class="form-control" name="class_code" value="<?php echo set_value('class_code') ?>" required>
@@ -67,7 +67,7 @@
 
                     </div>
 
-                    <div class="col-md-3 form-group">
+                    <div class="col-md-1 form-group">
 
                         <label>Subject Code</label>
                         <select name="subject_code" class="form-control" id="subject_select" required>
@@ -101,10 +101,11 @@
                         <label class="text-danger" style="font-size:13px;"> <?php echo form_error('course_desc') ?></label>
 
                     </div>
+                    
 
                 </div>
-                <div class="row">
-                    <div class="col center">
+                <div class="row form-group center">
+                    <div class="col">
                         <input type="submit" class="btn bg-danger" Value="Generate">
                     </div>
                 </div>
