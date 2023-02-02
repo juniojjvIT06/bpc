@@ -94,6 +94,7 @@ class Instructors extends CI_Controller
 		$this->form_validation->set_rules('appointment_nature', 'Nature of Appoinment', 'required|trim');
 		$this->form_validation->set_rules('employment_status', 'Employment Status', 'required|trim');
 		$this->form_validation->set_rules('date_hired', 'Hired Date', 'required|trim');
+		$this->form_validation->set_rules('category_level', 'Category LEvel', 'required|trim');
 		// $this->form_validation->set_rules('pp_image', 'Profile Picture', 'required' );
 
 		if ($this->form_validation->run() == FALSE) {
@@ -140,14 +141,28 @@ class Instructors extends CI_Controller
 						'employment_status' => $this->input->post('employment_status'),
 						'date_hired' => $this->input->post('date_hired'),
 						'college_code' => $this->input->post('college_assign'),
+						'college_code' => $this->input->post('college_assign'),
 						'image' => $document_name,
 						'status' => 'Active'
+
+					);
+
+					$encrpt = 'bpc_12345';
+					$password = md5($encrpt);
+
+					$arr2 = array(
+
+						'code_id' => $this->input->post('instructor_id'),
+						'password' => $password,
+						'status' => 'first_login',
+						'category_level' => $this->input->post('category_level')
 
 					);
 
 					$this->session->set_flashdata('success', 'Successfully Added!');
 					//$this->session->userdata('lgudms_user_id');
 					$this->Instructor_model->addInstructor($arr);
+					$this->User_model->addCredentials($arr2);
 
 					redirect(base_url('instructors/add'));
 				} else {
@@ -199,6 +214,18 @@ class Instructors extends CI_Controller
 				'date_hired' => $this->input->post('date_hired'),
 				'college_code' => $this->input->post('college_assign'),
 				'status' => 'Active'
+
+			);
+
+			$encrpt = 'bpc_12345';
+			$password = md5($encrpt);
+
+			$arr2 = array(
+
+				'code_id' => $this->input->post('instructor_id'),
+				'password' => $password,
+				'status' => 'first_login',
+				'category_level' => $this->input->post('category_level')
 
 			);
 

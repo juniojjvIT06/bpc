@@ -1,5 +1,3 @@
-<?php echo form_open('');    ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -68,12 +66,12 @@
             </div>
         <?php endif ?>
         <!-- /.login-logo -->
-
+            <?= form_open('users/login') ?>
 
         <p class="login-box-msg"> Please log in here</p>
         <div class="input-group form-group">
-            <input type="email" class="form-control" placeholder="Email" name="email">
-            <label class="text-danger" style="font-size:13px;"> <?php echo form_error('email') ?></label>
+            <input type="text" class="form-control" placeholder="Code ID Number" name="code_id">
+            <label class="text-danger" style="font-size:13px;"> <?php echo form_error('code_id') ?></label>
             <div class="input-group-append">
                 <div class="input-group-text">
                     <span class="fas fa-envelope"></span>

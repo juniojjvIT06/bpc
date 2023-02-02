@@ -94,7 +94,7 @@
                   <li class="nav-item">
                     <a href="<?php echo base_url('instructors/add'); ?>" class="nav-link ">
                       <i class="nav-icon fas fa-user-plus"></i>
-                      <p>Instructor Management</p>
+                      <p>Add User</p>
                     </a>
                   </li>
                   <li class="nav-item">

@@ -5,12 +5,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Manage Instructor</h1>
+                    <h1 class="m-0">User Management</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Manage Instructor / Add Instructor</li>
+                        <li class="breadcrumb-item active">Manage Users / Add User</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -46,7 +46,7 @@
             <div class="card card-info">
                 <div class="card-header float-right">
                     <h3>
-                        Add Instructor
+                        Add User
                         <input type="submit" class="btn btn-success float-right" value="Add">
                     </h3>
                 </div>
@@ -59,7 +59,7 @@
 
                         <div class="col-md-2">
 
-                            <label for="inputName">Intructor ID:</label>
+                            <label for="inputName">User ID:</label>
                             <input type="text" name="instructor_id" class="form-control" value="<?php echo $this->Instructor_model->generate_instructor_id(); ?>" readonly>
                             <label class="text-danger" style="font-size:13px;"> <?php echo form_error('instructor_id') ?></label>
 
@@ -176,6 +176,18 @@
                             <select name="employment_status" class="form-control" required>
                                 <option value="part_time">Part-time</option>
                                 <option value="full_time">Full-time</option>
+                            </select>
+                            <label class="text-danger" style="font-size:13px;"> <?php echo form_error('employment_status') ?></label>
+
+                        </div>
+                        <div class="col-md-2">
+
+                            <label>Category Level</label>
+                            <select name="category_level" class="form-control" required>
+                                <option value="Admin">Admin</option>
+                                <option value="Instructor">Instructor</option>
+                                <option value="Registrar">Registrar</option>
+                                <option value="President">President</option>
                             </select>
                             <label class="text-danger" style="font-size:13px;"> <?php echo form_error('employment_status') ?></label>
 
