@@ -185,6 +185,18 @@ class Management_model extends CI_Model
         $this->db->update('tbl_bpc_classes', $array);
     }
 
+    public function check_class_code_exist($class_code){
+        $this->db->where('class_code', $class_code);
+        return $this->db->get("tbl_bpc_classes")->row();
+    }
+
+    public function reasssign_instructror($class_code , $instructors_id){
+
+        $this->db->where('class_code', $class_code);
+        $this->db->set('instructors_id', $instructors_id);
+        $this->db->update("tbl_bpc_classes");
+    }
+
     public function delete_class_schedule($class_code)
     {
         $this->db->where('class_code', $class_code);

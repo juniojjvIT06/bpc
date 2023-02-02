@@ -503,7 +503,7 @@ class Management extends CI_Controller
         $this->load->view('form_add_class_instructor');
     }
 
-    public function classs_schedule_add()
+    public function class_schedule_add()
     {
         $this->form_validation->set_rules('instructor_code', 'Semester Code', 'required|trim');
 
@@ -511,6 +511,8 @@ class Management extends CI_Controller
             $this->session->set_flashdata('error', validation_errors());
             redirect(base_url('management/class_instructor'));
         } else {
+                $check_classcode = $this->Management_model->check_class_code_exist($this->session->userdata('set_class_code'));
+            if(empty($check_classcode)){
             $arr = array(
 
                 'class_code' =>  $this->session->userdata('set_class_code'),
@@ -525,6 +527,12 @@ class Management extends CI_Controller
             $this->session->set_flashdata('success', 'Successfully Added!');
             $this->Management_model->addClassSchedule($arr);
             redirect(base_url('management/class_schedule_cancel'));
+        }else{
+            $this->session->set_flashdata('success', 'Successfully Class Schedule Reassign!');
+            $this->Management_model->reasssign_instructror($this->session->userdata('set_class_code'), $this->input->post('instructor_code'));
+            redirect(base_url('management/class_schedule_cancel'));
+        }
+
         }
     }
 
