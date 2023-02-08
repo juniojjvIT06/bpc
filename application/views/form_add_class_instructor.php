@@ -48,8 +48,8 @@
                 <div class="row">
 
                     <div class="col-12 col-md-12 col-lg-4 ">
-                        <h3 class="text-primary"><i class="fas fa-paint-brush"></i>Class Code: <?= $this->session->userdata('set_class_code') ?></h3>
-                        <p class="text-muted">Please check all the details before adding. PS Bayambang Polytechnic College, Bayambang, Pangasinan</p>
+                        <h3 class="text-primary"><i class="fas fa-paint-brush"></i>Class Code: <?= $this->session->userdata('set_section_code') ?></h3>
+                        <p class="text-muted">Please check all the details before adding an Intructor to advise this subejct.</p>
                         <br>
                         <div class="text-muted">
                             <p class="text-sm">Subject Description:
@@ -60,9 +60,6 @@
                             </p>
                             <p class="text-sm">Room and Schedule:
                                 <b class="d-block"><?=  $this->session->userdata('set_schedule_code') ?></b>
-                            </p>
-                            <p class="text-sm">Semester and Academic Year:
-                                <b class="d-block"><?=  $this->session->userdata('set_semester_code') ?></b>
                             </p>
                         </div>
 

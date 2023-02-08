@@ -96,6 +96,7 @@ class Management_model extends CI_Model
 
     public function viewSchedules()
     {
+        $this->db->where('acquired', 0);
         return $this->db->get("tbl_bpc_schedule")->result();
     }
 
@@ -170,37 +171,37 @@ class Management_model extends CI_Model
 
     public function addClassSchedule($arr)
     {
-        return $this->db->insert("tbl_bpc_classes", $arr);
+        return $this->db->insert("tbl_bpc_program_section_subjects", $arr);
     }
 
     public function viewClassesSchedules()
     {
-        return $this->db->get("tbl_bpc_classes")->result();
+        return $this->db->get("tbl_bpc_program_section_subjects")->result();
     }
 
     public function update_class_schedule($array, $class_code)
     {
 
         $this->db->where('class_code', $class_code);
-        $this->db->update('tbl_bpc_classes', $array);
+        $this->db->update('tbl_bpc_program_section_subjects', $array);
     }
 
     public function check_class_code_exist($class_code){
         $this->db->where('class_code', $class_code);
-        return $this->db->get("tbl_bpc_classes")->row();
+        return $this->db->get("tbl_bpc_program_section_subjects")->row();
     }
 
     public function reasssign_instructror($class_code , $instructors_id){
 
         $this->db->where('class_code', $class_code);
         $this->db->set('instructors_id', $instructors_id);
-        $this->db->update("tbl_bpc_classes");
+        $this->db->update("tbl_bpc_program_section_subjects");
     }
 
     public function delete_class_schedule($class_code)
     {
-        $this->db->where('class_code', $class_code);
-        $this->db->delete('tbl_bpc_classes');
+        $this->db->where('class_id', $class_code);
+        $this->db->delete('tbl_bpc_program_section_subjects');
     }
 
     public function viewSingleInstructor($instructors_id)
@@ -209,11 +210,31 @@ class Management_model extends CI_Model
         return $this->db->get("tbl_bpc_instructors")->row();
     }
 
-
-
     public function loadPlatesPerDepartment($department)
     {
         $this->db->where('department_assign', $department);
         return $this->db->get("tblmachine")->result();
     }
+
+    public function viewSections()
+    {
+        return $this->db->get("tbl_bpc_program_sections")->result();
+    }
+
+    public function addSection($arr)
+    {
+        return $this->db->insert("tbl_bpc_program_sections", $arr);
+    }
+
+    public function checkSectionCode_Availability($section_code){
+        $this->db->where('section_code', $section_code);
+        return $this->db->get("tbl_bpc_program_sections")->row();
+    }
+    
+    public function getYear_to_Roman($semester_code){
+        $this->db->select('year_level');
+        $this->db->where('semester_code', $semester_code);
+        return $this->db->get("tbl_bpc_semesters")->row();
+    }
+
 }

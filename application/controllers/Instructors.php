@@ -59,24 +59,23 @@ class Instructors extends CI_Controller
 		// }
 
 		// foreach
-		foreach ($instructors_specialties as $is) {
-			foreach ($selected_values as $sv) {
-				if ($sv == $is->subject_code) {
-					$this->Instructor_model->update_single_specialty($instructor_id, $is->subject_code);
-				}
-			}
-		}
+		// foreach ($instructors_specialties as $is) {
+		// 	foreach ($selected_values as $sv) {
+		// 		if ($sv == $is->subject_code) {
+		// 			$this->Instructor_model->update_single_specialty($instructor_id, $is->subject_code);
+		// 		}
+		// 	}
+		// }
 
-		foreach ($selected_values as $sv) {
-			if (empty($this->Instructor_model->specialty_existence($instructor_id, $sv))) {
-				$this->Instructor_model->insert_single_specialty($instructor_id, $sv);
-			}
-		}
+		// foreach ($selected_values as $sv) {
+		// 	if (empty($this->Instructor_model->specialty_existence($instructor_id, $sv))) {
+		// 		$this->Instructor_model->insert_single_specialty($instructor_id, $sv);
+		// 	}
+		// }
 
+		
 
-
-
-		// $this->Instructor_model->add_specialties($selected_values, $instructor_id);
+		$this->Instructor_model->add_specialties($selected_values, $instructor_id);
 		$this->session->set_flashdata('success', 'Successfully Added!');
 		$this->session->unset_userdata('selected_id');
 		redirect(base_url('instructors/list'));

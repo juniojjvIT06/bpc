@@ -48,7 +48,7 @@ class Users extends CI_Controller
 			} else {
 
 				if ($query->password != $password) {
-					$this->session->set_flashdata('error', "Invalid Code ID Number/password!");
+					$this->session->set_flashdata('error', "Invalid Code ID Number/passwords!" . $password);
 					redirect('users/index');
 				} else {
 					if ($active_status != 'first_login') {

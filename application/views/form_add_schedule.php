@@ -179,7 +179,13 @@
                                                 <div class="col">
 
                                                     <label for="inputName">Room code:</label>
-                                                    <input type="text" name="room_code_edit" class="form-control" value="<?php echo $row->room_code ?>" required>
+ 
+                                                    <select name="room_code" class="form-control" required>
+                                                        <option value="<?= $row->room_code ?>"><?= $row->room_code ?></option>
+                                                        <?php foreach ($rooms as $rows) { ?>
+                                                            <option value="<?= $rows->room_code ?>"><?= $rows->room_description ?></option>
+                                                        <?php } ?>
+                                                    </select>
                                                     <label class="text-danger" style="font-size:13px;"> <?php echo form_error('room_code_edit') ?></label>
 
                                                 </div>

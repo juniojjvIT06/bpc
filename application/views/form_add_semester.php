@@ -48,14 +48,14 @@
             <div class="card-body">
                 <div class="row">
 
-                    <div class="col-md-3 form-group">
+                    <div class="col-md-2 form-group">
 
                         <label>Semester Code</label>
                         <input type="text" class="form-control" name="semester_code" value="<?php echo set_value('academic_year') ?>" required>
                         <label class="text-danger" style="font-size:13px;"> <?php echo form_error('academic_year') ?></label>
 
                     </div>
-                    <div class="col-md-3 form-group">
+                    <div class="col-md-2 form-group">
 
                         <label>Year level</label>
                         <select name="year_level" class="form-control" required>
@@ -64,6 +64,18 @@
                             <option value="3rdYear">3rdYear</option>
                             <option value="4thYear">4thYear</option>
                             <option value="5thYear">5thYear</option>
+                        </select>
+                        <label class="text-danger" style="font-size:13px;"> <?php echo form_error('academic_year') ?></label>
+
+                    </div>
+                    <div class="col-md-2 form-group">
+
+                        <label>Semester Term</label>
+                        <select name="semester_term" class="form-control" required>
+                            <option value="1stSemester">1stSemester</option>
+                            <option value="2ndSemester">2ndSemester</option>
+                            <option value="3rdSemester">2ndSemester</option>
+
                         </select>
                         <label class="text-danger" style="font-size:13px;"> <?php echo form_error('academic_year') ?></label>
 
@@ -106,6 +118,7 @@
                         <th>No.</th>
                         <th>Semester Code</th>
                         <th>Year Level</th>
+                        <th>Semester Term</th>
                         <th>Academic Year</th>
 
                     </tr>
@@ -118,6 +131,7 @@
                             <td><?= $i; ?></td>
                             <td><?= $row->semester_code; ?></td>
                             <td><?= $row->year_level; ?></td>
+                            <td><?= $row->semester_term ?></td>
                             <td><?= $this->Management_model->viewSingleAcademic($row->academic_id)->academic_year; ?></td>
                             <td>
                                 <a class="btn btn-info btn-sm" href="#" data-toggle="modal" data-target="#modal-edit-<?php echo str_replace(" ", "", $row->semester_code) ?>">
@@ -172,39 +186,54 @@
                                         <div class="row">
                                             <div class="col">
 
+                                                <label>Semester Term</label>
+                                                <select name="semester_term_edit" class="form-control" required>
+                                                    <option value="<?= $row->semester_term ?>"><?=  $row->semester_term ?></option>
+                                                    <option value="1stSemester">1stSemester</option>
+                                                    <option value="2ndSemester">2ndSemester</option>
+                                                    <option value="3rdSemester">2ndSemester</option>
+
+                                                </select>
+                                                <label class="text-danger" style="font-size:13px;"> <?php echo form_error('academic_year') ?></label>
+
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+
                                                 <label>Academic Year</label>
                                                 <select name="academic_year_edit" class="form-control" required>
                                                     <option value="<?= $row->academic_id ?>"><?= $this->Management_model->viewSingleAcademic($row->academic_id)->academic_year; ?></option>
                                                     <?php foreach ($academics as $rows) { ?>
-                                                        <option value="<?= $rows->academic_id ?>"><?= $rows->academic_year?></option>
+                                                        <option value="<?= $rows->academic_id ?>"><?= $rows->academic_year ?></option>
                                                     <?php } ?>
                                                 </select>
                                                 <label class="text-danger" style="font-size:13px;"> <?php echo form_error('academic_year_edit') ?></label>
 
                                             </div>
-                                                    </div>
-                                            <div class="row ">
-                                                <div class="col">
-                                                    <input type="submit" class="btn btn-success" value="UPDATE"></input>
-                                                    <!-- <input type="button" class="btn btn-danger" value="DELETE"></input> -->
-                                                    <a href="<?= base_url('management/semester_delete/') . str_replace(" ", "", $row->semester_code) ?>"><input type="button" class="btn btn-danger" onclick="return  confirm('Are you sure to proceed remove Academic Year:  ' + '<?php echo $row->semester_code ?>')" value="Delete"></button></a>
+                                        </div>
+                                        <div class="row ">
+                                            <div class="col">
+                                                <input type="submit" class="btn btn-success" value="UPDATE"></input>
+                                                <!-- <input type="button" class="btn btn-danger" value="DELETE"></input> -->
+                                                <a href="<?= base_url('management/semester_delete/') . str_replace(" ", "", $row->semester_code) ?>"><input type="button" class="btn btn-danger" onclick="return  confirm('Are you sure to proceed remove Academic Year:  ' + '<?php echo $row->semester_code ?>')" value="Delete"></button></a>
 
 
-                                                </div>
-                                                <div class="col">
-
-                                                </div>
                                             </div>
+                                            <div class="col">
 
-
+                                            </div>
                                         </div>
 
 
-                                        <?= form_close() ?>
+                                    </div>
 
-                                    <?php $i++;
-                                } ?>
-                                    </tr>
+
+                                    <?= form_close() ?>
+
+                                <?php $i++;
+                            } ?>
+                                </tr>
                 </tbody>
             </table>
         </div>

@@ -108,7 +108,13 @@
                 <li class="nav-item">
                   <a href="<?php echo base_url('instructors/add'); ?>" class="nav-link ">
                     <i class="nav-icon fas fa-user-plus"></i>
-                    <p>Add User</p>
+                    <p>Add Faculty User</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="<?php echo base_url('students/add'); ?>" class="nav-link ">
+                    <i class="nav-icon fas fa-user-plus"></i>
+                    <p>Add Student</p>
                   </a>
                 </li>
               </ul>
@@ -189,6 +195,12 @@
                   <a href="<?php echo base_url('management/class'); ?>" class="nav-link ">
                     <i class="nav-icon fas fa-user-plus"></i>
                     <p>Class Management</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="<?php echo base_url('management/section'); ?>" class="nav-link ">
+                    <i class="nav-icon fas fa-user-plus"></i>
+                    <p>Section Management</p>
                   </a>
                 </li>
               </ul>
