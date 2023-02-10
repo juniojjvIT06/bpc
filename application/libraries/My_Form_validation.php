@@ -14,7 +14,7 @@ class My_Form_validation extends CI_Form_validation
 
     public function allowed_days($str)
     {
-        if (!preg_match("/^[MWFT]+$/", $str)) {
+        if (!preg_match("/^[MWFTH]+$/", $str)) {
             $this->set_message('validate_days', 'The {field} field can only contain characters "M", "W", "F", "T", "TH".');
             return FALSE;
         } else {
