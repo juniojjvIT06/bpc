@@ -183,6 +183,11 @@ class Management_model extends CI_Model
     {
         return $this->db->get("tbl_bpc_program_section_subjects")->result();
     }
+    public function viewSingleClassesSchedule($class_id)
+    {
+        $this->db->where('class_id', $class_id);
+        return $this->db->get("tbl_bpc_program_section_subjects")->row();
+    }
 
     public function update_class_schedule($array, $class_code)
     {
@@ -191,12 +196,14 @@ class Management_model extends CI_Model
         $this->db->update('tbl_bpc_program_section_subjects', $array);
     }
 
-    public function check_class_code_exist($class_code){
+    public function check_class_code_exist($class_code)
+    {
         $this->db->where('class_code', $class_code);
         return $this->db->get("tbl_bpc_program_section_subjects")->row();
     }
 
-    public function reasssign_instructror($class_code , $instructors_id){
+    public function reasssign_instructror($class_code, $instructors_id)
+    {
 
         $this->db->where('class_code', $class_code);
         $this->db->set('instructors_id', $instructors_id);
@@ -207,6 +214,12 @@ class Management_model extends CI_Model
     {
         $this->db->where('class_id', $class_code);
         $this->db->delete('tbl_bpc_program_section_subjects');
+    }
+
+    public function update_acquired($schedule_code){
+        $this->db->where('schedule_code', $schedule_code);
+        $this->db->set('acquired', 0);
+        $this->db->update("tbl_bpc_schedule");
     }
 
     public function viewSingleInstructor($instructors_id)
@@ -231,23 +244,27 @@ class Management_model extends CI_Model
         return $this->db->insert("tbl_bpc_program_sections", $arr);
     }
 
-    public function checkSectionCode_Availability($section_code){
+    public function checkSectionCode_Availability($section_code)
+    {
         $this->db->where('section_code', $section_code);
         return $this->db->get("tbl_bpc_program_sections")->row();
     }
-    
-    public function getYear_to_Roman($semester_code){
+
+    public function getYear_to_Roman($semester_code)
+    {
         $this->db->select('year_level');
         $this->db->where('semester_code', $semester_code);
         return $this->db->get("tbl_bpc_semesters")->row();
     }
 
-    public function get_all_subjects($section_code){
+    public function get_all_subjects($section_code)
+    {
         $this->db->where('section_code', $section_code);
-         return $this->db->get('tbl_bpc_program_section_subjects')->result();
+        return $this->db->get('tbl_bpc_program_section_subjects')->result();
     }
 
-    public function viewProgramSections(){
+    public function viewProgramSections()
+    {
         return $this->db->get('tbl_bpc_program_sections')->result();
     }
     public function numberofprograms()
@@ -256,5 +273,9 @@ class Management_model extends CI_Model
         return count($this->db->get('tbl_bpc_program_sections')->result());
     }
 
-
+    public function getSchedule($section_code, $subject_code){
+        $this->db->where('section_code', $section_code);
+        $this->db->where('subject_code', $subject_code);
+        return $this->db->get('tbl_bpc_program_section_subjects')->row();
+    }
 }

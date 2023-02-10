@@ -255,7 +255,7 @@ class Management extends CI_Controller
                 'end_time' => $this->input->post('end_time')
             );
 
-            $result = $this->check_conflict_time_and_room($this->input->post('start_time'), $this->input->post('end_time'), $this->input->post('room_code'));
+            $result = $this->check_conflict_time_and_room($this->input->post('start_time'), $this->input->post('end_time'), $this->input->post('room_code'), $this->input->post('day'));
 
             if ($result == true) {
                 $this->session->set_flashdata('warning', 'Has a CONFLICT schedule, Please try anonther schedule' . $result);
@@ -269,18 +269,22 @@ class Management extends CI_Controller
         }
     }
 
-    public function check_conflict_time_and_room($start_time, $end_time, $room_code)
+    public function check_conflict_time_and_room($start_time, $end_time, $room_code, $day)
     {
 
         $existing = $this->Management_model->viewSchedules();
 
         foreach ($existing as $rows) {
             if ($rows->room_code == $room_code) {
-                if (($start_time >= $rows->start_time && $start_time < $rows->end_time) || ($end_time > $rows->start_time && $end_time <= $rows->end_time)) {
-                    return true;
+                if ($rows->day == $day) {
+                    if (($start_time >= $rows->start_time && $start_time < $rows->end_time) || ($end_time > $rows->start_time && $end_time <= $rows->end_time)) {
+                        return true;
+                    }
+                    continue;
                 }
                 continue;
             }
+            continue;
         }
 
         return false;
@@ -597,9 +601,10 @@ class Management extends CI_Controller
     public function class_schedule_delete($class_code)
     {
         $this->ensure_sign_in();
+        $this->Management_model->update_acquired($this->Management_model->viewSingleClassesSchedule($class_code)->schedule_code);
         $this->Management_model->delete_class_schedule($class_code);
         $this->session->set_flashdata('success', 'Successfully Deleted!');
-        redirect(base_url('management/class'  . $this->session->userdata('set_section_code')));
+        redirect(base_url('management/class/'  . $this->session->userdata('set_section_code')));
     }
 
     public function class_schedule_cancel()
@@ -683,6 +688,4 @@ class Management extends CI_Controller
             }
         }
     }
-
-    
 }

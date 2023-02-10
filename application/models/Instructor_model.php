@@ -32,6 +32,15 @@ class Instructor_model extends CI_Model
         $this->db->update("tbl_bpc_instructors", $arr);
     }
 
+    public function delete_instructor($instructor_id)
+    {
+
+        // $this->db->where("property_no", $mid);
+        // $this->db->update("tblmachine", $array);
+
+        $this->db->where("instructors_id",$instructor_id);
+        $this->db->delete("tbl_bpc_instructors");
+    }
 
     public function add_specialties($arr, $instructor_id)
     {
@@ -135,6 +144,11 @@ class Instructor_model extends CI_Model
         return $this->db->get("tbl_bpc_enroll")->result();
         
     }
+
+    // public function view_assign_classes($instructor_id){
+    //     $this->db->where('instructor_id', $instructor_id);
+    //     return $this->db->get("tbl_bpc_program_section_subjects")->result();
+    // }
 
 
 }

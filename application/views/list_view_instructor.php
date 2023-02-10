@@ -98,7 +98,7 @@
                                                 </a>
                                             </td>
                                             <td class="project-actions text-right">
-                                                <a class="btn btn-primary btn-sm" href="#">
+                                                <a class="btn btn-primary btn-sm" href="<?= base_url('instructors/assign_classes/' . $rows->instructors_id)?>">
                                                     <i class="fas fa-folder">
                                                     </i>
                                                     View Assign Classes

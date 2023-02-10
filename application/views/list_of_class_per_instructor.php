@@ -19,17 +19,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">List of Subject Loads</h1>
-                    <a class="btn btn-info btn-sm" href="<?= base_url('instructors/printSubjectLoads') ?>">
-                                                    <i class="fas fa-pencil-alt">
-                                                    </i>
-                                                    Print
-                                                </a>
+                    <h1 class="m-0">List of Class :  <?= $this->Management_model->viewSingleInstructor($this->session->userdata('click_instructor_id'))->lastname ?> , <?= $this->Management_model->viewSingleInstructor($this->session->userdata('click_instructor_id'))->firstname?> <?= $this->Management_model->viewSingleInstructor($this->session->userdata('click_instructor_id'))->middlename ?> </h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Subject Loads </li>
+                        <li class="breadcrumb-item active">Class of Instructors: </li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -73,41 +68,43 @@
                                     <tr>
                                         <th>Section Code</th>
                                         <th>Subject Code</th>
+                                        <th>Days</th>
                                         <th>Room</th>
-                                        <th>Day</th>
-                                        <th>Time Start</th>
-                                        <th>Time End</th>
+                                        <th>Time</th>
                                         <th>Actions</th>
 
                                     </tr>
                                 </thead>
 
                                 <tbody>
-                                    <?php foreach ($classes as $rows) { ?>
+                                    <?php foreach ($assign_classes as $rows) { ?>
                                         <tr>
                                             <td> <?= $rows->section_code ?> </td>
                                             <td> <?= $rows->subject_code ?> </td>
-                                            <td> <?= $this->Management_model->viewSingleSchedule($rows->schedule_code)->room_code ?> </td>
                                             <td> <?= $this->Management_model->viewSingleSchedule($rows->schedule_code)->day ?> </td>
-                                            <td> <?= $this->Management_model->viewSingleSchedule($rows->schedule_code)->start_time ?> </td>
-                                            <td> <?= $this->Management_model->viewSingleSchedule($rows->schedule_code)->end_time ?> </td>
-                                            <td>
-                                                <a class="btn btn-primary btn-sm" href="<?= base_url('instructors/mystudents/'. $rows->section_code . '/'. $rows->subject_code)?>">
+                                            <td> <?= $this->Management_model->viewSingleSchedule($rows->schedule_code)->room_code ?> </td>
+                                            <td> <?= $this->Management_model->viewSingleSchedule($rows->schedule_code)->start_time ?> - <?= $this->Management_model->viewSingleSchedule($rows->schedule_code)->end_time ?> </td>
+                                            <td class="project-actions text-right">
+                                                <a class="btn btn-primary btn-sm" href="#">
                                                     <i class="fas fa-folder">
                                                     </i>
-                                                    View Your Students
+                                                    Unload this subject
                                                 </a>
+
                                             </td>
 
                                         </tr>
 
-                                    <?php } ?>
                         </div>
                     </div>
 
-                    </tbody>
 
-                    </table>
+                <?php } ?>
+
+
+                </tbody>
+
+                </table>
                 </div>
 
                 <!-- /.card-body -->
@@ -147,7 +144,7 @@
         }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
         $('#example2').DataTable({
             "paging": true,
-            "lengthChange": true,
+            "lengthChange": false,
             "searching": false,
             "ordering": true,
             "info": true,

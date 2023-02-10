@@ -38,7 +38,7 @@
           <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-          <a href="<?php echo base_url('users/home'); ?> " class="nav-link">Home</a>
+          <a href="<?php echo base_url('welcome/'); ?> " class="nav-link">Home</a>
         </li>
       </ul>
 
@@ -207,6 +207,13 @@
                   <a href="<?php echo base_url('management/section'); ?>" class="nav-link ">
                     <i class="nav-icon fas fa-user-plus"></i>
                     <p>Class Management</p>
+                  </a>
+                </li>
+
+                <li class="nav-item">
+                  <a href="<?php echo base_url('students/upload'); ?>" class="nav-link ">
+                    <i class="nav-icon fas fa-user-plus"></i>
+                    <p>Upload</p>
                   </a>
                 </li>
               </ul>

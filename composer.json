@@ -11,7 +11,11 @@
 		"source": "https://github.com/bcit-ci/CodeIgniter"
 	},
 	"require": {
-		"php": ">=5.3.7"
+		"php": ">=5.3.7",
+		"setasign/fpdf": "^1.8",
+		"setasign/tfpdf": "^1.33",
+		"phpoffice/phpspreadsheet": "^1.27"
+		
 	},
 	"suggest": {
 		"paragonie/random_compat": "Provides better randomness in PHP 5.x"
@@ -32,4 +36,7 @@
 		"mikey179/vfsstream": "1.6.*",
 		"phpunit/phpunit": "4.* || 5.* || 9.*"
 	}
+
+
+	
 }

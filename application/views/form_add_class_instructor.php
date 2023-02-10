@@ -59,13 +59,14 @@
                                 <b class="d-block"><?= $this->session->userdata('set_course_code') ?></b>
                             </p>
                             <p class="text-sm">Room and Schedule:
-                                <b class="d-block"><?=  $this->session->userdata('set_schedule_code') ?></b>
+                                <b class="d-block"><?= $this->session->userdata('set_schedule_code') ?></b>
                             </p>
                         </div>
 
-                        <?php $instructors = $this->Instructor_model->get_instructors_within_subject_specialty($this->session->userdata('set_subject_code'));?>
+                        <?php $instructors = $this->Instructor_model->get_instructors_within_subject_specialty($this->session->userdata('set_subject_code')); ?>
                         <label>Assign Instructor:
-                        <p class="text-muted">Below are the list of Instructors that has specialty for <b></b><?= $this->session->userdata('set_subject_code') ?> . </p></label>
+                            <p class="text-muted">Below are the list of Instructors that has specialty for <b></b><?= $this->session->userdata('set_subject_code') ?> . </p>
+                        </label>
                         <select name="instructor_code" class="form-control" required>
                             <?php foreach ($instructors as $rows) { ?>
                                 <option value="<?= $rows->instructors_id ?>"><?= $rows->lastname ?>, <?= $rows->firstname ?> <?= $rows->middlename ?></option>
@@ -78,7 +79,7 @@
                         </div>
                     </div>
 
- 
+
                     <div class="col-md-1 ">
                         <p></p>
 

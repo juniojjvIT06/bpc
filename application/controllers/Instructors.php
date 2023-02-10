@@ -257,9 +257,13 @@ class Instructors extends CI_Controller
 		$this->load->view('view_instructor_subjects', $datas);
 	}
 
-	public function mystudents($section_code, $subject_Code)
+	public function mystudents($section_code, $subject_code)
 	{
-		$datas['students'] = $this->Instructor_model->view_my_students($section_code, $subject_Code);
+		$this->ensure_sign_in();
+		$datas['students'] = $this->Instructor_model->view_my_students($section_code, $subject_code);
+		$this->session->set_userdata('select_section_code', $section_code);
+		$this->session->set_userdata('select_subject_code', $subject_code);
+
 		$this->load->view('header');
 		$this->load->view('view_my_students', $datas);
 	}
@@ -270,5 +274,158 @@ class Instructors extends CI_Controller
 		if (!isset($this->session->code_id)) {
 			redirect('users/');
 		}
+	}
+
+	public function assign_classes($instructor_id)
+	{
+		$this->ensure_sign_in();
+		$this->session->set_userdata('click_instructor_id', $instructor_id);
+		$datas['assign_classes'] = $this->Instructor_model->viewClasses($instructor_id);
+		$this->load->view('header');
+		$this->load->view('list_of_class_per_instructor', $datas);
+	}
+
+	public function printSubjectLoads()
+	{
+
+		$image = "./assets/BPC-LOGO.png";
+
+		$pdf = new FPDF('L', 'mm', 'A4');
+		$pdf->AliasNbPages();
+
+		$pdf->AddPage();
+		$pdf->SetFont('Times', 'B', 10);
+
+		$pdf->image($image, 30, $pdf->GetY(), 30, 29);
+		$pdf->Cell(0, 4, '', 0, 1, 'C');
+		$pdf->Cell(0, 4, 'Republic of the Philippines', 0, 1, 'C');
+		$pdf->Cell(0, 4, 'Province of Pangasinan', 0, 1, 'C');
+		$pdf->Cell(0, 4, 'Municipality of Bayambang', 0, 1, 'C');
+		$pdf->SetFont('Arial', 'B', 12);
+
+
+		$pdf->Ln(10);
+		$pdf->SetFont('Arial', 'B', 14);
+		$pdf->Cell(0, 10, '', 0, 1, 'C');
+		$pdf->Cell(0, 8, 'List of Subjects and Schedules', 0, 1, 'C');
+		$pdf->Ln(10);
+
+		$pdf->SetFont('Times', 'B', 10);
+		$pdf->Cell(30, 4, 'ID Code Number: ', 0, 0, 'L');
+		$pdf->Cell(0, 4, $this->session->userdata('code_id'), 0, 1, 'L');
+		$pdf->Cell(30, 4, 'Instructor Name: ', 0, 0, 'L');
+		$pdf->Cell(0, 4, $this->Management_model->viewSingleInstructor($this->session->userdata('code_id'))->lastname . ', ' . $this->Management_model->viewSingleInstructor($this->session->userdata('code_id'))->firstname,  0, 1, 'L');
+		$pdf->Cell(30, 4, 'College Assign: ', 0, 0, 'L');
+		$pdf->Cell(0, 4, $this->Management_model->viewSingleInstructor($this->session->userdata('code_id'))->college_code, 0, 1, 'L');
+
+		$pdf->Ln(10);
+		$pdf->SetFont('Arial', 'B', 10);
+		$pdf->SetFillColor(0, 0, 0);
+		$pdf->SetDrawColor(255, 255, 255);
+		$pdf->SetTextColor(255, 255, 255);
+
+		$pdf->Cell(30, 5, 'Section Code', 1, 0, 'C', 1);
+		$pdf->Cell(30, 5, 'Subject Code', 1, 0, 'C', 1);
+		$pdf->Cell(40, 5, 'Days', 1, 0, 'C', 1);
+		$pdf->Cell(30, 5, 'Room', 1, 0, 'C', 1);
+		$pdf->Cell(30, 5, 'Time', 1, 1, 'C', 1);
+
+		$classes = $this->Instructor_model->viewClasses($this->session->userdata('code_id'));
+
+		$pdf->SetFont('Times', '', 10);
+		$pdf->SetFillColor(255, 255, 255);
+		$pdf->SetTextColor(0, 0, 0);
+		$pdf->SetDrawColor(0, 0, 0);
+		$pdf->SetLineWidth(.1);
+
+		foreach ($classes as $rows) {
+			$pdf->Cell(30, 5, $rows->section_code, 1, 0, 'C', 1);
+			$pdf->Cell(30, 5, $rows->subject_code, 1, 0, 'C', 1);
+			$pdf->Cell(40, 5, $this->Management_model->viewSingleSchedule($rows->schedule_code)->day, 1, 0, 'C', 1);
+			$pdf->Cell(30, 5, $this->Management_model->viewSingleSchedule($rows->schedule_code)->room_code, 1, 0, 'C', 1);
+			$pdf->Cell(30, 5, $this->Management_model->viewSingleSchedule($rows->schedule_code)->start_time . '-' . $this->Management_model->viewSingleSchedule($rows->schedule_code)->end_time, 1, 1, 'C', 1);
+		}
+
+
+		$pdf->SetFont('Times', '', 10);
+		$pdf->SetFillColor(255, 255, 255);
+		$pdf->SetTextColor(0, 0, 0);
+		$pdf->SetDrawColor(0, 0, 0);
+		$pdf->SetLineWidth(.1);
+
+		$pdf->Footer();
+		$pdf->Output();
+	}
+
+	public function printStudent($section_code, $subject_code)
+	{
+		$image = "./assets/BPC-LOGO.png";
+
+		$pdf = new FPDF('P', 'mm', 'A4');
+		$pdf->AliasNbPages();
+
+		$pdf->AddPage();
+		$pdf->SetFont('Times', 'B', 10);
+
+		$pdf->image($image, 30, $pdf->GetY(), 30, 29);
+		$pdf->Cell(0, 4, '', 0, 1, 'C');
+		$pdf->Cell(0, 4, 'Republic of the Philippines', 0, 1, 'C');
+		$pdf->Cell(0, 4, 'Province of Pangasinan', 0, 1, 'C');
+		$pdf->Cell(0, 4, 'Municipality of Bayambang', 0, 1, 'C');
+		$pdf->SetFont('Arial', 'B', 12);
+
+
+		$pdf->Ln(10);
+		$pdf->SetFont('Arial', 'B', 14);
+		$pdf->Cell(0, 10, '', 0, 1, 'C');
+		$pdf->Cell(0, 8, 'List of Students', 0, 1, 'C');
+		$pdf->Ln(10);
+
+		$pdf->SetFont('Times', 'B', 10);
+		$pdf->Cell(30, 4, 'Section: ', 0, 0, 'L');
+		$pdf->Cell(0, 4, $section_code, 0, 1, 'L');
+		$pdf->Cell(30, 4, 'Subject: ', 0, 0, 'L');
+		$pdf->Cell(0, 4, $subject_code,  0, 1, 'L');
+		$pdf->Cell(30, 4, 'Schedule: '  , 0, 0, 'L');
+		$pdf->Cell(0, 4, $this->Management_model->getSchedule($section_code, $subject_code)->schedule_code, 0, 1, 'L');
+
+		$pdf->Ln(10);
+		$pdf->SetFont('Arial', 'B', 10);
+		$pdf->SetFillColor(0, 0, 0);
+		$pdf->SetDrawColor(255, 255, 255);
+		$pdf->SetTextColor(255, 255, 255);
+
+		$pdf->Cell(10, 5, 'No.', 1, 0, 'C', 1);
+		$pdf->Cell(30, 5, 'Student Code', 1, 0, 'C', 1);
+		$pdf->Cell(90, 5, 'Student Name', 1, 0, 'C', 1);
+		$pdf->Cell(60, 5, 'Student Contact Number', 1, 1, 'C', 1);
+
+
+		$students = $this->Instructor_model->view_my_students($section_code, $subject_code);
+
+		$pdf->SetFont('Times', '', 10);
+		$pdf->SetFillColor(255, 255, 255);
+		$pdf->SetTextColor(0, 0, 0);
+		$pdf->SetDrawColor(0, 0, 0);
+		$pdf->SetLineWidth(.1);
+
+		$i = 0;
+		foreach ($students as $rows) {
+			$pdf->Cell(10, 5, $i, 1, 0, 'C', 1);
+			$pdf->Cell(30, 5, $rows->student_code, 1, 0, 'C', 1);
+			$pdf->Cell(90, 5, $this->Student_model->viewSingleStudent($rows->student_code)->s_lastname  . ',' .  $this->Student_model->viewSingleStudent($rows->student_code)->s_firstname  . $this->Student_model->viewSingleStudent($rows->student_code)->s_middlename , 1, 0, 'C', 1);
+			$pdf->Cell(60, 5, $this->Student_model->viewSingleStudent($rows->student_code)->s_contact, 1, 1, 'C', 1);
+			$i++;
+		}
+
+
+		$pdf->SetFont('Times', '', 10);
+		$pdf->SetFillColor(255, 255, 255);
+		$pdf->SetTextColor(0, 0, 0);
+		$pdf->SetDrawColor(0, 0, 0);
+		$pdf->SetLineWidth(.1);
+
+		$pdf->Footer();
+		$pdf->Output();
 	}
 }
