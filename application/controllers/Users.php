@@ -24,6 +24,12 @@ class Users extends CI_Controller
 		$this->load->view('user_login');
 	}
 
+	public function dashboard(){
+
+		$this->load->view('header');
+		$this->load->view('dashboard');
+	}
+
 	public function login()
 	{
 		$this->form_validation->set_rules('code_id', 'Code ID Number', 'required|trim');
@@ -56,7 +62,7 @@ class Users extends CI_Controller
 						$this->session->set_userdata('code_id', $query->code_id);
 						$this->session->set_userdata('category_level', $query->category);
 
-						redirect('instructors/add');
+						redirect('welcome/');
 					} else {
 						$this->session->set_userdata('code_id', $query->code_id);
 						$this->session->set_userdata('category_level', $query->category);

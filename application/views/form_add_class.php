@@ -51,7 +51,7 @@
 
                         <label>Subject Code</label>
                         <select name="subject_code" class="form-control" id="subject_select" required>
-                            <?php foreach ($subjects as $rows) { ?>
+                            <?php foreach ($all_subjects as $rows) { ?>
                                 <option value="<?= $rows->subject_code ?>"><?= $rows->subject_code ?></option>
                             <?php } ?>
                         </select>
@@ -106,7 +106,7 @@
 
                 <tbody>
                     <?php $i = 1;
-                    foreach ($classes as $row) {  ?>
+                    foreach ($subjects as $row) {  ?>
                         <tr>
                             <td><?= $i; ?></td>
                             <td><?= $row->subject_code; ?></td>
@@ -181,7 +181,7 @@
                                                 <label>Subject Code</label>
                                                 <select name="course_code_edit" class="form-control" required>
                                                     <option value="<?= $row->subject_code ?>"><?= $row->subject_code ?></option>
-                                                    <?php foreach ($subjects as $rows) { ?>
+                                                    <?php foreach ($all_subjects as $rows) { ?>
                                                         <option value="<?= $rows->subject_code ?>"><?= $rows->subject_code ?></option>
                                                     <?php } ?>
                                                 </select>
@@ -260,7 +260,6 @@
                                                 <label>Subject Code:</label>
                                                 <select name="subject_code_res" class="form-control" readonly>
                                                     <option value="<?= $row->subject_code ?>"><?= $row->subject_code ?></option>
-
                                                 </select>
                                                 <label class="text-danger" style="font-size:13px;"> <?php echo form_error('subject_code_res') ?></label>
 

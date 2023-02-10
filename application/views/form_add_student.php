@@ -134,32 +134,29 @@
                             <label class="text-danger" style="font-size:13px;"> <?php echo form_error('date_of_birth') ?></label>
                         </div>
 
-                        <div class="col-md-2">
 
-                            <label for="inputMessage">Enrolled Course:</label>
-                            <select name="course_code" class="form-control" required>
-                                <?php foreach ($courses as $rows) { ?>
-                                    <option value="<?= $rows->course_code ?>"><?= $rows->course_code ?></option>
+                        <div class="col-md-2">
+                            <label for="inputMessage">Select Course and Section:</label>
+                            <select name="course_section" class="form-control" required>
+                                <?php foreach ($program_sections as $rows) { ?>
+                                    <option value="<?= $rows->section_code ?>"><?= $rows->section_code ?></option>
                                 <?php } ?>
                             </select>
-                            <label class="text-danger" style="font-size:13px;"> <?php echo form_error('course_code') ?></label>
-
+                            <label class="text-danger" style="font-size:13px;"> <?php echo form_error('course_section') ?></label>
                         </div>
-                        <div class="col-md-2">
 
-                        <label for="inputMessage">Semester Code:</label>
-                            <select name="semester_code" class="form-control" required>
-                                <?php foreach ($semesters as $rows) { ?>
-                                    <option value="<?= $rows->semester_code ?>"><?= $rows->semester_code ?></option>
-                                <?php } ?>
-                            </select>
-                            <label class="text-danger" style="font-size:13px;"> <?php echo form_error('course_code') ?></label>
+                        <div class="col-md-2">
+                        <label>Date Enrolled</label>
+                            <input type="date" name="date_enrolled" class="form-control" value="<?php echo set_value('date_enrolled') ?>" required>
+                            <label class="text-danger" style="font-size:13px;"> <?php echo form_error('date_enrolled') ?></label>
                         </div>
 
                     </div>
-                    <?php form_close() ?>
+
                 </div>
+                <?php form_close() ?>
             </div>
+        </div>
 
     </section>
 </div>

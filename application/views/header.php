@@ -88,9 +88,15 @@
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="#" class="nav-link ">
+                  <a href="<?php echo base_url('users/dashboard'); ?>" class="nav-link ">
                     <i class="nav-icon fas fa-chart-pie"></i>
                     <p>Dashboard</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="<?php echo base_url('instructors/classes'); ?>" class="nav-link ">
+                    <i class="nav-icon fas fa-chart-pie"></i>
+                    <p>Subject Loads</p>
                   </a>
                 </li>
               </ul>
@@ -191,16 +197,16 @@
                     <p>Semester Management</p>
                   </a>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                   <a href="<?php echo base_url('management/class'); ?>" class="nav-link ">
                     <i class="nav-icon fas fa-user-plus"></i>
                     <p>Class Management</p>
                   </a>
-                </li>
+                </li> -->
                 <li class="nav-item">
                   <a href="<?php echo base_url('management/section'); ?>" class="nav-link ">
                     <i class="nav-icon fas fa-user-plus"></i>
-                    <p>Section Management</p>
+                    <p>Class Management</p>
                   </a>
                 </li>
               </ul>

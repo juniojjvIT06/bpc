@@ -123,71 +123,18 @@ class Instructor_model extends CI_Model
         return $this->db->get()->result();
     }
 
-    public function delete_instructor($instructor_id)
-    {
+    public function viewClasses($instructors_id){
+        $this->db->where('instructors_id', $instructors_id);
+        return $this->db->get('tbl_bpc_program_section_subjects')->result();
 
-        $this->db->where("instructors_id", $instructor_id);
-        $this->db->delete("tbl_bpc_instructors");
     }
 
-    public function addMachine($arr)
-    {
-        return $this->db->insert("tblmachine", $arr);
+    public function view_my_students($section_code, $subject_code){
+        $this->db->where('section_code', $section_code);
+        $this->db->where('subject_code', $subject_code);
+        return $this->db->get("tbl_bpc_enroll")->result();
+        
     }
 
-    public function viewMachines()
-    {
-        return $this->db->get("tblmachine")->result();
-    }
 
-    public function oneMachine($enterID)
-    {
-        $this->db->where("plate_no", $enterID);
-        $this->db->or_where("property_no", $enterID);
-        return $this->db->get("tblmachine")->result();
-    }
-
-    public function updateMachine($mid, $array)
-    {
-
-        $this->db->where("property_no", $mid);
-        $this->db->update("tblmachine", $array);
-    }
-
-    public function deleteMachine($mid)
-    {
-        $this->db->where("property_no", $mid);
-        $this->db->delete("tblmachine");
-    }
-
-    public function loadPlatesPerDepartment($department)
-    {
-        $this->db->where('department_assign', $department);
-        return $this->db->get("tblmachine")->result();
-    }
-
-    public function loadPlates()
-    {
-        return $this->db->get("tblmachine")->result();
-    }
-
-    public function typesofmachine()
-    {
-        return $this->db->get("tblmachinetype")->result();
-    }
-
-    public function inserttypeofmachine($arr)
-    {
-        return $this->db->insert("tblmachinetype", $arr);
-    }
-
-    public function deleteMachineType($tid)
-    {
-        $this->db->where("type_id", $tid);
-        $this->db->delete("tblmachinetype");
-    }
-    public function loadtypesofmachine()
-    {
-        return $this->db->get("tblmachinetype")->result();
-    }
 }

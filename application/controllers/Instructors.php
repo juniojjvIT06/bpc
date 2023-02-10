@@ -73,7 +73,7 @@ class Instructors extends CI_Controller
 		// 	}
 		// }
 
-		
+
 
 		$this->Instructor_model->add_specialties($selected_values, $instructor_id);
 		$this->session->set_flashdata('success', 'Successfully Added!');
@@ -249,10 +249,26 @@ class Instructors extends CI_Controller
 		redirect(base_url('instructors/list'));
 	}
 
+	public function classes()
+	{
+		$this->ensure_sign_in();
+		$datas['classes'] = $this->Instructor_model->viewClasses($this->session->userdata('code_id'));
+		$this->load->view('header');
+		$this->load->view('view_instructor_subjects', $datas);
+	}
+
+	public function mystudents($section_code, $subject_Code)
+	{
+		$datas['students'] = $this->Instructor_model->view_my_students($section_code, $subject_Code);
+		$this->load->view('header');
+		$this->load->view('view_my_students', $datas);
+	}
+
+
 	public function ensure_sign_in()
-    {
-        if (!isset($this->session->code_id)) {
-            redirect('users/');
-        }
-    }
+	{
+		if (!isset($this->session->code_id)) {
+			redirect('users/');
+		}
+	}
 }

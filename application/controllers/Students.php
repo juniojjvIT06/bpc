@@ -26,6 +26,7 @@ class Students extends CI_Controller
 
 		$this->ensure_sign_in();
 		$datas['courses'] = $this->Management_model->viewCourses();
+		$datas['program_sections'] = $this->Management_model->viewProgramSections();
 		$datas['semesters'] = $this->Management_model->viewSemesters();
 		$this->load->view('header');
 		$this->load->view('form_add_student', $datas);
@@ -44,9 +45,9 @@ class Students extends CI_Controller
 		$this->form_validation->set_rules('province', 'Province', 'required|trim');
 		$this->form_validation->set_rules('sex', 'Sex', 'required|trim');
 		$this->form_validation->set_rules('date_of_birth', 'Date of Birth', 'required|trim');
-		$this->form_validation->set_rules('course_code', 'Course Code', 'required|trim');
 		$this->form_validation->set_rules('s_contact', 'Professional Number', 'required|trim');
-		$this->form_validation->set_rules('semester_code', 'Semester Code', 'required|trim');
+		$this->form_validation->set_rules('course_section', 'Course Section', 'required|trim');
+		$this->form_validation->set_rules('date_enrolled', 'Date Enrolled', 'required|trim');
 		// $this->form_validation->set_rules('pp_image', 'Profile Picture', 'required' );
 
 		if ($this->form_validation->run() == FALSE) {
@@ -65,7 +66,7 @@ class Students extends CI_Controller
 						'province' => $this->input->post('province'),
 						'sex' => $this->input->post('sex'),
 						's_birthdate' => $this->input->post('date_of_birth'),
-						'course_code' => $this->input->post('course_code'),
+						'course_code' => $this->input->post('course_section'),
 						's_contact' => $this->input->post('s_contact'),
 						'status' => 'Active'
 
@@ -91,6 +92,7 @@ class Students extends CI_Controller
 
 					$this->session->set_flashdata('success', 'Successfully Added!');
 					$this->Student_model->addStudent($arr);
+					$this->enrolled_subjects($this->input->post('course_section'), $this->input->post('student_code'),$this->input->post('date_enrolled'));
 					// $this->Student_model->addEnrollee($arr2);
 					$this->User_model->addCredentials($arr3);
 
@@ -98,6 +100,24 @@ class Students extends CI_Controller
 				} 
 	
         
+    }
+
+	public function enrolled_subjects($section_code, $student_code, $date_enrolled){
+
+
+        $subjects = $this->Management_model->get_all_subjects($section_code);
+
+        foreach($subjects as $rows){
+            $arr = array(
+                'section_code' => $rows->section_code,
+				'subject_code' => $rows->subject_code,
+				'student_code' => $student_code,
+				'date_enrolled' => $date_enrolled
+            );
+
+			$this->Student_model->enrolled_subjects($arr);
+        }
+
     }
 
 	

@@ -10,6 +10,12 @@ class Student_model extends CI_Model
         return $this->db->insert("tbl_bpc_students", $arr);
     }
 
+    public function viewSingleStudent($student_code)
+    {
+        $this->db->where("student_code", $student_code);
+        return $this->db->get("tbl_bpc_students")->row();
+    }
+
     public function viewStudents()
     {
         return $this->db->get("tbl_bpc_students")->result();
@@ -22,9 +28,14 @@ class Student_model extends CI_Model
         $this->db->update('tbl_bpc_students', $array);
     }
 
-    public function delete_student($subject_code)
+    public function enrolled_subjects($arr)
     {
-        $this->db->where('student_code', $subject_code);
+        $this->db->insert('tbl_bpc_enroll', $arr);
+    }
+
+    public function delete_student($student_code)
+    {
+        $this->db->where('student_code', $student_code);
         $this->db->delete('tbl_bpc_subjects');
     }
 
@@ -34,11 +45,6 @@ class Student_model extends CI_Model
         $query = $this->db->get($table);
         $row = $query->row();
         return $row->student_id;
-    }
-
-    public function addEnrollee($arr2)
-    {
-        return $this->db->insert("tbl_bpc_students", $arr2);
     }
 
     public function generate_student_id()
@@ -60,5 +66,17 @@ class Student_model extends CI_Model
         }
 
         return $generated_id;
+    }
+
+    public function numberofstudents()
+    {
+
+        return count($this->db->get('tbl_bpc_students')->result());
+    }
+
+    public function countbysex($sex)
+    {
+        $this->db->where('sex', $sex);
+        return count($this->db->get('tbl_bpc_students')->result());
     }
 }

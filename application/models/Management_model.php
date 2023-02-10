@@ -94,9 +94,14 @@ class Management_model extends CI_Model
         return $this->db->get("tbl_bpc_schedule")->row();
     }
 
-    public function viewSchedules()
+    public function viewSchedules_available()
     {
         $this->db->where('acquired', 0);
+        return $this->db->get("tbl_bpc_schedule")->result();
+    }
+
+    public function viewSchedules()
+    {
         return $this->db->get("tbl_bpc_schedule")->result();
     }
 
@@ -236,5 +241,20 @@ class Management_model extends CI_Model
         $this->db->where('semester_code', $semester_code);
         return $this->db->get("tbl_bpc_semesters")->row();
     }
+
+    public function get_all_subjects($section_code){
+        $this->db->where('section_code', $section_code);
+         return $this->db->get('tbl_bpc_program_section_subjects')->result();
+    }
+
+    public function viewProgramSections(){
+        return $this->db->get('tbl_bpc_program_sections')->result();
+    }
+    public function numberofprograms()
+    {
+
+        return count($this->db->get('tbl_bpc_program_sections')->result());
+    }
+
 
 }
