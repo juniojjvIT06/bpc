@@ -145,10 +145,4 @@ class Instructor_model extends CI_Model
         
     }
 
-    // public function view_assign_classes($instructor_id){
-    //     $this->db->where('instructor_id', $instructor_id);
-    //     return $this->db->get("tbl_bpc_program_section_subjects")->result();
-    // }
-
-
 }
