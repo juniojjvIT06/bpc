@@ -1,5 +1,7 @@
 <!-- Ion Slider -->
 <link rel="stylesheet" href="<?php echo base_url(); ?>plugins/ion-rangeslider/css/ion.rangeSlider.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <div class="content-wrapper">
     <div class="content-header">
         <div class="container-fluid">
@@ -68,14 +70,14 @@
 
                             <label for="inputName">Lastname:</label>
                             <input type="text" name="lastname" class="form-control" value="<?php echo set_value('lastname') ?>" required>
-                            <label class="text-danger" style="font-size:13px;"> <?php echo form_error('property_no') ?></label>
+                            <label class="text-danger" style="font-size:13px;"> <?php echo form_error('lastname') ?></label>
 
                         </div>
                         <div class="col-md-2">
 
                             <label for="inputName">Firstname:</label>
                             <input type="text" name="firstname" class="form-control" value="<?php echo set_value('firstname') ?>" required>
-                            <label class="text-danger" style="font-size:13px;"> <?php echo form_error('par_no') ?></label>
+                            <label class="text-danger" style="font-size:13px;"> <?php echo form_error('firstname') ?></label>
 
                         </div>
 
@@ -86,6 +88,74 @@
                             <label class="text-danger" style="font-size:13px;"> <?php echo form_error('middlename') ?></label>
 
                         </div>
+
+                        <div class="col-md-2">
+
+                            <label for="inputName">Province:</label>
+                            <!-- <input type="selct" name="province" class="form-control" value="<?php echo set_value('province') ?>" required>
+                            <label class="text-danger" style="font-size:13px;"> <?php echo form_error('province') ?></label> -->
+                            <select id="province" name="province" class="form-control" >
+
+                                <option value=""> Select Province </option>
+                                <?php foreach ($provinces as $province): ?>
+
+                                <option value="<?= $province['code'] ?>"> <?= $province['name'] ?> </option>
+                                <?php endforeach ?>
+
+                            </select>
+
+                        </div>
+
+                        <div class="col-md-2">
+
+                            <label for="inputName">Town:</label>
+                            <select id="town" name="town" class="form-control" >
+                            <option value=""> Select Town </option>
+                            </select>
+                        </div>
+
+                        <script>
+                                $(document).ready(function(){
+                                    // When the select option changes
+                                    $('#province').change(function(){
+                                        var province_id = $(this).val(); // Get the selected province id
+
+                                        if(province_id) { // Check if a valid province id is selected
+                                            // AJAX request to fetch data from API
+                                            $.ajax({
+                                                url: '<?php echo base_url('Students/get_municipalities/'); ?>' + province_id,  // Your API endpoint
+                                                type: 'GET',  // Use GET since no data is being posted
+                                                dataType: 'json',
+                                                success: function(response){
+                                                    // Clear existing options
+                                                    $('#town').empty();
+                                                    // Check if the response is not empty and is an array
+                                                    if(response && Array.isArray(response)) {
+                                                        // Add "Select a town" option
+                                                        $('#town').append('<option value="">Select a town</option>');
+                                                        // Add new options based on API response
+                                                        $.each(response, function(index, town){
+                                                            $('#town').append('<option value="' + town.code + '">' + town.name + '</option>');
+                                                        });
+                                                    } else {
+                                                        $('#town').append('<option value="">No towns available</option>');
+                                                    }
+                                                },
+                                                error: function(xhr, status, error){
+                                                    console.error('Error: ' + error);
+                                                    $('#town').empty();
+                                                    $('#town').append('<option value="">Error loading towns</option>');
+                                                }
+                                            });
+                                        } else {
+                                            // Clear the town select box if no valid province id is selected
+                                            $('#town').empty();
+                                            $('#town').append('<option value="">Select a town</option>');
+                                        }
+                                    });
+                                });
+                            </script>
+
                         <div class="col-md-2">
 
                             <label for="inputName">Barangay:</label>
@@ -94,21 +164,6 @@
 
                         </div>
 
-                        <div class="col-md-2">
-
-                            <label for="inputName">Town:</label>
-                            <input type="text" name="town" class="form-control" value="<?php echo set_value('town') ?>" required>
-                            <label class="text-danger" style="font-size:13px;"> <?php echo form_error('town') ?></label>
-
-                        </div>
-
-                        <div class="col-md-2">
-
-                            <label for="inputName">Province:</label>
-                            <input type="text" name="province" class="form-control" value="<?php echo set_value('province') ?>" required>
-                            <label class="text-danger" style="font-size:13px;"> <?php echo form_error('province') ?></label>
-
-                        </div>
 
                         <div class="col-md-2">
 
@@ -168,23 +223,3 @@
 
 <script src="<?php echo base_url(); ?>plugins/ion-rangeslider/js/ion.rangeSlider.min.js"></script>
 
-<script>
-    $(function() {
-        /* BOOTSTRAP SLIDER */
-        $('.slider').bootstrapSlider()
-
-
-        $('#range_6').ionRangeSlider({
-            min: 0,
-            max: 100,
-            from: 0,
-            type: 'single',
-            step: 1,
-            postfix: '',
-            prettify: false,
-            hasGrid: true
-        })
-
-
-    })
-</script>

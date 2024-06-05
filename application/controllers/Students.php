@@ -4,6 +4,60 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 class Students extends CI_Controller
 {
 
+	// public function __construct() {
+    //     parent::__construct();
+    //     $this->load->helper('url');
+    //     $this->load->library('curl');
+    // }
+
+	
+
+	public function get_province() {
+        $api_url = "https://psgc.gitlab.io/api/regions/010000000/provinces/" ;
+        $provinces = $this->curl->simple_get($api_url);
+        return $provinces;
+    }
+
+	public function get_municipalities($province_id) {
+		$province_id_string = (string) $province_id;
+		$api_url = 'https://psgc.gitlab.io/api/provinces/' . $province_id_string . '/cities-municipalities/' ;
+	
+		// Log the API URL for debugging
+		error_log("API URL: " . $api_url);
+	
+		// Retrieve data from the API
+		$municipalities = $this->curl->simple_get($api_url);
+	
+		// Log the response for debugging
+		error_log("API Response: " . $municipalities);
+	
+		// Set header for JSON response
+		header('Content-Type: application/json');
+	
+		// Return the municipalities data as JSON
+		echo $municipalities;
+	}
+
+    public function get_barangays($municpality_id) {
+		$province_id_string = (string) $province_id;
+		$api_url = 'https://psgc.gitlab.io/api/provinces/' . $province_id_string . '/cities-municipalities/' ;
+	
+		// Log the API URL for debugging
+		error_log("API URL: " . $api_url);
+	
+		// Retrieve data from the API
+		$municipalities = $this->curl->simple_get($api_url);
+	
+		// Log the response for debugging
+		error_log("API Response: " . $municipalities);
+	
+		// Set header for JSON response
+		header('Content-Type: application/json');
+	
+		// Return the municipalities data as JSON
+		echo $municipalities;
+	}
+
 	public function add()
 	{
 
@@ -12,6 +66,9 @@ class Students extends CI_Controller
 		$datas['courses'] = $this->Management_model->viewCourses();
 		$datas['program_sections'] = $this->Management_model->viewProgramSections();
 		$datas['semesters'] = $this->Management_model->viewSemesters();
+		$json_data = $this->get_province();
+		$datas['provinces'] = json_decode($json_data, true);
+		// $this->get_municipalities();
 		$this->load->view('header');
 		$this->load->view('form_add_student', $datas);
 	}
