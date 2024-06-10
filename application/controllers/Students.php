@@ -13,7 +13,7 @@ class Students extends CI_Controller
 	
 
 	public function get_province() {
-        $api_url = "https://psgc.gitlab.io/api/regions/010000000/provinces/" ;
+        $api_url = "https://psgc.gitlab.io/api/provinces/" ;
         $provinces = $this->curl->simple_get($api_url);
         return $provinces;
     }
@@ -39,23 +39,26 @@ class Students extends CI_Controller
 	}
 
     public function get_barangays($municpality_id) {
-		$province_id_string = (string) $province_id;
-		$api_url = 'https://psgc.gitlab.io/api/provinces/' . $province_id_string . '/cities-municipalities/' ;
+		$municpality_id_string = (string) $municpality_id;
+
+		$api_url = 'https://psgc.gitlab.io/api/cities-municipalities/'  . $municpality_id_string .'/barangays/' ;
+		
 	
+
 		// Log the API URL for debugging
 		error_log("API URL: " . $api_url);
 	
 		// Retrieve data from the API
-		$municipalities = $this->curl->simple_get($api_url);
+		$barangays = $this->curl->simple_get($api_url);
 	
 		// Log the response for debugging
-		error_log("API Response: " . $municipalities);
+		error_log("API Response: " . $barangays);
 	
 		// Set header for JSON response
 		header('Content-Type: application/json');
 	
 		// Return the municipalities data as JSON
-		echo $municipalities;
+		echo $barangays;
 	}
 
 	public function add()
