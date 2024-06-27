@@ -4,12 +4,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Subject Management Section</h1>
+                    <h1 class="m-0">Program Management Section</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active"> Specialization </li>
+                        <li class="breadcrumb-item active"> Program </li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -42,31 +42,35 @@
 
         <div class="card card-primary">
             <div class="card-header">
-                <h3 class="card-title">Management of Specialization</h3>
+                <h3 class="card-title">Management of Programs</h3>
             </div>
-            <?= form_open('subjects/subjects_add') ?>
+            <?= form_open('management/program_add') ?>
             <div class="card-body">
                 <div class="row">
 
                     <div class="col-md-3 form-group">
 
-                        <label>Subject Code</label>
-                        <input type="text" class="form-control" name="subject_code" value="<?php echo set_value('subject_code') ?>" required>
-                        <label class="text-danger" style="font-size:13px;"> <?php echo form_error('subject_code') ?></label>
+                        <label>Program Code</label>
+                        <input type="text" class="form-control" name="program_code" value="<?php echo set_value('program_code') ?>" required>
+                        <label class="text-danger" style="font-size:13px;"> <?php echo form_error('program_code') ?></label>
 
                     </div>
                     <div class="col-md-3 form-group">
 
-                        <label>Subject Description</label>
-                        <input type="text" class="form-control" name="subject_desc" value="<?php echo set_value('subject_desc') ?>" required>
-                        <label class="text-danger" style="font-size:13px;"> <?php echo form_error('subject_desc') ?></label>
+                        <label>Program Description</label>
+                        <input type="text" class="form-control" name="program_desc" value="<?php echo set_value('program_desc') ?>" required>
+                        <label class="text-danger" style="font-size:13px;"> <?php echo form_error('program_desc') ?></label>
 
                     </div>
                     <div class="col-md-3 form-group">
 
-                        <label>Subject Units</label>
-                        <input type="number" class="form-control" name="subject_units" value="<?php echo set_value('subject_units') ?>" required>
-                        <label class="text-danger" style="font-size:13px;"> <?php echo form_error('subject_units') ?></label>
+                        <label>College Under:</label>
+                        <select name="college_code" class="form-control" required>
+                            <?php foreach ($colleges as $rows) { ?>
+                                <option value="<?= $rows->college_code ?>"><?= $rows->college_description ?></option>
+                            <?php } ?>
+                        </select>
+                        <label class="text-danger" style="font-size:13px;"> <?php echo form_error('course_desc') ?></label>
 
                     </div>
 
@@ -83,7 +87,7 @@
         </div>
 
         <div class="card-header">
-            <h3 class="card-title">List of Subjects</h3>
+            <h3 class="card-title">List of Programs</h3>
         </div>
 
 
@@ -94,23 +98,23 @@
 
                     <tr>
                         <th>No.</th>
-                        <th>Subject Code</th>
-                        <th>Subject Description</th>
-                        <th>Subject Units</th>
+                        <th>Program Code</th>
+                        <th>Program Description</th>
+                        <th>Program College</th>
                         <th>Action</th>
                     </tr>
                 </thead>
 
                 <tbody>
                     <?php $i = 1;
-                    foreach ($subjects as $row) {  ?>
+                    foreach ($programs as $row) {  ?>
                         <tr>
                             <td><?= $i; ?></td>
-                            <td><?= $row->subject_code; ?></td>
-                            <td><?= $row->subject_description; ?></td>
-                            <td><?= $row->subject_units; ?></td>
+                            <td><?= $row->program_code; ?></td>
+                            <td><?= $row->program_description; ?></td>
+                            <td><?= $this->Management_model->viewSingleCollege($row->college_code)->college_description; ?></td>
                             <td>
-                                <a class="btn btn-info btn-sm" href="#" data-toggle="modal" data-target="#modal-edit-<?php echo str_replace(" ", "", $row->subject_code) ?>">
+                                <a class="btn btn-info btn-sm" href="#" data-toggle="modal" data-target="#modal-edit-<?php echo str_replace(" ", "", $row->program_code) ?>">
                                     <i class="fas fa-pencil-alt">
                                     </i>
                                     Edit
@@ -120,25 +124,25 @@
 
                         </tr>
                         <!-- /.modal-edit -->
-                        <div class="modal fade" id="modal-edit-<?php echo str_replace(" ", "", $row->subject_code) ?>">
+                        <div class="modal fade" id="modal-edit-<?php echo str_replace(" ", "", $row->program_code) ?>">
                             <div class="modal-dialog modal-lg">
                                 <div class="modal-content form-group">
                                     <div class="modal-header">
-                                        <h4 class="modal-title">Subject Code Management:</h4>
+                                        <h4 class="modal-title">Program Code Management:</h4>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
-                                    <?= form_open_multipart("subjects/subject_update/" . $row->subject_code) ?>
+                                    <?= form_open_multipart("Management/program_update/" . $row->program_code) ?>
                                     <div class="modal-body">
 
                                         <div class="row ">
 
                                             <div class="col">
 
-                                                <label for="inputName">Subject Code:</label>
-                                                <input type="text" name="subject_code_edit" class="form-control" value="<?php echo $row->subject_code ?>" readonly>
-                                                <label class="text-danger" style="font-size:13px;"> <?php echo form_error('subject_code_edit') ?></label>
+                                                <label for="inputName">Program Code:</label>
+                                                <input type="text" name="program_code_edit" class="form-control" value="<?php echo $row->program_code ?>" readonly>
+                                                <label class="text-danger" style="font-size:13px;"> <?php echo form_error('program_code_edit') ?></label>
 
                                             </div>
                                         </div>
@@ -147,9 +151,9 @@
 
                                             <div class="col">
 
-                                                <label for="inputName">Subject Description:</label>
-                                                <input type="text" name="subject_desc_edit" class="form-control" value="<?php echo $row->subject_description ?>" required>
-                                                <label class="text-danger" style="font-size:13px;"> <?php echo form_error('subject_desc_edit') ?></label>
+                                                <label for="inputName">Program Description:</label>
+                                                <input type="text" name="program_desc_edit" class="form-control" value="<?php echo $row->program_description ?>" required>
+                                                <label class="text-danger" style="font-size:13px;"> <?php echo form_error('program_desc_edit') ?></label>
 
                                             </div>
                                         </div>
@@ -158,13 +162,13 @@
 
                                             <div class="col">
 
-                                                <div class="col-md-3 form-group">
-
-                                                    <label>Subject Units</label>
-                                                    <input type="number" class="form-control" name="subject_units_edit" value="<?php echo $row->subject_units ?>" required>
-                                                    <label class="text-danger" style="font-size:13px;"> <?php echo form_error('subject_units_edit') ?></label>
-
-                                                </div>
+                                                <select name="program_college_under_edit" class="form-control" required>
+                                                    <option value="<?= $row->college_code ?>"><?= $this->Management_model->viewSingleCollege($row->college_code)->college_description; ?></option>
+                                                    <?php foreach ($colleges as $rows) { ?>
+                                                        <option value="<?= $rows->college_code ?>"><?= $rows->college_description ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                                <label class="text-danger" style="font-size:13px;"> <?php echo form_error('program_college_under_edit') ?></label>
 
                                             </div>
                                         </div>
@@ -173,7 +177,7 @@
                                             <div class="col">
                                                 <input type="submit" class="btn btn-success" value="UPDATE"></input>
                                                 <!-- <input type="button" class="btn btn-danger" value="DELETE"></input> -->
-                                                <a href="<?= base_url('subjects/subject_delete/') . str_replace(" ", "", $row->subject_code) ?>"><input type="button" class="btn btn-danger" onclick="return  confirm('Are you sure to proceed remove Course Code:  ' + '<?php echo $row->subject_code ?>')" value="Delete"></button></a>
+                                                <a href="<?= base_url('management/program_delete/') . str_replace(" ", "", $row->program_code) ?>"><input type="button" class="btn btn-danger" onclick="return  confirm('Are you sure to proceed remove Course Code:  ' + '<?php echo $row->program_code ?>')" value="Delete"></button></a>
 
 
                                             </div>
@@ -190,13 +194,18 @@
 
                                 <?php $i++;
                             } ?>
-                                </tr>
+                                </div>
+
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+
                 </tbody>
             </table>
         </div>
         <!-- /.card-body -->
 </div>
-</section>
+
 
 <!-- DataTables  & Plugins -->
 <script src="<?= base_url(); ?>plugins/datatables/jquery.dataTables.min.js"></script>

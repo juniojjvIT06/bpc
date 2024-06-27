@@ -155,9 +155,9 @@
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="<?php echo base_url('subjects/add'); ?>" class="nav-link ">
+                  <a href="<?php echo base_url('courses/add'); ?>" class="nav-link ">
                     <i class="nav-icon fas fa-book"></i>
-                    <p>Subject Management</p>
+                    <p>Course Management</p>
                   </a>
                 </li>
 
@@ -174,9 +174,9 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="<?php echo base_url('management/course'); ?>" class="nav-link ">
+                  <a href="<?php echo base_url('management/program'); ?>" class="nav-link ">
                     <i class="nav-icon fas fa-plus"></i>
-                    <p>Course Management</p>
+                    <p>Program Management</p>
                   </a>
                 </li>
                 <li class="nav-item">

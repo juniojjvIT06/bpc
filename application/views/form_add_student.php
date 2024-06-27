@@ -48,8 +48,7 @@
             <div class="card card-primary">
                 <div class="card-header float-right">
                     <h3>
-                        Student Management
-                       
+                        Student Management          
                     </h3>
                 </div>
 
@@ -100,8 +99,8 @@
 
                             <label >Sex:</label>
                             <select name="sex" class="form-control" required>
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
                             </select>
                             <label class="text-danger" style="font-size:13px;"> <?php echo form_error('sex') ?></label>
 
@@ -303,12 +302,6 @@
                             <label class="text-danger" style="font-size:13px;"> <?php echo form_error('course_section') ?></label>
                         </div> -->
 
-                        <div class="col-md-2">
-                        <label>Date Enrolled</label>
-                            <input type="date" name="date_enrolled" class="form-control" value="<?php echo set_value('date_enrolled') ?>" required>
-                            <label class="text-danger" style="font-size:13px;"> <?php echo form_error('date_enrolled') ?></label>
-                        </div>
-
                     </div>
 
                 </div>
@@ -325,7 +318,7 @@
 
                         <div class="col-md-3">
 
-                        <label >Father or Legal Guardian First Name :</label>
+                        <label >Father Guardian First Name :</label>
                         <input type="text" name="father_firstname" class="form-control" value="<?php echo set_value('father_firstname') ?>" required>
                         <label class="text-danger" style="font-size:13px;"> <?php echo form_error('father_firstname') ?></label>
 
@@ -383,7 +376,7 @@
 
                         <div class="col-md-3">
 
-                        <label >Mother or Legal Guardian First Name :</label>
+                        <label >Mother First Name :</label>
                         <input type="text" name="mother_firstname" class="form-control" value="<?php echo set_value('mother_firstname') ?>" required>
                         <label class="text-danger" style="font-size:13px;"> <?php echo form_error('mother_firstname') ?></label>
 
@@ -487,7 +480,10 @@
 
                 <div class="card-body">
                     <div class="row" >
-                         <input type="submit" class="btn btn-success" value="Add">
+                    <div class="col-md-2">
+                         <input type="submit" class="btn btn-block btn-success btn-lg" value="Add">
+                    </div>
+
                     </div>
                 </div>
               

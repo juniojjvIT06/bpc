@@ -155,73 +155,73 @@ class Management extends CI_Controller
         redirect(base_url('management/room'));
     }
 
-    public function course()
+    public function program()
     {
         $this->ensure_sign_in();
-        $datas['courses'] = $this->Management_model->viewCourses();
+        $datas['programs'] = $this->Management_model->viewPrograms();
         $datas['colleges'] = $this->Management_model->getColleges();
         $this->load->view('header');
-        $this->load->view('form_add_course', $datas);
+        $this->load->view('form_add_program', $datas);
     }
 
-    public function course_add()
+    public function program_add()
     {
         $this->ensure_sign_in();
-        $this->form_validation->set_rules('course_code', 'Course Code', 'required|trim|is_unique[tbl_bpc_courses.course_code]|no_spaces');
-        $this->form_validation->set_rules('course_desc', 'Course Description', 'required|trim');
+        $this->form_validation->set_rules('program_code', 'Program Code', 'required|trim|is_unique[tbl_bpc_programs.program_code]|no_spaces');
+        $this->form_validation->set_rules('program_desc', 'Program Description', 'required|trim');
         $this->form_validation->set_rules('college_code', 'College Code', 'required|trim');
 
         if ($this->form_validation->run() == FALSE) {
             $this->session->set_flashdata('error', validation_errors());
-            redirect(base_url('management/course'));
+            redirect(base_url('management/program'));
         } else {
             $arr = array(
 
-                'course_code' => str_replace(" ", "", $this->input->post('course_code')),
-                'course_description' => $this->input->post('course_desc'),
+                'program_code' => str_replace(" ", "", $this->input->post('program_code')),
+                'program_description' => $this->input->post('program_desc'),
                 'college_code' => $this->input->post('college_code')
             );
 
             $this->session->set_flashdata('success', 'Successfully Added!');
-            $this->Management_model->addCourse($arr);
-            redirect(base_url('management/course'));
+            $this->Management_model->addProgram($arr);
+            redirect(base_url('management/program'));
         }
     }
 
-    public function course_update($course_code)
+    public function program_update($program_code)
     {
         $this->ensure_sign_in();
-        $this->form_validation->set_rules('course_desc_edit', 'Course Description', 'required|trim');
-        $this->form_validation->set_rules('course_college_under_edit', 'College Under Description', 'required|trim');
+        $this->form_validation->set_rules('program_desc_edit', 'Program Description', 'required|trim');
+        $this->form_validation->set_rules('program_college_under_edit', 'Program Under Description', 'required|trim');
 
 
         if ($this->form_validation->run() == FALSE) {
             $this->session->set_flashdata('error', validation_errors());
-            redirect(base_url('management/course'));
+            redirect(base_url('management/program'));
         } else {
 
             $arr = array(
 
-                'course_description' => $this->input->post('course_desc_edit'),
-                'college_code' => $this->input->post('course_college_under_edit'),
+                'program_description' => $this->input->post('program_desc_edit'),
+                'college_code' => $this->input->post('program_college_under_edit'),
 
             );
 
-            $course_code = $this->input->post('course_code_edit');
+            $program_code = $this->input->post('program_code_edit');
 
             $this->session->set_flashdata('success', 'Successfully Updated!');
-            $this->Management_model->update_course($arr, $course_code);
+            $this->Management_model->update_program($arr, $program_code);
 
-            redirect(base_url('management/course'));
+            redirect(base_url('management/program'));
         }
     }
 
-    public function course_delete($course_code)
+    public function program_delete($program_code)
     {
         $this->ensure_sign_in();
-        $this->Management_model->delete_course($course_code);
+        $this->Management_model->delete_program($program_code);
         $this->session->set_flashdata('success', 'Successfully Deleted!');
-        redirect(base_url('management/course'));
+        redirect(base_url('management/program'));
     }
 
     public function schedule()

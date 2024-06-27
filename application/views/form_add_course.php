@@ -4,12 +4,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Course Management Section</h1>
+                    <h1 class="m-0">Subject Management Section</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active"> Course </li>
+                        <li class="breadcrumb-item active"> Specialization </li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -42,19 +42,66 @@
 
         <div class="card card-primary">
             <div class="card-header">
-                <h3 class="card-title">Management of Courses</h3>
+                <h3 class="card-title">Management of Curriculum</h3>
             </div>
-            <?= form_open('management/course_add') ?>
+            <?= form_open('courses/course_add') ?>
             <div class="card-body">
                 <div class="row">
 
-                    <div class="col-md-3 form-group">
+                    <div class="col-md-2 form-group">
+
+                            <label >Program/Curriculum:</label>
+                            
+                            <select name="program_code" class="form-control" required>
+                            <?php
+                            foreach($programs as $program){
+                            ?>
+                            <option value="<?= $program->program_code ?>"><?= $program->program_code ?></option>
+                            
+                            <?php } ?>
+                            </select>
+                            <label class="text-danger" style="font-size:13px;"> <?php echo form_error('program_code') ?></label>
+
+                    </div>
+
+                    <div class="col-md-2 form-group">
 
                         <label>Course Code</label>
                         <input type="text" class="form-control" name="course_code" value="<?php echo set_value('course_code') ?>" required>
                         <label class="text-danger" style="font-size:13px;"> <?php echo form_error('course_code') ?></label>
 
                     </div>
+
+                    <div class="col-md-2">
+
+                        <label >Year Level:</label>
+                        <select name="course_year_level" class="form-control" required>
+                            <option value=""></option>
+                            <option value="first_year">First Year</option>
+                            <option value="second_year">Second Year</option>
+                            <option value="third_year">Third Year</option>
+                            <option value="fourth_year">Fourth Year</option>
+                            <option value="fifth_year">Fifth Year</option>
+
+                        </select>
+                        <label class="text-danger" style="font-size:13px;"> <?php echo form_error('course_year_level') ?></label>
+
+                    </div>
+
+
+                    <div class="col-md-2">
+
+                            <label >Semester:</label>
+                            <select name="course_semester" class="form-control" required>
+                                <option value=""></option>
+                                <option value="first_semester">First Semester</option>
+                                <option value="second_semester">Second Semester</option>
+                                <option value="summer">Summer</option>
+                            </select>
+                            <label class="text-danger" style="font-size:13px;"> <?php echo form_error('course_semester') ?></label>
+
+                     </div>
+
                     <div class="col-md-3 form-group">
 
                         <label>Course Description</label>
@@ -62,17 +109,44 @@
                         <label class="text-danger" style="font-size:13px;"> <?php echo form_error('course_desc') ?></label>
 
                     </div>
-                    <div class="col-md-3 form-group">
+                    <div class="col-md-1 form-group">
 
-                        <label>College Under:</label>
-                        <select name="college_code" class="form-control" required>
-                            <?php foreach ($colleges as $rows) { ?>
-                                <option value="<?= $rows->college_code ?>"><?= $rows->college_description ?></option>
-                            <?php } ?>
-                        </select>
-                        <label class="text-danger" style="font-size:13px;"> <?php echo form_error('course_desc') ?></label>
+                        <label>Course Units</label>
+                        <input type="number" class="form-control" name="course_units" value="<?php echo set_value('course_units') ?>" required>
+                        <label class="text-danger" style="font-size:13px;"> <?php echo form_error('course_units') ?></label>
 
                     </div>
+                    <div class="col-md-2">
+
+                            <label >Course Type:</label>
+                            <select name="course_type" class="form-control" required>
+                                <option value=""></option>
+                                <option value="lecture">Lecture</option>
+                                <option value="laboratory">Laboratory</option>
+                                <option value="lecture_laboratory">Lecture + Laboratory</option>
+                            </select>
+                            <label class="text-danger" style="font-size:13px;"> <?php echo form_error('course_semester') ?></label>
+
+                    </div>
+                    <div class="col-md-2 form-group">
+
+                            <label >Pre-Requisite:</label>
+                            
+                            <select name="course_prerequisite" class="form-control" required>
+                            <option value="none">None</option>
+                            <?php
+                            foreach($courses as $course){
+                            ?>
+                            <option value="<?= $course->course_code ?>"><?= $course->course_code ?></option>
+                            
+                            <?php } ?>
+                            </select>
+                            <label class="text-danger" style="font-size:13px;"> <?php echo form_error('course_prerequisite') ?></label>
+
+                    </div>
+
+                   
+
 
                     <div class="col-md-1 ">
                         <p></p>
@@ -100,8 +174,8 @@
                         <th>No.</th>
                         <th>Course Code</th>
                         <th>Course Description</th>
-                        <th>Course College</th>
-                        <th>Action</th>
+                        <th>Course Units</th>
+                        <th>Pre-Requisite</th>
                     </tr>
                 </thead>
 
@@ -112,7 +186,8 @@
                             <td><?= $i; ?></td>
                             <td><?= $row->course_code; ?></td>
                             <td><?= $row->course_description; ?></td>
-                            <td><?= $this->Management_model->viewSingleCollege($row->college_code)->college_description; ?></td>
+                            <td><?= $row->course_units; ?></td>
+                            <td><?= $row->pre_requisite; ?></td>
                             <td>
                                 <a class="btn btn-info btn-sm" href="#" data-toggle="modal" data-target="#modal-edit-<?php echo str_replace(" ", "", $row->course_code) ?>">
                                     <i class="fas fa-pencil-alt">
@@ -123,6 +198,7 @@
                             </td>
 
                         </tr>
+
                         <!-- /.modal-edit -->
                         <div class="modal fade" id="modal-edit-<?php echo str_replace(" ", "", $row->course_code) ?>">
                             <div class="modal-dialog modal-lg">
@@ -133,10 +209,27 @@
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
-                                    <?= form_open_multipart("Management/course_update/" . $row->course_code) ?>
+                                    <?= form_open_multipart("courses/course_update/" . $row->course_code) ?>
                                     <div class="modal-body">
 
                                         <div class="row ">
+
+                                        <div class="col">
+
+                                                <label >Program/Curriculum:</label>
+                                                
+                                                <select name="program_code_edit" class="form-control" required>
+                                                <option value="<?= $row->program_code ?>"><?= $row->program_code ?></option>
+                                                <?php
+                                                foreach($programs as $program){
+                                                ?>
+                                                <option value="<?= $program->program_code ?>"><?= $program->program_code ?></option>
+                                                
+                                                <?php } ?>
+                                                </select>
+                                                <label class="text-danger" style="font-size:13px;"> <?php echo form_error('program_code') ?></label>
+
+                                        </div>
 
                                             <div class="col">
 
@@ -148,6 +241,35 @@
                                         </div>
                                         <div class="row">
 
+                                        <div class="col-md-2">
+
+                                            <label >Year Level:</label>
+                                            <select name="course_year_level_edit" class="form-control" required>
+                                                <option value="<?= $row->year_level ?>"><?= $row->year_level ?></option>
+                                                <option value="first_year">First Year</option>
+                                                <option value="second_year">Second Year</option>
+                                                <option value="third_year">Third Year</option>
+                                                <option value="fourth_year">Fourth Year</option>
+                                                <option value="fifth_year">Fifth Year</option>
+
+                                            </select>
+                                            <label class="text-danger" style="font-size:13px;"> <?php echo form_error('course_year_level') ?></label>
+
+                                        </div>
+
+                                        <div class="col-md-2">
+
+                                                <label >Semester:</label>
+                                                <select name="course_semester_edit" class="form-control" required>
+                                                    <option value="<?= $row->semester ?>"><?= $row->semester ?></option>
+                                                    <option value="first_semester">First Semester</option>
+                                                    <option value="second_semester">Second Semester</option>
+                                                    <option value="summer">Summer</option>
+                                                </select>
+                                                <label class="text-danger" style="font-size:13px;"> <?php echo form_error('course_semester') ?></label>
+
+                                        </div>
+
 
                                             <div class="col">
 
@@ -157,18 +279,47 @@
 
                                             </div>
                                         </div>
+
                                         <div class="row">
+                                        <div class="col-md-2">
+
+                                            <label >Course Type:</label>
+                                            <select name="course_type_edit" class="form-control" required>
+                                            <option value="<?= $row->course_type ?>"><?= $row->course_type ?></option>
+                                                <option value="lecture">Lecture</option>
+                                                <option value="laboratory">Laboratory</option>
+                                                <option value="lecture_laboratory">Lecture + Laboratory</option>
+                                            </select>
+                                            <label class="text-danger" style="font-size:13px;"> <?php echo form_error('course_type_edit') ?></label>
+
+                                        </div>
 
 
                                             <div class="col">
 
-                                                <select name="course_college_under_edit" class="form-control" required>
-                                                    <option value="<?= $row->college_code ?>"><?= $this->Management_model->viewSingleCollege($row->college_code)->college_description; ?></option>
-                                                    <?php foreach ($colleges as $rows) { ?>
-                                                        <option value="<?= $rows->college_code ?>"><?= $rows->college_description ?></option>
-                                                    <?php } ?>
-                                                </select>
-                                                <label class="text-danger" style="font-size:13px;"> <?php echo form_error('course_college_under_edit') ?></label>
+                                                <div class="col-md-3 form-group">
+
+                                                    <label>Course Units</label>
+                                                    <input type="number" class="form-control" name="course_units_edit" value="<?php echo $row->course_units ?>" required>
+                                                    <label class="text-danger" style="font-size:13px;"> <?php echo form_error('course_units_edit') ?></label>
+
+                                                </div>
+
+                                            </div>
+                                            <div class="col-md-2 form-group">
+
+                                            <label >Pre-Requisite:</label>
+
+                                            <select name="course_prerequisite_edit" class="form-control" required>
+                                            <option value="none">None</option>
+                                            <?php
+                                            foreach($courses as $course){
+                                            ?>
+                                            <option value="<?= $course->course_code ?>"><?= $course->course_code ?></option>
+
+                                            <?php } ?>
+                                            </select>
+                                            <label class="text-danger" style="font-size:13px;"> <?php echo form_error('course_prerequisite_edit') ?></label>
 
                                             </div>
                                         </div>
@@ -177,7 +328,7 @@
                                             <div class="col">
                                                 <input type="submit" class="btn btn-success" value="UPDATE"></input>
                                                 <!-- <input type="button" class="btn btn-danger" value="DELETE"></input> -->
-                                                <a href="<?= base_url('management/course_delete/') . str_replace(" ", "", $row->course_code) ?>"><input type="button" class="btn btn-danger" onclick="return  confirm('Are you sure to proceed remove Course Code:  ' + '<?php echo $row->course_code ?>')" value="Delete"></button></a>
+                                                <a href="<?= base_url('courses/course_delete/') . str_replace(" ", "", $row->course_code) ?>"><input type="button" class="btn btn-danger" onclick="return  confirm('Are you sure to proceed remove Course Code:  ' + '<?php echo $row->course_code ?>')" value="Delete"></button></a>
 
 
                                             </div>
@@ -194,18 +345,13 @@
 
                                 <?php $i++;
                             } ?>
-                                </div>
-
-                            </div>
-                            <!-- /.modal-content -->
-                        </div>
-
+                                </tr>
                 </tbody>
             </table>
         </div>
         <!-- /.card-body -->
 </div>
-
+</section>
 
 <!-- DataTables  & Plugins -->
 <script src="<?= base_url(); ?>plugins/datatables/jquery.dataTables.min.js"></script>

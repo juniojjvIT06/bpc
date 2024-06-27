@@ -55,31 +55,31 @@ class Management_model extends CI_Model
         $this->db->delete('tbl_bpc_rooms');
     }
 
-    public function viewCourses()
+    public function viewPrograms()
     {
-        return $this->db->get("tbl_bpc_courses")->result();
+        return $this->db->get("tbl_bpc_programs")->result();
     }
 
     public function getColleges()
     {
         return $this->db->get("tbl_bpc_college")->result();
     }
-    public function addCourse($arr)
+    public function addProgram($arr)
     {
-        return $this->db->insert("tbl_bpc_courses", $arr);
+        return $this->db->insert("tbl_bpc_programs", $arr);
     }
 
-    public function update_course($array, $course_code)
+    public function update_program($array, $course_code)
     {
 
-        $this->db->where('course_code', $course_code);
-        $this->db->update('tbl_bpc_courses', $array);
+        $this->db->where('program_code', $course_code);
+        $this->db->update('tbl_bpc_programs', $array);
     }
 
-    public function delete_course($course_code)
+    public function delete_program($program_code)
     {
-        $this->db->where('course_code', $course_code);
-        $this->db->delete('tbl_bpc_courses');
+        $this->db->where('program_code', $program_code);
+        $this->db->delete('tbl_bpc_programs');
     }
 
     public function viewSingleCollege($code)
@@ -257,7 +257,7 @@ class Management_model extends CI_Model
         return $this->db->get("tbl_bpc_semesters")->row();
     }
 
-    public function get_all_subjects($section_code)
+    public function get_all_courses($section_code)
     {
         $this->db->where('section_code', $section_code);
         return $this->db->get('tbl_bpc_program_section_subjects')->result();
