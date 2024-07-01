@@ -4,7 +4,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Subject Management Section</h1>
+                    <h1 class="m-0">Course Management Section</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -176,6 +176,7 @@
                         <th>Course Description</th>
                         <th>Course Units</th>
                         <th>Pre-Requisite</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
 

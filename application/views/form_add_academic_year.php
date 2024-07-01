@@ -48,11 +48,38 @@
             <div class="card-body">
                 <div class="row">
 
+                <script>
+                    function updateEndYear() {
+                        var startYear = document.getElementById('start_year').value;
+                        var endYear = parseInt(startYear) + 1;
+                        document.getElementById('end_year_display').innerText = endYear;
+                    }
+                </script>
+
                     <div class="col-md-3 form-group">
 
                         <label>Academic Year</label>
-                        <input type="text" class="form-control" name="academic_year" value="<?php echo set_value('academic_year') ?>" required>
-                        <label class="text-danger" style="font-size:13px;"> <?php echo form_error('academic_year') ?></label>
+                        <input type="number" class="form-control" id="start_year" name="academic_start_year" value="<?php echo set_value('academic_start_year') ?>" oninput="updateEndYear()" required>
+                        <label class="text-danger" style="font-size:13px;"> <?php echo form_error('academic_start_year') ?></label>
+
+                    </div>
+
+                    <div class="col-md-3 form-group">
+                        <label for="end_year">Year To:</label>
+                        <span class="form-control" id="end_year_display"><?php echo set_value('start_year') ? set_value('start_year') + 1 : ''; ?></span><br>
+
+                    </div>
+
+                    <div class="col-md-2">
+
+                        <label >Semester:</label>
+                        <select name="academic_semester" class="form-control" required>
+                            <option value=""></option>
+                            <option value="first_semester">First Semester</option>
+                            <option value="second_semester">Second Semester</option>
+                            <option value="summer">Summer</option>
+                        </select>
+                        <label class="text-danger" style="font-size:13px;"> <?php echo form_error('academic_semester') ?></label>
 
                     </div>
 
@@ -81,17 +108,29 @@
                     <tr>
                         <th>No.</th>
                         <th>Academic Year</th>
+                        <th>Semester</th>
+                        <th>Status</th>
                         <th>Action</th>
 
                     </tr>
                 </thead>
 
                 <tbody>
+
+                                        <script>
+                                            function updateEndYear2() {
+                                                var startYear1 = document.getElementById('start_year_edit').value;
+                                                var endYear = parseInt(startYear1) + 1;
+                                                document.getElementById('end_year_display_edit').innerText = endYear1;
+                                            }
+                                        </script>
                     <?php $i = 1;
                     foreach ($academics as $row) {  ?>
                         <tr>
                             <td><?= $i; ?></td>
-                            <td><?= $row->academic_year; ?></td>
+                            <td><?= $row->academic_start_year; ?> -  <?= $row->academic_end_year; ?>  </td>
+                            <td><?= $row->academic_semester; ?>  </td>
+                            <td><?= $row->academic_status; ?>  </td>
                             <td>
                                 <a class="btn btn-info btn-sm" href="#" data-toggle="modal" data-target="#modal-edit-<?php echo str_replace(" ", "", $row->academic_id) ?>">
                                     <i class="fas fa-pencil-alt">
@@ -119,19 +158,51 @@
 
                                             <div class="col">
 
-                                                <label for="inputName">Academic Id:</label>
+                                                <label for="inputName">Academic ID:</label>
                                                 <input type="text" name="academic_id_edit" class="form-control" value="<?php echo $row->academic_id ?>" readonly>
                                                 <label class="text-danger" style="font-size:13px;"> <?php echo form_error('academic_id_edit') ?></label>
 
                                             </div>
                                         </div>
+                                       
                                         <div class="row">
                                             <div class="col">
 
-                                                <label for="inputName">Academic Year:</label>
-                                                <input type="text" name="academic_year_edit" class="form-control" value="<?php echo $row->academic_year ?>" require>
-                                                <label class="text-danger" style="font-size:13px;"> <?php echo form_error('academic_year_edit') ?></label>
+                                                <label for="inputName">Academic Start Year:</label>
+                                                <input type="text" id="start_year_edit" name="academic_start_year_edit" class="form-control" value="<?php echo $row->academic_start_year ?>" readonly>
+                                                <label class="text-danger" style="font-size:13px;"> <?php echo form_error('academic_start_year_edit') ?></label>
 
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col">
+
+                                        <label >Semester:</label>
+                                            <select name="academic_semester_edit" class="form-control" read>
+                                                <option value="first_semester"><?= $row->academic_semester ?></option>
+                                                <option value="first_semester">First Semester</option>
+                                                <option value="second_semester">Second Semester</option>
+                                                <option value="summer">Summer</option>
+                                            </select>
+                                            <label class="text-danger" style="font-size:13px;"> <?php echo form_error('academic_semester_edit') ?></label>
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col">
+
+                                                <label for="inputName">Status:</label>
+                                                <select name="academic_status_edit" class="form-control" required>
+                                                <option value="<?= $row->academic_status ?>"><?= $row->academic_status ?></option>
+                                                <option value="closed">closed</option>
+                                                <option value="open">open</option>
+
+                                                </select>
+                                            <label class="text-danger" style="font-size:13px;"> <?php echo form_error('academic_status_edit') ?></label>
                                             </div>
 
                                         </div>
@@ -139,7 +210,7 @@
                                             <div class="col">
                                                 <input type="submit" class="btn btn-success" value="UPDATE"></input>
                                                 <!-- <input type="button" class="btn btn-danger" value="DELETE"></input> -->
-                                                <a href="<?= base_url('management/academic_delete/') . str_replace(" ", "", $row->academic_id) ?>"><input type="button" class="btn btn-danger" onclick="return  confirm('Are you sure to proceed remove Academic Year:  ' + '<?php echo $row->academic_year ?>')" value="Delete"></button></a>
+                                                <a href="<?= base_url('management/academic_delete/') . str_replace(" ", "", $row->academic_id) ?>"><input type="button" class="btn btn-danger" onclick="return  confirm('Are you sure to proceed remove Academic Year:  ' + '<?php echo $row->academic_start_year ?>')" value="Delete"></button></a>
 
 
                                             </div>

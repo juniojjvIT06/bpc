@@ -344,20 +344,41 @@ class Management extends CI_Controller
     public function academic_add()
     {
         $this->ensure_sign_in();
-        $this->form_validation->set_rules('academic_year', 'Academic Year', 'required|trim|no_spaces|is_unique[tbl_bpc_academic_year.academic_year]');
+        $this->form_validation->set_rules('academic_start_year', 'Academic Year', 'required|trim|no_spaces');
+        $this->form_validation->set_rules('academic_semester', 'Academic Semester', 'required|trim|no_spaces');
+
         if ($this->form_validation->run() == FALSE) {
             $this->session->set_flashdata('error', validation_errors());
             redirect(base_url('management/academic'));
         } else {
+
+
+            $academic_start_year =  $this->input->post('academic_start_year');
+            $academic_end_year =  $academic_start_year + 1;
+            $academic_semester =   $this->input->post('academic_semester');
             $arr = array(
 
-                'academic_year' => $this->input->post('academic_year'),
+                'academic_start_year' => $academic_start_year,
+                'academic_end_year' => $academic_start_year + 1,
+                'academic_semester' =>   $this->input->post('academic_semester'),
+                'academic_status' => 'closed', //default to close
 
             );
 
-            $this->session->set_flashdata('success', 'Successfully Added!');
-            $this->Management_model->addAcademic($arr);
-            redirect(base_url('management/academic'));
+            $checker = $this->check_academic_info($academic_start_year, $academic_end_year, $academic_semester);
+            if($checker == true ){
+
+                $this->session->set_flashdata('warning', 'Duplicate Academic Info!');
+                redirect(base_url('management/academic'));
+
+            }else{
+                $this->Management_model->set_status_closed();
+                $this->session->set_flashdata('success', 'Successfully Added!');
+                $this->Management_model->addAcademic($arr);
+                redirect(base_url('management/academic'));
+            }
+
+            
         }
     }
 
@@ -365,25 +386,43 @@ class Management extends CI_Controller
     public function academic_update($academic_id)
     {
         $this->ensure_sign_in();
-        $this->form_validation->set_rules('academic_year_edit', 'Academic Year Description', 'required|trim|no_spaces|is_unique[tbl_bpc_academic_year.academic_year]');
+        $this->form_validation->set_rules('academic_start_year_edit', 'Academic Start Year Description', 'required|trim');
+        $this->form_validation->set_rules('academic_semester_edit', 'Academic Semester Description', 'required|trim');
+
 
         if ($this->form_validation->run() == FALSE) {
             $this->session->set_flashdata('error', validation_errors());
             redirect(base_url('management/academic'));
         } else {
 
+
+            $academic_start_year_edit =  $this->input->post('academic_start_year_edit');
+            $academic_end_year_edit =  $academic_start_year_edit + 1;
+            $academic_semester_edit =   $this->input->post('academic_semester_edit');
+            $academic_status_edit =   $this->input->post('academic_status_edit');
+
             $arr = array(
 
-                'academic_year' => $this->input->post('academic_year_edit'),
+                'academic_start_year' => $this->input->post('academic_start_year_edit'),
+                'academic_end_year' =>  $academic_end_year_edit,
+                'academic_semester' => $academic_semester_edit,
+                'academic_status' => $academic_status_edit
 
             );
+            
+                if($academic_status_edit == 'open'){
+                $this->Management_model->set_status_open($this->input->post('academic_id_edit'));
+                $this->session->set_flashdata('success', 'Successfully Updated!');
+                $this->Management_model->update_academic($arr, $academic_id);
 
-            $academic_id = $this->input->post('academic_id_edit');
+                redirect(base_url('management/academic'));
+                }else{
+                    $this->session->set_flashdata('success', 'Successfully Updated!');
+                    $this->Management_model->update_academic($arr, $academic_id);
 
-            $this->session->set_flashdata('success', 'Successfully Updated!');
-            $this->Management_model->update_academic($arr, $academic_id);
-
-            redirect(base_url('management/academic'));
+                    redirect(base_url('management/academic'));
+                }
+            
         }
     }
 
@@ -393,6 +432,24 @@ class Management extends CI_Controller
         $this->Management_model->delete_academic($academic_id);
         $this->session->set_flashdata('success', 'Successfully Deleted!');
         redirect(base_url('management/academic'));
+    }
+
+    public function check_academic_info($start_year, $end_year, $semester){
+        $this->ensure_sign_in();
+        $result = $this->Management_model->viewAcademics();
+
+        foreach($result as $row){
+            if($row->academic_start_year == $start_year && $row->academic_end_year == $end_year && $row->academic_semester == $semester){
+                return true;
+                break;
+            }
+            else{
+                continue;
+                return false;
+            }
+            
+        }
+
     }
 
     public function semester()

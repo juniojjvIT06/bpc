@@ -151,6 +151,18 @@ class Management_model extends CI_Model
         $this->db->delete('tbl_bpc_academic_year');
     }
 
+    public function set_status_closed() {
+        $this->db->set('academic_status', 'closed');
+        $this->db->update('tbl_bpc_academic_year');
+    }
+
+    public function set_status_open($academic_id) {
+        $this->set_status_closed();
+        $this->db->set('academic_status', 'open');
+        $this->db->where('academic_id', $academic_id);
+        return $this->db->update('tbl_bpc_academic_year');
+    }
+
     public function viewSemesters()
     {
         return $this->db->get("tbl_bpc_semesters")->result();

@@ -96,7 +96,7 @@
                 <li class="nav-item">
                   <a href="<?php echo base_url('instructors/classes'); ?>" class="nav-link ">
                     <i class="nav-icon fas fa-chart-pie"></i>
-                    <p>Subject Loads</p>
+                    <p>Course Loads</p>
                   </a>
                 </li>
               </ul>
@@ -188,27 +188,27 @@
                 <li class="nav-item">
                   <a href="<?php echo base_url('management/academic'); ?>" class="nav-link ">
                     <i class="nav-icon fas fa-folder-plus"></i>
-                    <p>AcademicYear Managmnt</p>
+                    <p>Academic Year and Semester Managemnt</p>
                   </a>
                 </li>
-                <li class="nav-item">
+                <!-- <li class="nav-item">
                   <a href="<?php echo base_url('management/semester'); ?>" class="nav-link ">
                     <i class="nav-icon fas fa-user-plus"></i>
                     <p>Semester Management</p>
                   </a>
-                </li>
+                </li> -->
                 <!-- <li class="nav-item">
                   <a href="<?php echo base_url('management/class'); ?>" class="nav-link ">
                     <i class="nav-icon fas fa-user-plus"></i>
                     <p>Class Management</p>
                   </a>
                 </li> -->
-                <li class="nav-item">
-                  <a href="<?php echo base_url('management/section'); ?>" class="nav-link ">
+                <!-- <li class="nav-item" readonly>
+                  <a href="<?php echo base_url('management/section'); ?>" class="nav-link " readonly>
                     <i class="nav-icon fas fa-user-plus"></i>
                     <p>Class Management</p>
                   </a>
-                </li>
+                </li> -->
 
                 <li class="nav-item">
                   <a href="<?php echo base_url('students/upload'); ?>" class="nav-link ">
